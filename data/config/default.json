@@ -1,0 +1,37 @@
+{
+  "app": {
+    "appName": "Slavia",
+    "isDevLocal": true,
+    "logErrors": true,
+    "rootUrl": "http://localhost:3001"
+  },
+  "db": {
+    "host": "localhost",
+    "dbName": "slavia",
+    "username": "postgres",
+    "password": "postgres"
+  },
+  "web": {
+    "port": 3001,
+    "sessionSecret": "secret_value_!?!"
+  },
+  "email": {
+    "fromNoReply": "noreply@domain.com"
+  },
+  "auth": {
+    "useAuth": false,
+    "google": {
+      "clientID": "???",
+      "clientSecret": "???"
+    },
+    "facebook": {
+      "clientID": "???",
+      "clientSecret": "???"
+    }
+  },
+  "format": {
+    "date": "MM/DD/YYYY",
+    "year": "YYYY",
+    "currencySymbol": "$"
+  }
+}
