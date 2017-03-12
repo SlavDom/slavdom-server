@@ -4,7 +4,7 @@ import textValue from '../helpers/textValueHelper';
 import * as moment from 'moment';
 import AppError from '../appError';
 import helper from './authHelper';
-const configuration = require('../../../config.json');
+const configuration = require('../../conf.json');
 
 export default function init(passport) {
     let strategySignInSettings = {

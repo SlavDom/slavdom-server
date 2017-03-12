@@ -18,5 +18,9 @@
   "templates": {
     "cleverLinks": false,
     "monospaceLinks": false
-  }
+  },
+  "server_dev_href": "http://localhost:3001",
+  "server_href": null,
+  "client_dev_href": "http://localhost:3000",
+  "client_href": null
 }

@@ -4,7 +4,7 @@ import errorHelper from '../helpers/errorHelper';
 import AppError from '../appError';
 import textValue from '../helpers/textValueHelper';
 import controllerHelper from '../controllers/_controllerHelper';
-const configuration = require('../../../config.json');
+const configuration = require('../../conf.json');
 
 export default {
     setStatusMessage,
