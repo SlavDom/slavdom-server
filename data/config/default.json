@@ -6,7 +6,7 @@
     "rootUrl": "http://localhost:3001"
   },
   "db": {
-    "host": "localhost",
+    "host": "",
     "dbName": "slavia",
     "username": "postgres",
     "password": "postgres"

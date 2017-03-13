@@ -1,9 +1,6 @@
-///<reference path="../../node_modules/tslint/typings/node/node.d.ts"/>
 import dbInit from "../db/sequelize/db";
 import * as Promise from "bluebird";
 import {Translation} from "../../typings/app/models";
-const crypto = require('crypto');
-const bcrypt = require('bcrypt-nodejs');
 
 /** Module for translation repository */
 export default {

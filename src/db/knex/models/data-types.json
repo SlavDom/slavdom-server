@@ -1,0 +1,12 @@
+{
+  "number": {
+    "int64": 1,
+    "int32": 2,
+    "int16": 3
+  },
+  "string": {
+    "text": 4,
+    "string": 5,
+    "varchar": 6
+  }
+}

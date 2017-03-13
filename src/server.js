@@ -77,8 +77,8 @@ function initAuth() {
 
 /** Synchronizing database */
 function initDB() {
-    // app.locals.db = dbInit.init();
-    require('./tasks/syncDb');
+    // require('./tasks/syncDb');
+    require('./db/knex/index');
 }
 
 /** Session initialisation */

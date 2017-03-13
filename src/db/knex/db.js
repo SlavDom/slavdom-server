@@ -7,10 +7,16 @@ export default function init() {
         client: 'pg',
         connection: {
             host : db["host"],
-            user : db["user"],
+            user : db["username"],
             password : db["password"],
-            database : db["db"]
+            database : db["dbName"]
         }
     });
-    return knex;
+return knex;
+    // return require('knex')({
+    //     client: 'sqlite3',
+    //     connection: {
+    //         filename: "./db.sqlite"
+    //     }
+    // });
 }

@@ -1,5 +1,3 @@
-///<reference path="../../node_modules/tslint/typings/node/node.d.ts"/>
-import * as express from 'express';
 import dbInit from '../db/sequelize/db';
 import * as _ from 'lodash';
 import * as Promise from 'bluebird';
