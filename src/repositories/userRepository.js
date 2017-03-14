@@ -1,4 +1,3 @@
-import dbInit from '../db/sequelize/db';
 import * as _ from 'lodash';
 import * as Promise from 'bluebird';
 import {User} from '../../typings/app/models';
@@ -26,10 +25,6 @@ export default {
     addUser
 };
 
-// const app = express();
-// const db = app.locals.db;
-const db = dbInit.init();
-let userModel = db.models.User;
     
 function init(db) {
     userModel = db.models.User;

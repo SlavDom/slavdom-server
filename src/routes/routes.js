@@ -34,6 +34,7 @@ function initUserRoutes() {
 
 function initTranslationRoutes() {
     helper.get('/api/translations/list', translationController.getTranslations);
+    helper.get('/api/translations/get', translationController.getTranslation);
     helper.post('/api/translations/save', translationController.saveTranslation);
 }
 

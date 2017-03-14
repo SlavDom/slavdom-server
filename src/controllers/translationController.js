@@ -1,5 +1,5 @@
 import helper from "./_controllerHelper";
-import translationRepository from "../repositories/translationRepository";
+import TranslationRepository from "../repositories/translationRepository";
 import * as Joi from "joi";
 
 /** Module for translation controller */
@@ -15,13 +15,14 @@ export default {
  *  @param res - The response **/
 async function getTranslations(req, res) {
     try {
-        let search = req.query.search;
-        let sortOrder = req.query.sortOrder;
-        let pageNumber = req.query.pageNumber;
-        let pageSize = req.query.pageSize;
-
-        let result = await translationRepository.getTranslations();
-
+        // let search = req.query.search;
+        // let sortOrder = req.query.sortOrder;
+        // let pageNumber = req.query.pageNumber;
+        // let pageSize = req.query.pageSize;
+        // let translationRepository = new TranslationRepository();
+        let lang = req.query.lang;
+        let translationRepository = new TranslationRepository();
+        let result = await translationRepository.getTranslations(lang);
         return helper.sendData({data: result}, res);
     } catch (err) {
         helper.sendFailureMessage(err, res);
@@ -33,9 +34,20 @@ async function getTranslations(req, res) {
  *  @param res - The response **/
 async function getTranslation(req, res) {
     try {
-        let id = req.query.id;
+        let id = undefined;
+        let lang = undefined;
+        let code = undefined;
+        let student = undefined;
 
-        let student = await translationRepository.getById(id);
+
+        if (req.query.id != undefined) {
+             id = req.query.id;
+        } else {
+            code = req.query.code;
+            lang = req.query.lang;
+            let translationRepository = new TranslationRepository();
+            student = await translationRepository.getByLangAndCode(lang, code);
+        }
 
         return helper.sendData({data: student}, res);
     } catch (err) {
@@ -50,16 +62,21 @@ async function saveTranslation(req, res) {
     try {
         let data = req.body;
 
-        let schema = {
-            code: Joi.string().required(),
-            language: Joi.string().required(),
-            result: Joi.string().required(),
-        };
+        // let schema = {
+        //     code: Joi.string().required(),
+        //     language: Joi.string().required(),
+        //     result: Joi.string().required(),
+        // };
 
         let result = null;
 
-        let translation = await helper.loadSchema(data, schema);
-
+        // let translation = await helper.loadSchema(data, schema);
+        let translation = {
+            code: req.body.code,
+            language: req.body.language,
+            result: req.body.result
+        };
+        let translationRepository = new TranslationRepository();
         result = await translationRepository.saveTranslation(translation);
         return helper.sendData({data: result}, res);
     } catch (err) {

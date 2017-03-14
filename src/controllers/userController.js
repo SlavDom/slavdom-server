@@ -1,5 +1,4 @@
 import helper from './_controllerHelper';
-import dbInit from '../db/sequelize/db';
 import userRepository from '../repositories/userRepository';
 import * as Joi from 'joi';
 import config from '../config';
@@ -29,7 +28,7 @@ async function getUsers(req, res) {
 async function getUser(req, res) {
     try {
         let id = req.query.id;
-        userRepository.init(dbInit.init());
+        // userRepository.init(dbInit.init());
         let student = await userRepository.getById(id);
 
         return helper.sendData({data: student}, res);
