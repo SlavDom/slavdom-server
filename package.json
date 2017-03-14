@@ -26,8 +26,6 @@
     "flow-bin": "^0.41.0",
     "handlebars": "^4.0.5",
     "joi": "^8.4.2",
-    "jsdoc": "^3.4.3",
-    "knex": "^0.12.7",
     "lodash": "^4.13.1",
     "lodash-inflection": "^1.5.0",
     "moment": "^2.14.1",
@@ -38,10 +36,7 @@
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
     "path": "0.12.7",
-    "pg": "^6.0.1",
-    "pg-hstore": "^2.3.2",
     "rimraf": "^2.5.3",
-    "sequelize": "^3.23.3",
     "winston": "^2.2.0"
   },
   "devDependencies": {
