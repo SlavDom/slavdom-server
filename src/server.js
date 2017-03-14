@@ -11,6 +11,8 @@ import routes from "./routes/routes";
 import logger from "./logger";
 import auth from "./auth/authInit";
 
+import Language from "./models/language";
+
 const configuration = require('../data/config/default.json');
 const app = express();
 
@@ -78,7 +80,24 @@ function initAuth() {
 /** Synchronizing database */
 function initDB() {
     // require('./tasks/syncDb');
-    require('./db/knex/index');
+    // require('./db/knex/index');
+    const language = new Language({
+        code: 6,
+        translations: [
+            {
+                code: "dsadsa",
+                result: "cvxcv"
+            },
+            {
+                code: "cfasdfvxcv",
+                result: "xcvxcv"
+            }
+        ]
+    });
+    language.save(err => {
+        if (err) throw err;
+        Language.findOne({code: 6}, (err, lang) => console.log(lang))
+    })
 }
 
 /** Session initialisation */
