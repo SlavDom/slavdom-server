@@ -1,19 +1,20 @@
-import express from "express";
+import express from 'express';
 import path from 'path';
-import morgan from "morgan";
-import bodyParser from "body-parser";
-import compression from "compression";
-import cors from "cors";
-import _ from "lodash";
-import webpack from "webpack";
-import webpackMiddleware from "webpack-dev-middleware";
+import morgan from 'morgan';
+import bodyParser from 'body-parser';
+import compression from 'compression';
+import cors from 'cors';
+import _ from 'lodash';
+import webpack from 'webpack';
+import webpackMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import webpackConfig from '../../webpack.config.dev'
-import config from "./config";
-import pathHelper from "./helpers/pathHelper";
-import routes from "./routes/routes";
-import logger from "./logger";
-import auth from "./auth/authInit";
+import config from './config';
+import pathHelper from './helpers/pathHelper';
+import routes from './routes/routes';
+import logger from './logger';
+import auth from './auth/authInit';
 
 const app = express();
 
@@ -27,7 +28,7 @@ export default {
  * @params options {any} options, that can be evaluated in the initialisation */
 function start() {
 
-  app.use(webpackMiddleware(webpack(webpackConfig)));
+  initWebpack();
 
   initExpress();
 
@@ -104,4 +105,14 @@ function initErrorHandling(app) {
   process.on('uncaughtException', function (err) {
     logger.error(err);
   });
+}
+
+function initWebpack() {
+  const compiler = webpack(webpackConfig);
+  app.use(webpackMiddleware(compiler, {
+    hot: true,
+    publicPath: webpackConfig.output.publicPath,
+    noInfo: true,
+  }));
+  app.use(webpackHotMiddleware(compiler));
 }
