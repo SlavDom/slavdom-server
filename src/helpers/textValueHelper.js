@@ -12,30 +12,23 @@ export default {
     warning
 };
 
-function byKey(key: string, data?: Object): string {
+function byKey(key, data) {
     let val = _.get(textValuesInfo, key);
-
     if (!val) return;
-
-    let result = data ? template(val, data) : val;
-
-    return result;
+    return data ? template(val, data) : val;
 }
 
-function error(type: string, code: string, data?: Object) {
+function error(type, code, data) {
     let key = `errors.${type}.${code}`;
-
     return byKey(key, data);
 }
 
-function info(type: string, code: string, data?: Object) {
+function info(type, code, data) {
     let key = `info.${type}.${code}`;
-
     return byKey(key, data);
 }
 
-function warning(type: string, code: string, data?: Object) {
+function warning(type, code, data) {
     let key = `warning.${type}.${code}`;
-
     return byKey(key, data);
 }

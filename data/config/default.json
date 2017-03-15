@@ -12,7 +12,7 @@
     "password": "postgres"
   },
   "web": {
-    "port": 3001,
+    "port": 3000,
     "sessionSecret": "secret_value_!?!"
   },
   "email": {

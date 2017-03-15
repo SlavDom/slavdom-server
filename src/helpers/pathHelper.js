@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import * as _ from 'lodash';
 
 let rootPath = path.join(__dirname, '../..');
@@ -10,7 +10,7 @@ export default {
     getDataRelative: getDataRelativePath
 };
 
-function getRelativePath(...paths: string[]) {
+function getRelativePath(...paths) {
     let args = _.toArray(arguments);
 
     args.unshift(rootPath);
@@ -18,7 +18,7 @@ function getRelativePath(...paths: string[]) {
     return path.join.apply(this, args);
 }
 
-function getDataRelativePath(...paths: string[]) {
+function getDataRelativePath(...paths) {
     let args = _.toArray(arguments);
 
     args.unshift(getDataPath());

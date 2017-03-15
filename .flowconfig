@@ -2,12 +2,10 @@
 node_modules/*
 
 [include]
-src/*
+src
+typings
 
 [libs]
 decls/
-
-[options]
-emoji=true
 
 log.file=data/logs/flow.log
