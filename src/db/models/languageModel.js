@@ -1,4 +1,3 @@
-import db from '../db';
 import BaseModel from './baseModel';
 import LanguageEntity from '../entities/languageEntity';
 

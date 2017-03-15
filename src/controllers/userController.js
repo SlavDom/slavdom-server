@@ -1,7 +1,6 @@
-import helper from './_controllerHelper';
+import helper from './controllerHelper';
 import userRepository from '../repositories/userRepository';
 import * as Joi from 'joi';
-import config from '../config';
 
 export default {
     getUsers,

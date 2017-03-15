@@ -10,7 +10,7 @@ export default class TranslationRepository {
 
     /** Getting a list of translations
      * @returns the list of translations */
-    async getTranslations(lang: string): Translation[] {
+    async getTranslations(lang) {
         let langer = await this.languageModel.read(lang);
         return langer[0].translations;
     }
@@ -23,7 +23,7 @@ export default class TranslationRepository {
 
     /** Getting translations with common code
      * @returns the list of translations */
-    async getByLangAndCode(lang: string, code: string): Translation {
+    async getByLangAndCode(lang, code) {
         let res = null;
         const langer = await this.languageModel.read(lang);
         const translations = langer[0].translations;
@@ -36,8 +36,8 @@ export default class TranslationRepository {
     }
 
     /** Saving a new translation to repository
-     * @returns the created translation */
-    async saveTranslation(translation: Translation): boolean {
+     * @returns boolean created translation */
+    async saveTranslation(translation) {
         const langer = await this.languageModel.read(translation.language);
         console.log(langer[0]);
         let lang = langer[0];

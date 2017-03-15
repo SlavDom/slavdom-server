@@ -1,6 +1,5 @@
-import helper from "./_controllerHelper";
+import helper from "./controllerHelper";
 import TranslationRepository from "../repositories/translationRepository";
-import * as Joi from "joi";
 
 /** Module for translation controller */
 export default {

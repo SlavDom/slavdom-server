@@ -1,5 +1,4 @@
-import helper from './_controllerHelper';
-import pathHelper from '../helpers/pathHelper';
+import helper from './controllerHelper';
 
 export default {
     send
