@@ -1,10 +1,8 @@
 import {Strategy as LocalStrategy} from 'passport-local';
 import userRepository from '../repositories/userRepository';
-import textValue from '../helpers/textValueHelper';
 import * as moment from 'moment';
 import AppError from '../appError';
 import helper from './authHelper';
-const configuration = require('../../conf.json');
 
 export default function init(passport) {
     let strategySignInSettings = {
@@ -88,8 +86,8 @@ async function signUpPostLocal(req, name, surname, patronymic, country, email, u
 
         await helper.sendActivationEmail(user.email, user.profile.local.activation.token);
 
-        let message = textValue.info('auth', 'activation_email_confirmation');
-        return helper.sendAuthMessage(message, 'success', done, req);
+      let message = 'info.auth.activation_email_confirmation';
+      return helper.sendAuthMessage(message, 'success', done, req);
     }
     catch (err) {
         let errorMessage = helper.handleError(err);
@@ -119,7 +117,7 @@ async function activate(req, res) {
         } else {
             await userRepository.activateUser(localUser.id);
 
-            let message = textValue.info('auth', 'activation_success');
+            let message = 'info.auth.activation_success';
             return helper.redirectToLogIn(message, 'info', req, res);
         }
     } catch (err) {
@@ -130,13 +128,10 @@ async function activate(req, res) {
 
 async function logOut(req, res) {
     req.logOut();
-    //TODO: It is not clear what to do hear now
     res.redirect('/login');
 }
 
 async function forgotPasswordPost(req, res) {
-    let viewModel = req.body;
-
     try {
         let email = req.body.email.toLowerCase();
 
@@ -148,7 +143,7 @@ async function forgotPasswordPost(req, res) {
 
         await helper.sendResetPasswordEmail(updatedUser.email, updatedUser.profile.local.reset.token);
 
-        let message = textValue.info('auth', 'reset_password_email_confirmation');
+        let message = 'info.auth.reset_password_email_confirmation';
         helper.setStatusMessage(req, message, 'success');
         return res.send({success: message})
 
@@ -168,7 +163,7 @@ async function resetPasswordPost(req, res) {
 
         await userRepository.updateUserPassword(localUser.id, password);
 
-        let message = textValue.info('auth', 'reset_password_success');
+        let message = 'info.auth.reset_password_success';
         helper.redirectToLogIn(message, 'success', req, res);
 
     } catch (err) {

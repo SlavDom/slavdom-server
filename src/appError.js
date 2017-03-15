@@ -26,7 +26,7 @@ export class AppError implements AppErrorType {
     //
     // }
 
-    constructor(...args: any[]) {
+    constructor(...args) {
         this.message = "";
         this.uiShow = true;
         this.log = false;

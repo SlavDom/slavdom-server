@@ -1,5 +1,4 @@
 import logger from '../logger';
-import textValue from './textValueHelper';
 
 export default {
     logError,
@@ -11,7 +10,7 @@ function getErrorMessage(error) {
 
     if (error.isAppError) {
         if (!error.message) {
-            let message = textValue.error(error.type, error.code, error.data);
+            let message = `error.${error.type}.${error.code}.${error.data}`;
             if (!message) message = `Cannot find error message for type:${error.type} code:${error.code}`;
             error.message = message;
         }

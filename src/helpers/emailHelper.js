@@ -1,4 +1,3 @@
-import * as Promise from 'bluebird';
 import pathHelper from './pathHelper';
 
 const nodemailer = require('nodemailer');
@@ -19,17 +18,16 @@ interface EmailOptions {
     html?: string
 }
 
-function sendEmail(emailOptions: EmailOptions): Promise<Object> {
+function sendEmail(emailOptions) {
     return new Promise<Object>((resolve, reject) => {
         emailTransport.sendMail(emailOptions, function (error, info) {
             if (error) return Promise.reject(error);
-
             return info;
         });
     });
 }
 
-function sendEmailTemplate(templateName: string, data: Object, emailData: EmailOptions) {
+function sendEmailTemplate(templateName, data, emailData) {
     return renderTemplate(templateName, data)
         .then((data) => {
             emailData.html = data.html;
@@ -46,7 +44,7 @@ function sendEmailTemplate(templateName: string, data: Object, emailData: EmailO
         });
 }
 
-function renderTemplate(name: string, data: Object): Promise<any> {
+function renderTemplate(name, data) {
     let templateDir = pathHelper.getDataRelative('emails', name);
     let template = new EmailTemplate(templateDir);
 
