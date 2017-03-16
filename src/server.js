@@ -32,12 +32,12 @@ function start() {
 
   initExpress();
 
+  const passport = require('passport');
+  routes.init(app, passport);
+
   app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../../client/public/index.html'));
   });
-
-  const passport = require('passport');
-  routes.init(app, passport);
 
   //should be after routes.init
   initErrorHandling(app);
@@ -52,7 +52,6 @@ function initExpress() {
   app.use(morgan('dev')); //log requests
   app.use(bodyParser.json()); // get information from html forms
   app.use(bodyParser.urlencoded({extended: true}));
-  app.use('/static', express.static(pathHelper.getRelative('../client/public')));
   app.use(compression());
   app.use(cors());
 
