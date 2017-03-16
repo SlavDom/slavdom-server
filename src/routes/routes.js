@@ -20,9 +20,6 @@ function initRoutes(app, passport) {
     initUserRoutes();
     
     initTranslationRoutes();
-
-    //all other routes are rendered as home (for client side routing)
-    helper.get('*', errorController.send);
 }
 
 function initUserRoutes() {
