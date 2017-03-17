@@ -1,12 +1,15 @@
+import mongoose from 'mongoose';
 import BaseModel from './baseModel';
 import LanguageEntity from '../entities/languageEntity';
 
 export default class LanguageModel extends BaseModel {
 
-  create(language) {
+  async create(language) {
+    // language.language_id = mongoose.Types.ObjectId();
     const languageObject = new LanguageEntity(language);
-    languageObject.save((err) => {
+    return languageObject.save((err) => {
       if (err) throw err;
+      return true;
     });
   }
 

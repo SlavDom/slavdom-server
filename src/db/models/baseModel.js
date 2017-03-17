@@ -1,32 +1,28 @@
-/* @flow */
-
 export default class BaseModel {
 
-    name: string;
+  constructor(name) {
+    this.name = name;
+  }
 
-    constructor(name: string) {
-        this.name = name;
-    }
+  init() {
 
-    init() {
+  }
 
-    }
+  drop() {
+  }
 
-    drop() {
-    }
+  read(id) {
+  }
 
-    read(id: number) {
-    }
+  create(model) {
 
-    create(model: Base) {
+  }
 
-    }
+  del(id) {
 
-    del(id: number) {
+  }
 
-    }
+  update(model) {
 
-    update(model: Base) {
-
-    }
+  }
 }

@@ -10,8 +10,12 @@ const schema = new Schema({
   },
   short_text: String,
   full_text: String,
-  theme: Number,
+  theme: String,
+  created_at: String,
+  update_at: String,
   commentaries: [commentarySchema],
+  created_by: Schema.Types.ObjectId,
+  language_id: Schema.Types.ObjectId,
 });
 
 const NewsEntity = mongoose.model('News', schema);
