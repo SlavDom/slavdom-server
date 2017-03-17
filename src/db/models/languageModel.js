@@ -3,29 +3,29 @@ import LanguageEntity from '../entities/languageEntity';
 
 export default class LanguageModel extends BaseModel {
 
-    create(language: JSON) {
-        const languageObject = new LanguageEntity(language);
-        languageObject.save(err => {
-            if (err) throw err;
-        });
-    }
+  create(language) {
+    const languageObject = new LanguageEntity(language);
+    languageObject.save((err) => {
+      if (err) throw err;
+    });
+  }
 
-    async read(code: String) {
-        return LanguageEntity.find({
-            code: code
-        }).exec((err, language) => {
-            if (err) throw err;
-            return language;
-        });
-    }
+  async read(code) {
+    return LanguageEntity.find({
+      code,
+    }).exec((err, language) => {
+      if (err) throw err;
+      return language;
+    });
+  }
 
-    async update(language: JSON) {
-        return LanguageEntity.update({ _id: language.id}, { $set: language}, () => {});
-    }
+  async update(language) {
+    return LanguageEntity.update({ _id: language.id }, { $set: language }, () => {});
+  }
 
-    del(id: number) {
-        LanguageEntity.remove({
-            id: id
-        });
-    }
+  del(id) {
+    LanguageEntity.remove({
+      id,
+    });
+  }
 }

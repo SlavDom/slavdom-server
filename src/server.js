@@ -49,7 +49,7 @@ function initAuth() {
 
 /** Function of Express initialisation */
 function initExpress() {
-  app.use(morgan('dev')); // log requests
+  app.use(morgan('dev')); //log requests
   app.use(bodyParser.json()); // get information from html forms
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(compression());

@@ -4,7 +4,7 @@ import userController from '../controllers/userController';
 import translationController from '../controllers/translationController';
 
 export default {
-    init: initRoutes
+  init: initRoutes,
 };
 
 let helper = helperInit(null, null);
@@ -17,16 +17,17 @@ function initRoutes(app, passport) {
 }
 
 function initUserRoutes() {
-    helper.get('/api/users/list', userController.getUsers);
-    helper.get('/api/users/get', userController.getUser);
-    helper.post('/api/users/save', userController.saveUser);
-    helper.delete('/api/users/delete', userController.deleteUser);
+  helper.get('/api/users/list', userController.getUsers);
+  helper.get('/api/users/get', userController.getUser);
+  helper.post('/api/users/save', userController.saveUser);
+  helper.delete('/api/users/delete', userController.deleteUser);
 }
 
 function initTranslationRoutes() {
-    helper.get('/api/translations/list', translationController.getTranslations);
-    helper.get('/api/translations/get', translationController.getTranslation);
-    helper.post('/api/translations/save', translationController.saveTranslation);
+  helper.get('/api/translations/list', translationController.getTranslations);
+  helper.get('/api/translations/package', translationController.getTranslationsFromList);
+  helper.get('/api/translations/get', translationController.getTranslation);
+  helper.post('/api/translations/save', translationController.saveTranslation);
 }
 
 function initAuthRoutes(passport) {

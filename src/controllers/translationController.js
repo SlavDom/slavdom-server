@@ -4,6 +4,7 @@ import TranslationRepository from "../repositories/translationRepository";
 /** Module for translation controller */
 export default {
     getTranslations,
+    getTranslationsFromList,
     getTranslation,
     saveTranslation,
     deleteTranslation
@@ -22,6 +23,19 @@ async function getTranslations(req, res) {
         let lang = req.query.lang;
         let translationRepository = new TranslationRepository();
         let result = await translationRepository.getTranslations(lang);
+        return helper.sendData({data: result}, res);
+    } catch (err) {
+        helper.sendFailureMessage(err, res);
+    }
+}
+
+async function getTranslationsFromList(req, res) {
+    try {
+        let lang = req.query.lang;
+        let codeList = req.query.code;
+        let codes = JSON.parse(codeList);
+        let translationRepository = new TranslationRepository();
+        let result = await translationRepository.getTranslationsFromList(lang, codes);
         return helper.sendData({data: result}, res);
     } catch (err) {
         helper.sendFailureMessage(err, res);
