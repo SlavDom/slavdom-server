@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import config from '../config';
+
 let app = null;
 let passport = null;
 

@@ -1,5 +1,4 @@
 import init from '../auth/authController';
-import errorController from '../controllers/errorController';
 import helperInit from './routesHelper';
 import userController from '../controllers/userController';
 import translationController from '../controllers/translationController';
@@ -12,13 +11,8 @@ let helper = helperInit(null, null);
 
 function initRoutes(app, passport) {
     helper = helperInit(app, passport);
-
     initAuthRoutes(passport);
-
-    helper.get('/', errorController.send);
-
     initUserRoutes();
-    
     initTranslationRoutes();
 }
 
@@ -37,7 +31,6 @@ function initTranslationRoutes() {
 
 function initAuthRoutes(passport) {
     let authController = init(passport);
-
     helper.get('/activate/:token', authController.activate, {auth: false});
     helper.post('/login', authController.logInPost, {auth: false});
     helper.post('/signup', authController.signUpPost, {auth: false});
