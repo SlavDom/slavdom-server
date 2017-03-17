@@ -8,6 +8,7 @@ import _ from 'lodash';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import passport from 'passport';
 
 import webpackConfig from '../../webpack.config.dev';
 import config from './config';
@@ -37,8 +38,6 @@ function initAuth() {
   const flash = require('connect-flash');
   app.use(flash());
 
-  const passport = require('passport');
-
   auth(passport);
 
   app.use(passport.initialize());
@@ -49,7 +48,7 @@ function initAuth() {
 
 /** Function of Express initialisation */
 function initExpress() {
-  app.use(morgan('dev')); //log requests
+  app.use(morgan('dev')); // log requests
   app.use(bodyParser.json()); // get information from html forms
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(compression());
@@ -77,7 +76,6 @@ function start() {
   initWebpack();
   initExpress();
 
-  const passport = require('passport');
   routes.init(app, passport);
 
   app.get('/*', (req, res) => {
@@ -87,7 +85,7 @@ function start() {
   // should be after routes.init
   initErrorHandling(app);
 
-  app.listen(config.web.port, function () {
+  app.listen(config.web.port, () => {
     console.log(`Server is listening on port ${config.web.port}!`);
   });
 }

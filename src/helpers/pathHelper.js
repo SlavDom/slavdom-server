@@ -1,35 +1,35 @@
 import path from 'path';
 import * as _ from 'lodash';
 
-let rootPath = path.join(__dirname, '../..');
-let defaultDataPath = path.join(rootPath, 'data');
+const rootPath = path.join(__dirname, '../..');
+const defaultDataPath = path.join(rootPath, 'data');
 
-export default {
-    path,
-    getRelative: getRelativePath,
-    getDataRelative: getDataRelativePath
-};
+function getDataPath() {
+  if (process.env.NODE_DATA_DIR) {
+    return process.env.NODE_DATA_DIR;
+  }
+
+  return defaultDataPath;
+}
 
 function getRelativePath(...paths) {
-    let args = _.toArray(arguments);
+  const args = _.toArray(arguments);
 
-    args.unshift(rootPath);
+  args.unshift(rootPath);
 
-    return path.join.apply(this, args);
+  return path.join.apply(this, args);
 }
 
 function getDataRelativePath(...paths) {
-    let args = _.toArray(arguments);
+  const args = _.toArray(arguments);
 
-    args.unshift(getDataPath());
+  args.unshift(getDataPath());
 
-    return path.join.apply(this, args);
+  return path.join.apply(this, args);
 }
 
-function getDataPath() {
-    if (process.env['NODE_DATA_DIR']) {
-        return process.env['NODE_DATA_DIR'];
-    }
-
-    return defaultDataPath;
-}
+export default {
+  path,
+  getRelative: getRelativePath,
+  getDataRelative: getDataRelativePath,
+};

@@ -1,4 +1,3 @@
-import { Translation } from '../../typings/app/models';
 import LanguageModel from '../db/models/languageModel';
 
 /** Module for translation repository */
@@ -11,7 +10,10 @@ export default class TranslationRepository {
     /** Getting a list of translations
      * @returns the list of translations */
   async getTranslations(lang) {
-    const langer = await this.languageModel.read(lang);
+    let langer = await this.languageModel.read(lang);
+    if (langer.length === 0) {
+      langer = await this.languageModel.read('en');
+    }
     return langer[0].translations;
   }
 
@@ -22,10 +24,10 @@ export default class TranslationRepository {
     if (lang !== 'en') {
       langerEn = await this.languageModel.read('en');
     }
-    for (let i = 0; i < codes.length; i++) {
+    for (let i = 0; i < codes.length; i += 1) {
       let flag = false;
       if (langer.length > 0) {
-        for (let j = 0; j < langer[0].translations.length; j++) {
+        for (let j = 0; j < langer[0].translations.length; j += 1) {
           if (langer[0].translations[j].code === codes[i]) {
             res.push(langer[0].translations[j].result);
             flag = true;
@@ -33,7 +35,7 @@ export default class TranslationRepository {
         }
       }
       if (!flag) {
-        for (let j = 0; j < langerEn[0].translations.length; j++) {
+        for (let j = 0; j < langerEn[0].translations.length; j += 1) {
           if (langerEn[0].translations[j].code === codes[i]) {
             res.push(langerEn[0].translations[j].result);
             flag = true;
@@ -54,13 +56,24 @@ export default class TranslationRepository {
      * @returns the list of translations */
   async getByLangAndCode(lang, code) {
     let res = null;
-    const langer = await this.languageModel.read(lang);
-    const translations = langer[0].translations;
+    let langer = await this.languageModel.read(lang);
+    let translations = langer[0].translations;
+    let flag = false;
     translations.forEach((a) => {
       if (a.code === code) {
         res = a;
+        flag = true;
       }
     });
+    if (!flag) {
+      langer = await this.languageModel.read('en');
+      translations = langer[0].translations;
+      translations.forEach((a) => {
+        if (a.code === code) {
+          res = a;
+        }
+      });
+    }
     return res;
   }
 
@@ -68,7 +81,6 @@ export default class TranslationRepository {
      * @returns boolean created translation */
   async saveTranslation(translation) {
     const langer = await this.languageModel.read(translation.language);
-    console.log(langer[0]);
     const lang = langer[0];
     const translations = langer[0].translations;
     const translationForInsertion = {
@@ -77,7 +89,6 @@ export default class TranslationRepository {
     };
     translations.push(translationForInsertion);
     lang.translations = translations;
-    console.log(lang);
     await this.languageModel.update(lang);
     return true;
   }

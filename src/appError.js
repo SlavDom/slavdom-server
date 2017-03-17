@@ -1,57 +1,31 @@
-// @flow
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-interface AppErrorType {
-    uiShow: boolean;
-    log: boolean;
-    type: string;
-    code: string;
-    data: Object;
-    message: string;
-    isAppError: boolean;
-}
+export default class AppError {
 
-interface AppErrorOptions {
-    uiShow: boolean,
-    log: boolean,
-    data: Object
-}
+  constructor(...args) {
+    this.message = '';
+    this.uiShow = true;
+    this.log = false;
+    this.type = '';
+    this.code = '';
+    this.data = null;
+    this.isAppError = true;
 
-export class AppError implements AppErrorType {
-
-    // constructor(message: string, options: ?Object) {
-    //
-    // }
-    // constructor(type: string, code: string, options: ?Object) {
-    //
-    // }
-
-    constructor(...args) {
-        this.message = "";
-        this.uiShow = true;
-        this.log = false;
-        this.type = "";
-        this.code = "";
-        this.data = null;
-        this.isAppError= true;
-
-        Error.captureStackTrace(this, this.constructor);
+    Error.captureStackTrace(this, this.constructor);
 
 
-        //signature type, code, options
-        if (_.isString(args[0]) && _.isString(args[1])) {
-            this.type = args[0];
-            this.code = args[1];
-            _.merge(this, args[2]);
-        }
-        //signature message, options
-        else if (_.isString(args[0])) {
-            this.message = args[0];
-            _.merge(this, args[1]);
-        } else {
-            throw new Error('Unsupported AppError signature');
-        }
+        // signature type, code, options
+    if (_.isString(args[0]) && _.isString(args[1])) {
+      this.type = args[0];
+      this.code = args[1];
+      _.merge(this, args[2]);
     }
+        // signature message, options
+    else if (_.isString(args[0])) {
+      this.message = args[0];
+      _.merge(this, args[1]);
+    } else {
+      throw new Error('Unsupported AppError signature');
+    }
+  }
 }
-
-export default AppError;

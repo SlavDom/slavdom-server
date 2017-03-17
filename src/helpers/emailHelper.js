@@ -5,54 +5,47 @@ const EmailTemplate = require('email-templates').EmailTemplate;
 
 const emailTransport = nodemailer.createTransport();
 
-export default {
-    sendEmail,
-    sendEmailTemplate
-};
+function renderTemplate(name, data) {
+  const templateDir = pathHelper.getDataRelative('emails', name);
+  const template = new EmailTemplate(templateDir);
 
-interface EmailOptions {
-    from: string,
-    to: string,
-    subject?: string,
-    text?: string,
-    html?: string
+  return new Promise((resolve, reject) => {
+    template.render(data, (err, result) => {
+      if (err) reject(err);
+
+      return resolve(result);
+    });
+  });
 }
 
+
 function sendEmail(emailOptions) {
-    return new Promise<Object>((resolve, reject) => {
-        emailTransport.sendMail(emailOptions, function (error, info) {
-            if (error) return Promise.reject(error);
-            return info;
-        });
+  return new Promise((resolve, reject) => {
+    emailTransport.sendMail(emailOptions, (error, info) => {
+      if (error) return Promise.reject(error);
+      return info;
     });
+  });
 }
 
 function sendEmailTemplate(templateName, data, emailData) {
-    return renderTemplate(templateName, data)
-        .then((data) => {
-            emailData.html = data.html;
+  return renderTemplate(templateName, data)
+        .then((res) => {
+          emailData.html = res.html;
 
-            if (!emailData.subject) emailData.subject = data.subject;
+          if (!emailData.subject) emailData.subject = res.subject;
 
-            return new Promise((resolve, reject) => {
-                emailTransport.sendMail(emailData, function (err, info) {
-                    if (err) return reject(err);
+          return new Promise((resolve, reject) => {
+            emailTransport.sendMail(emailData, (err, info) => {
+              if (err) return reject(err);
 
-                    return resolve(info);
-                });
+              return resolve(info);
             });
+          });
         });
 }
 
-function renderTemplate(name, data) {
-    let templateDir = pathHelper.getDataRelative('emails', name);
-    let template = new EmailTemplate(templateDir);
-
-    return new Promise<any>((resolve, reject) => {
-        template.render(data, function (err, result) {
-            if (err) reject(err);
-
-            return resolve(result);
-        });
-    });
-}
+export default {
+  sendEmail,
+  sendEmailTemplate,
+};

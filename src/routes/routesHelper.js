@@ -4,83 +4,78 @@ import config from '../config';
 let app = null;
 let passport = null;
 
-export default init;
 
-function init(expressApp, passportAuth) {
-    app = expressApp;
-    passport = passportAuth;
+function normalizeAccessMode(accessMode) {
+  if (!accessMode) {
     return {
-        app,
-        isLoggedIn,
-        get: httpGet,
-        post: httpPost,
-        put: httpPut,
-        delete: httpDelete
+      auth: true,
     };
+  }
+
+  if (_.isUndefined(accessMode.auth)) {
+    accessMode.auth = true;
+  }
+
+  return accessMode;
 }
 
-interface AccessMode {
-    auth?: boolean
-}
+function getAccessCheck(accessMode) {
+  if (!accessMode.auth) return [];
 
-function httpGet(path, handler, accessMode?: AccessMode) {
-    const args = getRouteArguments(path, handler, accessMode);
-    app.get.apply(app, args);
-}
-
-function httpPost(path, handler, accessMode?: AccessMode) {
-    const args = getRouteArguments(path, handler, accessMode);
-    app.post.apply(app, args);
-}
-
-function httpPut(path, handler, accessMode?: AccessMode) {
-    const args = getRouteArguments(path, handler, accessMode);
-    app.put.apply(app, args);
-}
-
-function httpDelete(path, handler, accessMode?: AccessMode) {
-    const args = getRouteArguments(path, handler, accessMode);
-    app.delete.apply(app, args);
-}
-
-function getRouteArguments(path, handler, accessMode) {
-    let result = [];
-
-    accessMode = normalizeAccessMode(accessMode);
-
-    result.push(path);
-    let accessHandlers = getAccessCheck(accessMode);
-    result = result.concat(accessHandlers);
-    result.push(handler);
-
-    return result;
-}
-
-function normalizeAccessMode(accessMode?: AccessMode): AccessMode {
-    if (!accessMode) {
-        return {
-            auth: true
-        };
-    }
-
-    if (_.isUndefined(accessMode.auth)) {
-        accessMode.auth = true;
-    }
-
-    return accessMode;
-}
-
-function getAccessCheck(accessMode: AccessMode) {
-    if (!accessMode.auth) return [];
-    else {
-        return [isLoggedIn];
-    }
+  return [isLoggedIn];
 }
 
 function isLoggedIn(req, res, next) {
-    if (!config.auth.useAuth) return next();
+  if (!config.auth.useAuth) return next();
 
-    if (req.isAuthenticated()) return next();
+  if (req.isAuthenticated()) return next();
 
-    res.send(401, 'Unauthorized');
+  res.send(401, 'Unauthorized');
+}
+
+
+function getRouteArguments(path, handler, accessMode) {
+  let result = [];
+
+  accessMode = normalizeAccessMode(accessMode);
+
+  result.push(path);
+  const accessHandlers = getAccessCheck(accessMode);
+  result = result.concat(accessHandlers);
+  result.push(handler);
+
+  return result;
+}
+
+function httpGet(path, handler, accessMode) {
+  const args = getRouteArguments(path, handler, accessMode);
+  app.get(...args);
+}
+
+function httpPost(path, handler, accessMode) {
+  const args = getRouteArguments(path, handler, accessMode);
+  app.post(...args);
+}
+
+function httpPut(path, handler, accessMode) {
+  const args = getRouteArguments(path, handler, accessMode);
+  app.put(...args);
+}
+
+function httpDelete(path, handler, accessMode) {
+  const args = getRouteArguments(path, handler, accessMode);
+  app.delete(...args);
+}
+
+export default function init(expressApp, passportAuth) {
+  app = expressApp;
+  passport = passportAuth;
+  return {
+    app,
+    isLoggedIn,
+    get: httpGet,
+    post: httpPost,
+    put: httpPut,
+    delete: httpDelete,
+  };
 }
