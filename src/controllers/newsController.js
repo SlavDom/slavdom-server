@@ -14,14 +14,14 @@ async function getNews(req, res) {
 }
 
 async function getNewsList(req, res) {
- try {
-   const lang = req.query.lang;
-   const newsRepository = new NewsRepository();
-   const result = await newsRepository.getNewsList(lang);
-   return helper.sendData({ data: result }, res);
- } catch (err) {
-   return helper.sendFailureMessage(err, res);
- }
+  try {
+    const lang = req.query.lang;
+    const newsRepository = new NewsRepository();
+    const result = await newsRepository.getNewsList(lang);
+    return helper.sendData({ data: result }, res);
+  } catch (err) {
+    return helper.sendFailureMessage(err, res);
+  }
 }
 
 async function saveNews(req, res) {

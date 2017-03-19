@@ -9,23 +9,46 @@ export default class newsRepository {
   }
 
   async getNews(theme, language) {
-    const langEntity = await this.languageModel.read(language);
-    const langId = langEntity[0]._id;
-    const news = await this.newsModel.read(theme, langId);
-    return news;
+    // We get a language entity from the database
+    const languageEntity = await this.languageModel.read(language);
+    // If there is such a language in the database
+    if (languageEntity.length > 0) {
+      // We get the id of the chosen language
+      const langId = languageEntity[0]._id;
+      // We get the amount of news that are of the requested theme and language
+      const news = await this.newsModel.read(theme, langId);
+      return news;
+    }
+    // If there is no such a language
+    return [];
   }
 
   async getNewsList(language) {
-    const langEntity = await this.languageModel.read(language);
-    const langId = langEntity[0]._id;
-    const newsList = await this.newsModel.readByLang(langId);
-    return newsList;
+    // We get a language entity from the database
+    const languageEntity = await this.languageModel.read(language);
+    // If there is such a language in the database
+    if (languageEntity.length > 0) {
+      // We get the id of the chosen language
+      const langId = languageEntity[0]._id;
+      // We get the amount of news that are of the requested language
+      const newsList = await this.newsModel.readByLang(langId);
+      return newsList;
+    }
+    // If there is no such a language
+    return [];
   }
 
   async saveNews(news, language) {
-    const langEntity = await this.languageModel.read(language);
-    const langId = langEntity[0]._id;
-    news.language_id = langId;
-    await this.newsModel.create(news);
+    // We get a language entity from the database
+    const languageEntity = await this.languageModel.read(language);
+    // If there is such a language in the database
+    if (languageEntity.length > 0) {
+      // We get the id of the chosen language
+      const langId = languageEntity[0]._id;
+      // We add to news model a language attribute with its ID
+      news.language_id = langId;
+      // We created the model into the database
+      await this.newsModel.create(news);
+    }
   }
 }
