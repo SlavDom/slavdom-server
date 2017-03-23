@@ -13,12 +13,12 @@ export default class TranslationRepository {
     // We read the requested language entity
     let language = await this.languageModel.read(lang);
     // If there is no such a language in the database
-    if (language.length === 0) {
+    if (language === null) {
       // Then we read the default language entity
       language = await this.languageModel.read('en');
     }
     // We return only the array of translations into this language
-    return language[0].translations;
+    return language.translations;
   }
 
   async getTranslationsFromList(lang, codes) {
@@ -35,11 +35,11 @@ export default class TranslationRepository {
     for (let i = 0; i < codes.length; i += 1) {
       let flag = false;
       // Checking language existence
-      if (language.length > 0) {
+      if (language !== null) {
         // In this cycle we try to get proper values from the requested language entity
-        for (let j = 0; j < language[0].translations.length; j += 1) {
-          if (language[0].translations[j].code === codes[i]) {
-            res.push(language[0].translations[j].result);
+        for (let j = 0; j < language.translations.length; j += 1) {
+          if (language.translations[j].code === codes[i]) {
+            res.push(language.translations[j].result);
             flag = true;
           }
         }
@@ -47,9 +47,9 @@ export default class TranslationRepository {
       // If there is no such a language or we have not collected necessary translations
       // we read data from default language entity
       if (!flag) {
-        for (let j = 0; j < languageEn[0].translations.length; j += 1) {
-          if (languageEn[0].translations[j].code === codes[i]) {
-            res.push(languageEn[0].translations[j].result);
+        for (let j = 0; j < languageEn.translations.length; j += 1) {
+          if (languageEn.translations[j].code === codes[i]) {
+            res.push(languageEn.translations[j].result);
             flag = true;
           }
         }
@@ -73,9 +73,9 @@ export default class TranslationRepository {
     let flag = false;
     let translations = null;
     // If there is such a language in the database
-    if (language.length > 0) {
+    if (language !== null) {
       // We read the array of translations into this language
-      translations = language[0].translations;
+      translations = language.translations;
       translations.forEach((a) => {
         // We try to find the requested translation by its code
         if (a.code === code) {
@@ -104,11 +104,9 @@ export default class TranslationRepository {
     // We read a language entity from the database
     const language = await this.languageModel.read(translation.language);
     // If there is such a language
-    if (language.length > 0) {
-      // We get the language itself
-      const lang = language[0];
+    if (language !== null) {
       // We get the array of translation into this language
-      const translations = language[0].translations;
+      const translations = language.translations;
       // We build a model for inserting into database
       const translationForInsertion = {
         code: translation.code,

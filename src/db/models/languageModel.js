@@ -14,11 +14,24 @@ export default class LanguageModel extends BaseModel {
   }
 
   async read(code) {
-    return LanguageEntity.find({
+    return LanguageEntity.findOne({
       code,
     }).exec((err, language) => {
       if (err) throw err;
       return language;
+    });
+  }
+
+  async getId(code) {
+    return LanguageEntity.findOne({
+      code,
+    }).exec((err, language) => {
+      if (err) throw err;
+      if (language !== null) {
+        return language._id;
+      } else {
+        return null;
+      }
     });
   }
 
