@@ -14,10 +14,10 @@ async function seedLanguages() {
 async function seedData() {
   await seedLanguages();
   const languageModel = new LanguageModel();
-  const english = await languageModel.read('en');
+  const english = await languageModel.getId('en');
   newsSeed.forEach((a) => {
     const news = new NewsModel();
-    a.language_id = english[0]._id;
+    a.language_id = english;
     news.create(a);
   });
   console.log('Database is seeded with initial data.');
