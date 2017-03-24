@@ -1,11 +1,8 @@
-import mongoose from 'mongoose';
-import BaseModel from './baseModel';
 import LanguageEntity from '../entities/languageEntity';
 
-export default class LanguageModel extends BaseModel {
+export default class LanguageModel {
 
   async create(language) {
-    // language.language_id = mongoose.Types.ObjectId();
     const languageObject = new LanguageEntity(language);
     return languageObject.save((err) => {
       if (err) throw err;
@@ -23,15 +20,13 @@ export default class LanguageModel extends BaseModel {
   }
 
   async getId(code) {
-    return LanguageEntity.findOne({
-      code,
-    }).exec((err, language) => {
-      if (err) throw err;
-      if (language !== null) {
-        return language._id;
-      } else {
-        return null;
-      }
+    return LanguageEntity
+      .findOne({
+        code,
+      }, '_id')
+      .exec((err, id) => {
+        if (err) throw err;
+        return id;
     });
   }
 

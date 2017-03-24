@@ -1,7 +1,6 @@
-import BaseModel from './baseModel';
 import NewsEntity from '../entities/newsEntity';
 
-export default class NewsModel extends BaseModel {
+export default class NewsModel {
 
   async create(news) {
     const newsObject = new NewsEntity(news);
@@ -20,9 +19,6 @@ export default class NewsModel extends BaseModel {
     });
   }
 
-  /* Function for getting a news entity object by its theme and title
-  * @param theme
-  * @ param title */
   async read(theme, language_id) {
     return NewsEntity.find({
       theme,
