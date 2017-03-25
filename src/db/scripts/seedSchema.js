@@ -5,9 +5,9 @@ import { languageSeeder, newsSeeder } from '../seeders';
 async function seedLanguages() {
   const languageModel = new LanguageModel();
   const promises = [];
-  for (let i = 0; i < languageSeeder.length; i += 1) {
-    promises.push(languageModel.create(languageSeeder[i]));
-  }
+  languageSeeder.forEach((language) => {
+    promises.push(languageModel.create(language));
+  });
   await Promise.all(promises);
 }
 
