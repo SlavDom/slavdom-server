@@ -6,13 +6,11 @@ import isError from 'lodash/isError';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import passport from 'passport';
 
 import webpackConfig from '../../webpack.config.dev';
 import config from './config';
-import routes from './routes/routes';
+import router from './routes';
 import logger from './logger';
-import auth from './auth/authInit';
 import dropAndSeedSchema from '../src/db/scripts/dropSchema';
 
 const app = express();
@@ -32,21 +30,13 @@ function initDB() {
   dropAndSeedSchema();
 }
 
-/** Initialising of auth controllers */
-function initAuth() {
-  auth(passport);
-  app.use(passport.initialize());
-  app.use(passport.session()); // persistent login sessions
-  return passport;
-}
-
 /** Function of Express initialisation */
 function initExpress() {
   app.use(morgan('dev')); // log requests
   app.use(bodyParser.json()); // get information from html forms
   app.use(bodyParser.urlencoded({ extended: true }));
+  app.use('/', router);
   initDB();
-  initAuth();
 }
 
 /** Error handling initializing */
@@ -63,17 +53,14 @@ function initErrorHandling(app) {
 
 /** Function that starts the server itself
  * @params options {any} options, that can be evaluated in the initialisation */
-function start() {
+async function start() {
   initWebpack();
   initExpress();
-
-  routes.init(app, passport);
 
   app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../../client/public/index.html'));
   });
 
-  // should be after routes.init
   initErrorHandling(app);
 
   app.listen(config.web.port, () => {
