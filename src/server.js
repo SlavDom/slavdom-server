@@ -53,7 +53,7 @@ function initErrorHandling(app) {
 
 /** Function that starts the server itself
  * @params options {any} options, that can be evaluated in the initialisation */
-async function start() {
+function start() {
   initWebpack();
   initExpress();
 
