@@ -6,8 +6,8 @@ const commentarySchema = new Schema({
   text: String,
   rating: Number,
   timestamp: Schema.Types.Date,
-  published_by: Schema.Types.ObjectId,
-  published_on: Schema.Types.ObjectId,
+  publishedBy: Schema.Types.ObjectId,
+  publishedOn: Schema.Types.ObjectId,
 });
 
 export default commentarySchema;

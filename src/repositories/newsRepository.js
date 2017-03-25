@@ -40,7 +40,7 @@ export default class newsRepository {
     // If there exists such a language. we get its id
     if (langId !== null) {
       // We add to news model a language attribute with its ID
-      news.language_id = langId;
+      news.languageId = langId;
       // We created the model into the database
       await this.newsModel.create(news);
     }

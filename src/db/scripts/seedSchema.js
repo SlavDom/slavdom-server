@@ -14,10 +14,10 @@ async function seedLanguages() {
 async function seedData() {
   await seedLanguages();
   const languageModel = new LanguageModel();
-  const english = await languageModel.getId('en');
+  const englishLanguageId = await languageModel.getId('en');
   newsSeeder.forEach((news) => {
     const newsModel = new NewsModel();
-    news.language_id = english;
+    news.languageId = englishLanguageId;
     newsModel.create(news);
   });
 }

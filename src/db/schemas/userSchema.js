@@ -2,7 +2,7 @@ import mongoose from '../db';
 
 const Schema = mongoose.Schema;
 
-const schema = new Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -13,13 +13,12 @@ const schema = new Schema({
   phone: String,
   username: String,
   nation: String,
-  native_lang: String,
+  nativeLang: String,
   city: String,
-  non_cussing: Boolean,
-  registered_at: Schema.Types.Date,
-  logged_at: Schema.Types.Date,
-  is_logged: Boolean,
+  nonCussing: Boolean,
+  registeredAt: Schema.Types.Date,
+  loggedAt: Schema.Types.Date,
 });
 
-const UserEntity = mongoose.model('User', schema);
+const UserEntity = mongoose.model('User', userSchema);
 export default UserEntity;

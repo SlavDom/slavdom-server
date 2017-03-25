@@ -27,15 +27,15 @@ export const newsSeeder = [
   {
     theme: 'hello-world',
     title: 'Hello, world',
-    short_text: 'This is a hello world news.',
-    full_text: 'This is a full version of a news.',
+    shortText: 'This is a hello world news.',
+    fullText: 'This is a full version of a news.',
     commentaries: [],
   },
   {
     theme: 'hello-world',
     title: 'Привѣт, міре',
-    short_text: 'То је новина Привѣт, міре.',
-    full_text: 'То је пълна вѣрсија ової стрåницы.',
+    shortText: 'То је новина Привѣт, міре.',
+    fullText: 'То је пълна вѣрсија ової стрåницы.',
     commentaries: [],
   },
 ];

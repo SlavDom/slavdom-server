@@ -1,9 +1,14 @@
-import LanguageEntity from '../entities/languageEntity';
+import mongoose from '../db';
+import languageSchema from '../schemas/languageSchema';
 
 export default class LanguageModel {
 
+  constructor() {
+    this.languageModel = mongoose.model('Language', languageSchema);
+  }
+
   async create(language) {
-    const languageObject = new LanguageEntity(language);
+    const languageObject = this.languageModel(language);
     return languageObject.save((err) => {
       if (err) throw err;
       return true;
@@ -11,31 +16,37 @@ export default class LanguageModel {
   }
 
   async read(code) {
-    return LanguageEntity.findOne({
-      code,
-    }).exec((err, language) => {
-      if (err) throw err;
-      return language;
-    });
+    return this.languageModel
+      .findOne({
+        code,
+      })
+      .exec((err, language) => {
+        if (err) throw err;
+        return language;
+      });
   }
 
   async getId(code) {
-    return LanguageEntity
+    return this.languageModel
       .findOne({
         code,
       }, '_id')
       .exec((err, id) => {
         if (err) throw err;
         return id;
-    });
+      });
   }
 
   async update(language) {
-    return LanguageEntity.update({ _id: language.id }, { $set: language }, () => {});
+    return this.languageModel.update(
+      { _id: language.id },
+      { $set: language },
+      () => {},
+    );
   }
 
-  del(id) {
-    LanguageEntity.remove({
+  remove(id) {
+    this.languageModel.remove({
       id,
     });
   }

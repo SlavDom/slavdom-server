@@ -128,9 +128,9 @@ export default class TranslationRepository {
         });
       }
       // We update the value of array
-      lang.translations = translations;
+      language.translations = translations;
       // And then we update the entity's value in the database
-      await this.languageModel.update(lang);
+      await this.languageModel.update(language);
       // If everything is ok, we just return true
       return true;
     }

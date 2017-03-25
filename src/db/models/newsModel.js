@@ -1,9 +1,14 @@
-import NewsEntity from '../entities/newsEntity';
+import mongoose from '../db';
+import newsSchema from '../schemas/newsSchema';
 
 export default class NewsModel {
 
+  constructor() {
+    this.newsModel = mongoose.model('News', newsSchema);
+  }
+
   async create(news) {
-    const newsObject = new NewsEntity(news);
+    const newsObject = this.newsModel(news);
     return newsObject.save((err) => {
       if (err) throw err;
       return true;
@@ -11,39 +16,49 @@ export default class NewsModel {
   }
 
   async get(id) {
-    return NewsEntity.find({
-      id,
-    }).exec((err, news) => {
-      if (err) throw err;
-      return news;
-    });
+    return this.newsModel
+      .findOne({
+        id,
+      })
+      .exec((err, news) => {
+        if (err) throw err;
+        return news;
+      });
   }
 
-  async read(theme, language_id) {
-    return NewsEntity.find({
-      theme,
-      language_id,
-    }).exec((err, news) => {
-      if (err) throw err;
-      return news;
-    });
+  async read(theme, languageId) {
+    return this.newsModel
+      .findOne({
+        theme,
+        languageId,
+      })
+      .exec((err, news) => {
+        if (err) throw err;
+        return news;
+      });
   }
 
-  async readByLang(language_id) {
-    return NewsEntity.find({
-      language_id,
-    }).exec((err, news) => {
-      if (err) throw err;
-      return news;
-    });
+  async readByLang(languageId) {
+    return this.newsModel
+      .find({
+        languageId,
+      })
+      .exec((err, news) => {
+        if (err) throw err;
+        return news;
+      });
   }
 
   async update(news) {
-    return NewsEntity.update({ _id: news.id }, { $set: news }, () => {});
+    return this.newsModel.update(
+      { _id: news.id },
+      { $set: news },
+      () => {},
+    );
   }
 
-  del(id) {
-    NewsEntity.remove({
+  remove(id) {
+    this.newsModel.remove({
       id,
     });
   }
