@@ -7,10 +7,7 @@ import newsController from './controllers/newsController';
 const router = express.Router();
 
 function initUserRoutes() {
-  router.get('/api/users/list', userController.getUsers);
-  router.get('/api/users/get', userController.getUser);
   router.post('/api/users/save', userController.saveUser);
-  router.delete('/api/users/delete', userController.deleteUser);
 }
 
 function initTranslationRoutes() {

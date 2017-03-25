@@ -1,9 +1,6 @@
 import Validator from 'validator';
 import isEmpty from 'lodash/isEmpty';
 
-import helper from './controllerHelper';
-import userRepository from '../repositories/userRepository';
-
 function validateInput(data) {
   const errors = {};
 
@@ -35,25 +32,6 @@ function validateInput(data) {
   };
 }
 
-async function getUsers(req, res) {
-  try {
-    const result = await userRepository.getUsers();
-    return helper.sendData({ data: result }, res);
-  } catch (err) {
-    return helper.sendFailureMessage(err, res);
-  }
-}
-
-async function getUser(req, res) {
-  try {
-    const id = req.query.id;
-    const student = await userRepository.getById(id);
-    return helper.sendData({ data: student }, res);
-  } catch (err) {
-    return helper.sendFailureMessage(err, res);
-  }
-}
-
 async function saveUser(req, res) {
   const { errors, isValid } = validateInput(req.body);
   if (!isValid) {
@@ -62,17 +40,6 @@ async function saveUser(req, res) {
   res.status(200).json();
 }
 
-async function deleteUser(req, res) {
-  try {
-    return helper.sendData({}, res);
-  } catch (err) {
-    return helper.sendFailureMessage(err, res);
-  }
-}
-
 export default {
-  getUsers,
-  getUser,
   saveUser,
-  deleteUser,
 };
