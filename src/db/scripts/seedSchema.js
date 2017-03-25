@@ -1,26 +1,25 @@
 import LanguageModel from '../models/languageModel';
 import NewsModel from '../models/newsModel';
-
-const languageSeed = require('../seeders/language.json');
-const newsSeed = require('../seeders/news.json');
+import { languageSeeder, newsSeeder } from '../seeders';
 
 async function seedLanguages() {
   const languageModel = new LanguageModel();
-  for (let i = 0; i < languageSeed.length; i += 1) {
-    await languageModel.create(languageSeed[i]);
+  const promises = [];
+  for (let i = 0; i < languageSeeder.length; i += 1) {
+    promises.push(languageModel.create(languageSeeder[i]));
   }
+  await Promise.all(promises);
 }
 
 async function seedData() {
   await seedLanguages();
   const languageModel = new LanguageModel();
   const english = await languageModel.getId('en');
-  newsSeed.forEach((a) => {
-    const news = new NewsModel();
-    a.language_id = english;
-    news.create(a);
+  newsSeeder.forEach((news) => {
+    const newsModel = new NewsModel();
+    news.language_id = english;
+    newsModel.create(news);
   });
-  console.log('Database is seeded with initial data.');
 }
 
-seedData().then();
+export default seedData;

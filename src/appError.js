@@ -13,14 +13,14 @@ export default class AppError {
 
     Error.captureStackTrace(this, this.constructor);
 
-
         // signature type, code, options
     if (_.isString(args[0]) && _.isString(args[1])) {
       this.type = args[0];
       this.code = args[1];
       _.merge(this, args[2]);
     }
-        // signature message, options
+
+    // signature message, options
     else if (_.isString(args[0])) {
       this.message = args[0];
       _.merge(this, args[1]);

@@ -2,9 +2,7 @@ import express from 'express';
 import path from 'path';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import compression from 'compression';
-import cors from 'cors';
-import _ from 'lodash';
+import isError from 'lodash/isError';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -15,6 +13,7 @@ import config from './config';
 import routes from './routes/routes';
 import logger from './logger';
 import auth from './auth/authInit';
+import dropAndSeedSchema from '../src/db/scripts/dropSchema';
 
 const app = express();
 
@@ -30,19 +29,14 @@ function initWebpack() {
 
 /** Synchronizing database */
 function initDB() {
-  require('./db/index');
+  dropAndSeedSchema();
 }
 
 /** Initialising of auth controllers */
 function initAuth() {
-  const flash = require('connect-flash');
-  app.use(flash());
-
   auth(passport);
-
   app.use(passport.initialize());
   app.use(passport.session()); // persistent login sessions
-
   return passport;
 }
 
@@ -51,9 +45,6 @@ function initExpress() {
   app.use(morgan('dev')); // log requests
   app.use(bodyParser.json()); // get information from html forms
   app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(compression());
-  app.use(cors());
-
   initDB();
   initAuth();
 }
@@ -63,7 +54,7 @@ function initErrorHandling(app) {
   // log unhandled errors
   app.use((err, req, res) => {
     logger.error(err);
-    const message = _.isError(err) ? err.message : err;
+    const message = isError(err) ? err.message : err;
     res.status(500).send({ error: message });
   });
 

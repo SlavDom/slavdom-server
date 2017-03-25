@@ -1,7 +1,7 @@
 import server from './server';
 
-process.on('uncaughtException', function (err) {
-  let stack = err.stack;
+process.on('uncaughtException', (err) => {
+  const stack = err.stack;
   console.log(`Uncaught exception. ${stack}`);
 });
 
