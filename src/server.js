@@ -35,6 +35,7 @@ function initExpress() {
   app.use(morgan('dev')); // log requests
   app.use(bodyParser.json()); // get information from html forms
   app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(express.static(path.join(__dirname, '../../client/public'))); // serve static files from public folder
   app.use('/', router);
   initDB();
 }
@@ -57,7 +58,7 @@ function start() {
   initWebpack();
   initExpress();
 
-  app.get('/*', (req, res) => {
+  app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../../client/public/index.html'));
   });
 
