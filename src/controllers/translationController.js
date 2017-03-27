@@ -6,11 +6,6 @@ import TranslationRepository from '../repositories/translationRepository';
  *  @param res - The response **/
 async function getTranslations(req, res) {
   try {
-        // let search = req.query.search;
-        // let sortOrder = req.query.sortOrder;
-        // let pageNumber = req.query.pageNumber;
-        // let pageSize = req.query.pageSize;
-        // let translationRepository = new TranslationRepository();
     const lang = req.query.lang;
     const translationRepository = new TranslationRepository();
     const result = await translationRepository.getTranslations(lang);
@@ -44,7 +39,7 @@ async function getTranslation(req, res) {
     let student;
 
 
-    if (req.query.id != undefined) {
+    if (req.query.id !== undefined) {
       id = req.query.id;
     } else {
       code = req.query.code;
