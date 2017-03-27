@@ -10,4 +10,8 @@ export default class UserRepository {
     await this.userModel.create(user);
   }
 
+  checkUniqueness(username, email) {
+    return this.userModel.checkUniqueness(username, email);
+  }
+
 }

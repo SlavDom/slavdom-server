@@ -15,4 +15,18 @@ export default class UserModel {
     });
   }
 
+  async checkUniqueness(username, email) {
+    return this.userModel
+      .findOne({
+        $or: [
+          { username },
+          { email },
+        ],
+      })
+      .exec((err, user) => {
+        if (err) throw err;
+        return user;
+      });
+  }
+
 }

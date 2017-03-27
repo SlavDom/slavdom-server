@@ -58,12 +58,6 @@ export default class TranslationRepository {
     return res;
   }
 
-    // /** Getting a translation by its id
-    //  * @returns one translation */
-    // getById(id: number): Translation {
-    //     return translationModel.findById(id);
-    // }
-
     /** Getting translations with common code
      * @returns the list of translations */
   async getByLangAndCode(lang, code) {
@@ -112,7 +106,7 @@ export default class TranslationRepository {
         code: translation.code,
         result: translation.result,
       };
-      // We check whether there is already a translation with the same code
+      // We checkUniqueness whether there is already a translation with the same code
       const translationToCheck = this.getByLangAndCode(translation.language, translation.code);
       // If we create a new one
       if (translationToCheck === null) {
