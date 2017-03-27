@@ -3,22 +3,37 @@ import mongoose from '../db';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  name: {
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  passwordDigest: {
     type: String,
     required: true,
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  phone: String,
+  name: String,
   surname: String,
   patronymic: String,
-  email: String,
-  phone: String,
-  username: String,
   nation: String,
   nativeLang: String,
   city: String,
+  timezone: {
+    type: String,
+    required: true,
+  },
   nonCussing: Boolean,
-  registeredAt: Schema.Types.Date,
+  registeredAt: {
+    type: Date,
+    default: Date.now(),
+  },
   loggedAt: Schema.Types.Date,
 });
 
-const UserEntity = mongoose.model('User', userSchema);
-export default UserEntity;
+export default userSchema;
