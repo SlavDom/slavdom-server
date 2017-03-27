@@ -7,6 +7,7 @@ import newsController from './controllers/newsController';
 const router = express.Router();
 
 function initUserRoutes() {
+  router.get('/api/users/:identifier', userController.ajaxCheck);
   router.post('/api/users/save', userController.saveUser);
 }
 

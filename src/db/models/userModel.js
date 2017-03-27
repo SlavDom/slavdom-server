@@ -22,7 +22,7 @@ export default class UserModel {
           { username },
           { email },
         ],
-      })
+      }, 'username email')
       .exec((err, user) => {
         if (err) throw err;
         return user;

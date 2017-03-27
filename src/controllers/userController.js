@@ -10,10 +10,10 @@ function validateInput(data, otherValidations) {
   return userRepository.checkUniqueness(data.username, data.email).then((user) => {
     if (user) {
       if (user.username === data.username) {
-        errors.username = 'Sorry, this username has been taken';
+        errors.username = 'There is user with such username';
       }
       if (user.email === data.email) {
-        errors.email = 'Email is already registered';
+        errors.email = 'There is user with such email';
       }
     }
     return {
@@ -39,6 +39,14 @@ async function saveUser(req, res) {
   });
 }
 
+function ajaxCheck(req, res) {
+  const userRepository = new UserRepository();
+  return userRepository.checkUniqueness(req.params.identifier, req.params.identifier).then((user) => {
+    res.json({ user });
+  });
+}
+
 export default {
   saveUser,
+  ajaxCheck,
 };
