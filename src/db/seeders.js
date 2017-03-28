@@ -142,6 +142,7 @@ export const newsSeeder = [
     title: 'Hello, world',
     shortText: 'This is a hello world news.',
     fullText: 'This is a full version of a news.',
+    languageId: 'en',
     commentaries: [],
   },
   {
@@ -149,6 +150,7 @@ export const newsSeeder = [
     title: 'Привѣт, міре',
     shortText: 'То је новина Привѣт, міре.',
     fullText: 'То је пълна вѣрсија ової стрåницы.',
+    languageId: 'nsl',
     commentaries: [],
   },
 ];
