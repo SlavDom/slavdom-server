@@ -58,6 +58,33 @@ export default class TranslationRepository {
     return res;
   }
 
+
+
+  async getTranslationsByPrefix(lang, prefix) {
+    const res = {};
+    // We read the requested language model
+    let language = await this.languageModel.read(lang);
+    if (language !== null) {
+      // We search all values from the list
+      language.translations.forEach((elem) => {
+        if (elem.prefix === prefix) {
+          res[elem.code] = elem.result;
+        }
+      });
+    }
+    // We read the default language
+    language = await this.languageModel.read('en');
+    // We check whether all values have been added to array
+    language.translations.forEach((elem) => {
+      if (elem.prefix === prefix) {
+        if (!res[elem.code]) {
+          res[elem.code] = elem.result;
+        }
+      }
+    });
+    return res;
+  }
+
     /** Getting translations with common code
      * @returns the list of translations */
   async getByLangAndCode(lang, code) {

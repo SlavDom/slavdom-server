@@ -14,6 +14,7 @@ function initUserRoutes() {
 function initTranslationRoutes() {
   router.get('/api/translations/list', translationController.getTranslations);
   router.get('/api/translations/package', translationController.getTranslationsFromList);
+  router.get('/api/translations/page', translationController.getTranslationsByPrefix);
   router.get('/api/translations/get', translationController.getTranslation);
   router.post('/api/translations/save', translationController.saveTranslation);
 }

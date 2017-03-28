@@ -54,6 +54,22 @@ async function getTranslation(req, res) {
   }
 }
 
+/** Controller function of getting list of translations by prefix
+ *  @param req - The request
+ *  @param res - The response **/
+async function getTranslationsByPrefix(req, res) {
+  try {
+    const lang = req.query.lang;
+    const prefix = req.query.prefix;
+    let result = null;
+    const translationRepository = new TranslationRepository();
+    result = await translationRepository.getTranslationsByPrefix(lang, prefix);
+    return helper.sendData({ data: result }, res);
+  } catch (err) {
+    return helper.sendFailureMessage(err, res);
+  }
+}
+
 /** Controller function for creating a new translation or to save an existing one
  *  @param req - The request
  *  @param res - The response **/
@@ -92,6 +108,7 @@ export default {
   getTranslations,
   getTranslationsFromList,
   getTranslation,
+  getTranslationsByPrefix,
   saveTranslation,
   deleteTranslation,
 };
