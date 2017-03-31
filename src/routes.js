@@ -20,7 +20,7 @@ function initTranslationRoutes() {
 }
 
 function initNewsRoutes() {
-  router.get('/api/news/list', newsController.getNewsList);
+  router.get('/api/news/list', newsController.getNewsPage);
   router.get('/api/news/get', newsController.getNews);
   router.post('api/news/save', newsController.saveNews);
 }
