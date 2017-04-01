@@ -1,5 +1,6 @@
 import mongoose from '../db';
 import newsSchema from '../schemas/newsSchema';
+import * as logger from '../../log';
 
 export default class NewsModel {
 
@@ -11,6 +12,7 @@ export default class NewsModel {
     const newsObject = this.newsModel(news);
     return newsObject.save((err) => {
       if (err) throw err;
+      logger.logDatabase(`News ${news.title} has been created.`);
       return true;
     });
   }

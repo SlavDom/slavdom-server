@@ -1,5 +1,6 @@
 import mongoose from '../db';
 import userSchema from '../schemas/userSchema';
+import * as logger from '../../log';
 
 export default class UserModel {
 
@@ -11,6 +12,7 @@ export default class UserModel {
     const userObject = this.userModel(user);
     return userObject.save((err) => {
       if (err) throw err;
+      logger.logDatabase(`User ${user.name} has been created.`);
       return true;
     });
   }

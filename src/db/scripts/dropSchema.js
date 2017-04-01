@@ -1,14 +1,14 @@
 import db from '../db';
 import seedData from './seedSchema';
+import * as logger from '../../log';
 
 export default function dropAndSeedSchema() {
   db.connection.dropDatabase((err) => {
     if (err) throw err;
-    console.log('Database was dropped.');
+    logger.logInfo('Database was dropped');
   }).then(() => {
-    console.log('Database is created.');
+    logger.logInfo('Database is created.');
     seedData().then(() => {
-      console.log('Database is seeded with initial data.');
     });
   });
 }

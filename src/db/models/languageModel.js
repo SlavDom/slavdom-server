@@ -1,5 +1,6 @@
 import mongoose from '../db';
 import languageSchema from '../schemas/languageSchema';
+import * as logger from '../../log';
 
 export default class LanguageModel {
 
@@ -11,6 +12,7 @@ export default class LanguageModel {
     const languageObject = this.languageModel(language);
     return languageObject.save((err) => {
       if (err) throw err;
+      logger.logDatabase(`Language ${language.code} has been created`);
       return true;
     });
   }
