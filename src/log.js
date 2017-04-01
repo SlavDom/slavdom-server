@@ -1,7 +1,11 @@
 import intel from 'intel';
 import * as _ from 'lodash';
+import * as fs from 'fs';
 
 function init() {
+  process.stdout.write('\x1Bc');
+  fs.writeFile('server/data/logs/db.log', '');
+  fs.writeFile('server/data/logs/error.log', '');
   intel.config({
     formatters: {
       simple: {
