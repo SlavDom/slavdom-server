@@ -59,7 +59,6 @@ export default class TranslationRepository {
   }
 
 
-
   async getTranslationsByPrefix(lang, prefix) {
     const res = {};
     // We read the requested language model

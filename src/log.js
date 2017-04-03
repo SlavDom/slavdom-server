@@ -1,5 +1,5 @@
 import intel from 'intel';
-import * as _ from 'lodash';
+import isError from 'lodash/isError';
 import * as fs from 'fs';
 
 function init() {
@@ -15,7 +15,7 @@ function init() {
       details: {
         format: '[%(date)s] %(name)s.%(levelname)s: %(message)s',
         strip: true,
-      }
+      },
     },
     handlers: {
       terminal: {
@@ -59,7 +59,7 @@ function init() {
 init();
 
 function logError(err) {
-  if (_.isError(err)) {
+  if (isError(err)) {
     const logger = intel.getLogger('root.err');
     logger.error(err);
   }
