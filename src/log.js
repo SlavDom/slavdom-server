@@ -1,6 +1,6 @@
 import intel from 'intel';
 import isError from 'lodash/isError';
-import * as fs from 'fs';
+import fs from 'fs';
 
 function init() {
   process.stdout.write('\x1Bc');

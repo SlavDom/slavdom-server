@@ -17,7 +17,7 @@ export default class LanguageModel {
     });
   }
 
-  async read(code) {
+  async findByCode(code) {
     return this.languageModel
       .findOne({
         code,

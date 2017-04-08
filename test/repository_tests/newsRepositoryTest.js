@@ -1,28 +1,40 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import * as sinon from 'sinon';
+import sinon from 'sinon';
 
+import LanguageModel from '../../src/db/models/languageModel';
+import NewsModel from '../../src/db/models/newsModel';
 import NewsRepository from '../../src/repositories/newsRepository';
 
-describe('newsRepository', () => {
+describe('NewsRepository', () => {
   const newsRepository = new NewsRepository();
 
   describe('#getNews()', () => {
-    const callback = sinon.stub(newsRepository, 'getNews');
+    const englishLanguageCode = 'englishLanguageCode';
+    const englishLanguageId = 'englishLanguageId';
+    const randomNewsTheme = 'randomNewsTheme';
+    const notExistingLanguageCode = 'notExistingLanguageCode';
+
+    const testNews = {
+      theme: 'randomNewsTheme',
+      languageId: 'englishLanguageId',
+    };
+
+    const stubLanguageModel = sinon.createStubInstance(LanguageModel);
+    const stubNewsModel = sinon.createStubInstance(NewsModel);
 
     it('gets the news by theme and language', () => {
-      const news = {
-        fullText: '',
-        theme: 'hello-world',
-      };
-      callback.withArgs('hello-world', 'en').returns(news);
-      expect(callback('hello-world', 'en')).to.equal(news);
+      stubLanguageModel.getId.returns(englishLanguageId);
+      stubNewsModel.findByThemeAndLanguageId.returns(testNews);
+      newsRepository.getNews(randomNewsTheme, englishLanguageCode).then((data) => {
+        expect(data).to.equal(testNews);
+      });
     });
 
     it('returns empty list if there is no such a language', () => {
-      callback.withArgs('hello-world', 'asdasd').returns([]);
-      expect(callback('hello-world', 'asdasd')).to.be.empty;
+      stubLanguageModel.getId.returns(null);
+      newsRepository.getNews(randomNewsTheme, notExistingLanguageCode).then((data) => {
+        expect(data).to.equal({});
+      });
     });
   });
 

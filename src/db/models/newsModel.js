@@ -28,7 +28,7 @@ export default class NewsModel {
       });
   }
 
-  async read(theme, languageId) {
+  async findByThemeAndLanguageId(theme, languageId) {
     return this.newsModel
       .findOne({
         theme,
@@ -40,7 +40,7 @@ export default class NewsModel {
       });
   }
 
-  async readByLang(languageId) {
+  async findByLanguageId(languageId) {
     return this.newsModel
       .find({
         languageId,

@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 

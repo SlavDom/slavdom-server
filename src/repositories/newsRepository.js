@@ -2,7 +2,7 @@ import NewsModel from '../db/models/newsModel';
 import LanguageModel from '../db/models/languageModel';
 import { newsComparator } from '../utils/comparators';
 
-export default class newsRepository {
+export default class NewsRepository {
 
   constructor() {
     this.newsModel = new NewsModel();
@@ -15,11 +15,11 @@ export default class newsRepository {
     // If there exists such a language. we get its id
     if (langId !== null) {
       // We get the amount of news that are of the requested theme and language
-      const news = await this.newsModel.read(theme, langId);
+      const news = await this.newsModel.findByThemeAndLanguageId(theme, langId);
       return news;
     }
     // If there is no such a language
-    return [];
+    return {};
   }
 
   async getNewsPage(language, page, amount) {
@@ -28,7 +28,7 @@ export default class newsRepository {
     // If there exists such a language. we get its id
     if (langId !== null) {
       // We get the amount of news that are of the requested language
-      const newsList = await this.newsModel.readByLang(langId);
+      const newsList = await this.newsModel.findByLanguageId(langId);
       newsList.sort(newsComparator);
       // We get the amount of all news in the store
       const amountAll = newsList.length;
@@ -42,11 +42,6 @@ export default class newsRepository {
         newsListToSlice.forEach((a) => {
           if (a !== null) {
             result.push(a);
-          } else {
-            return {
-              data: result,
-              amount: amountAll,
-            };
           }
         });
         return {
@@ -61,11 +56,6 @@ export default class newsRepository {
       newsList.forEach((a) => {
         if (a !== null) {
           result.push(a);
-        } else {
-          return {
-            data: result,
-            amount: amountAll,
-          };
         }
       });
       return {
