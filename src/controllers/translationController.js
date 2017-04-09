@@ -1,13 +1,12 @@
 import helper from './controllerHelper';
-import TranslationRepository from '../repositories/translationRepository';
+import * as translationRepository from '../repositories/translationRepository';
 
-/** Controller function of receiving a list of translations
- *  @param req - The request
- *  @param res - The response **/
+/** @param {object} req - The request
+ *  @param {object} res - The response
+ *  @returns {json} Controller function of receiving a list of translations **/
 async function getTranslations(req, res) {
   try {
     const lang = req.query.lang;
-    const translationRepository = new TranslationRepository();
     const result = await translationRepository.getTranslations(lang);
     return helper.sendData({ data: result }, res);
   } catch (err) {
@@ -15,12 +14,14 @@ async function getTranslations(req, res) {
   }
 }
 
+/** @param {object} req - The request
+ *  @param {object} res - The response
+ *  @returns {json} a list of translations **/
 async function getTranslationsFromList(req, res) {
   try {
     const lang = req.query.lang;
     const codeList = req.query.code;
     const codes = JSON.parse(codeList);
-    const translationRepository = new TranslationRepository();
     const result = await translationRepository.getTranslationsFromList(lang, codes);
     return helper.sendData({ data: result }, res);
   } catch (err) {
@@ -28,9 +29,9 @@ async function getTranslationsFromList(req, res) {
   }
 }
 
-/** Controller function of getting one translation
- *  @param req - The request
- *  @param res - The response **/
+/** @param {object} req - The request
+ *  @param {object} res - The response
+ *  @returns {json} one translation **/
 async function getTranslation(req, res) {
   try {
     let id;
@@ -44,7 +45,6 @@ async function getTranslation(req, res) {
     } else {
       code = req.query.code;
       lang = req.query.lang;
-      const translationRepository = new TranslationRepository();
       student = await translationRepository.getByLangAndCode(lang, code);
     }
 
@@ -54,15 +54,14 @@ async function getTranslation(req, res) {
   }
 }
 
-/** Controller function of getting list of translations by prefix
- *  @param req - The request
- *  @param res - The response **/
+/** @param {object} req - The request
+ *  @param {object} res - The response
+ *  @returns {json}  a list of translations **/
 async function getTranslationsByPrefix(req, res) {
   try {
     const lang = req.query.lang;
     const prefix = req.query.prefix;
     let result = null;
-    const translationRepository = new TranslationRepository();
     result = await translationRepository.getTranslationsByPrefix(lang, prefix);
     return helper.sendData({ data: result }, res);
   } catch (err) {
@@ -70,9 +69,10 @@ async function getTranslationsByPrefix(req, res) {
   }
 }
 
-/** Controller function for creating a new translation or to save an existing one
- *  @param req - The request
- *  @param res - The response **/
+/** @param {object} req - The request
+ *  @param {object} res - The response
+ *  @returns {json}
+ *  Controller saves received translation **/
 async function saveTranslation(req, res) {
   try {
     const translation = {
@@ -80,7 +80,6 @@ async function saveTranslation(req, res) {
       language: req.body.language,
       result: req.body.result,
     };
-    const translationRepository = new TranslationRepository();
     const result = await translationRepository.saveTranslation(translation);
     return helper.sendData({ data: result }, res);
   } catch (err) {
