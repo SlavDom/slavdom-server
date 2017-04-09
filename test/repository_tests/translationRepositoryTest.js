@@ -1,136 +1,220 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import TranslationRepository from '../../src/repositories/translationRepository';
+import { getTranslationsFromList, getByLangAndCode, getTranslations, getTranslationsByPrefix } from '../../src/repositories/translationRepository';
+import * as languageModel from '../../src/db/models/languageModel';
 
-describe('translationRepository', () => {
-  const translationRepository = new TranslationRepository();
+describe('TranslationRepository', () => {
 
   describe('#getTranslations()', () => {
-    const callback = sinon.stub(translationRepository, 'getTranslations');
+    const englishLanguageCode = 'en';
+    const notExistingLanguageCode = 'notExistingLanguageCode';
+    const existingLanguageCode = 'existingLanguageCode';
+
+    const translationList = [{
+      code: 'some-code',
+      prefix: 'reg',
+      result: 'Some code',
+    },
+    {
+      code: 'some-next-code',
+      prefix: 'reg',
+      result: 'Some next code',
+    }];
+    const englishLanguage = {
+      code: englishLanguageCode,
+      translations: translationList,
+    };
+    const existingLanguage = {
+      code: existingLanguageCode,
+      translations: translationList,
+    };
 
     it('gets the list of translations by language', () => {
-      const translationList = [{
-        code: 'some-code',
-        prefix: 'reg',
-        result: 'Some code',
-      },
-      {
-        code: 'some-next-code',
-        prefix: 'reg',
-        result: 'Some next code',
-      }];
-      callback.withArgs('en').returns(translationList);
-      expect(callback('en')).to.equal(translationList);
+      languageModel.findByCode = sinon.stub()
+        .withArgs(existingLanguageCode)
+        .returns(existingLanguage);
+      getTranslations(existingLanguageCode).then((data) => {
+        expect(data).to.equal(translationList);
+      });
     });
 
     it('returns the list of english translations if the language does not exist', () => {
-      const translationList = [{
-        code: 'some-code',
-        prefix: 'reg',
-        result: 'Some code',
-      },
-      {
-        code: 'some-next-code',
-        prefix: 'reg',
-        result: 'Some next code',
-      }];
-      callback.withArgs('asdasd').returns(translationList);
-      expect(callback('asdasd')).to.equal(translationList);
+      languageModel.findByCode = sinon.stub()
+        .withArgs(notExistingLanguageCode)
+        .returns(null)
+        .withArgs(englishLanguageCode)
+        .returns(englishLanguage);
+      getTranslations(notExistingLanguageCode).then((data) => {
+        expect(data).to.equal(translationList);
+      });
     });
   });
 
   describe('#getTranslationsFromList()', () => {
-    const callback = sinon.stub(translationRepository, 'getTranslationsFromList');
+    const englishLanguageCode = 'en';
+    const notExistingLanguageCode = 'notExistingLanguageCode';
+    const existingLanguageCode = 'existingLanguageCode';
+
+    const codesList = [
+      'some-code',
+      'some-next-code',
+    ];
+
+    const translationList = [{
+      code: 'some-code',
+      prefix: 'reg',
+      result: 'Some code',
+    },
+    {
+      code: 'some-next-code',
+      prefix: 'reg',
+      result: 'Some next code',
+    }];
+
+    const resultList = [
+      'Some code',
+      'Some next code',
+    ];
+
+    const englishLanguage = {
+      code: englishLanguageCode,
+      translations: translationList,
+    };
+    const existingLanguage = {
+      code: existingLanguageCode,
+      translations: translationList,
+    };
 
     it('gets the translation list by language, and list of codes', () => {
-      const translationList = [{
-        code: 'some-code',
-        prefix: 'reg',
-        result: 'Some code',
-      },
-      {
-        code: 'some-next-code',
-        prefix: 'reg',
-        result: 'Some next code',
-      }];
-      callback.withArgs('en', ['some-code', 'some-next-code']).returns(translationList);
-      expect(callback('en', ['some-code', 'some-next-code'])).to.equal(translationList);
+      languageModel.findByCode = sinon.stub()
+        .withArgs(existingLanguageCode)
+        .returns(existingLanguage);
+      getTranslationsFromList(existingLanguageCode, codesList).then((data) => {
+        data.forEach((t) => {
+          expect(resultList).to.include(t);
+        });
+      });
     });
 
     it('returns the list of translations of default language if there is not proper translations on the requested one',
       () => {
-        const translationList = [{
-          code: 'some-code',
-          prefix: 'reg',
-          result: 'Some code',
-        },
-        {
-          code: 'some-next-code',
-          prefix: 'reg',
-          result: 'Some next code',
-        }];
-        callback.withArgs('asdasd', ['some-code', 'some-next-code']).returns(translationList);
-        expect(callback('asdasd', ['some-code', 'some-next-code'])).to.equal(translationList);
+        languageModel.findByCode = sinon.stub()
+          .withArgs(notExistingLanguageCode)
+          .returns(null)
+          .withArgs(englishLanguageCode)
+          .returns(englishLanguage);
+        getTranslationsFromList(notExistingLanguageCode, codesList).then((data) => {
+          data.forEach((t) => {
+            expect(resultList).to.include(t);
+          });
+        });
       });
   });
 
   describe('#getTranslationsByPrefix()', () => {
-    const callback = sinon.stub(translationRepository, 'getTranslationsByPrefix');
+    const englishLanguageCode = 'en';
+    const notExistingLanguageCode = 'notExistingLanguageCode';
+    const existingLanguageCode = 'existingLanguageCode';
+    const prefix = 'reg';
+
+    const translationList = [{
+      code: 'some-code',
+      prefix: 'reg',
+      result: 'Some code',
+    },
+    {
+      code: 'some-next-code',
+      prefix: 'reg',
+      result: 'Some next code',
+    }];
+
+    const resultList = [
+      'Some code',
+      'Some next code',
+    ];
+
+    const englishLanguage = {
+      code: englishLanguageCode,
+      translations: translationList,
+    };
+    const existingLanguage = {
+      code: existingLanguageCode,
+      translations: translationList,
+    };
 
     it('gets the list of translations by the requested prefix', () => {
-      const translationList = [{
-        code: 'some-code',
-        prefix: 'reg',
-        result: 'Some code',
-      },
+      languageModel.findByCode = sinon.stub()
+        .withArgs(existingLanguageCode)
+        .returns(existingLanguage);
+      getTranslationsByPrefix(existingLanguageCode, prefix).then((data) => {
+        for (key in data.keys) {
+          expect(resultList).to.include(data[key]);
+        }
+      });
+    });
+
+    it('gets the list of translations with the default translations if there is no example for requested prefix',
+      () => {
+        languageModel.findByCode = sinon.stub()
+          .withArgs(notExistingLanguageCode)
+          .returns(null)
+          .withArgs(englishLanguageCode)
+          .returns(englishLanguage);
+        getTranslationsByPrefix(notExistingLanguageCode, prefix).then((data) => {
+          for (key in data.keys) {
+            expect(resultList).to.include(data[key]);
+          }
+        });
+      });
+  });
+
+  describe('#getByLangAndCode()', () => {
+    const englishLanguageCode = 'en';
+    const notExistingLanguageCode = 'notExistingLanguageCode';
+    const existingLanguageCode = 'existingLanguageCode';
+
+    const translation = {
+      code: 'some-code',
+      prefix: 'reg',
+      result: 'Some code',
+    };
+
+    const translationList = [
+      translation,
       {
         code: 'some-next-code',
         prefix: 'reg',
         result: 'Some next code',
       }];
-      callback.withArgs('en', 'reg').returns(translationList);
-      expect(callback('en', 'reg')).to.equal(translationList);
-    });
 
-    it('gets the list of translations with the default translations if there is no example for requested prefix',
-      () => {
-        const translationList = [{
-          code: 'some-code',
-          prefix: 'reg',
-          result: 'Some code',
-        },
-        {
-          code: 'some-next-code',
-          prefix: 'reg',
-          result: 'Some next code',
-        }];
-        callback.withArgs('asd', 'reg').returns(translationList);
-        expect(callback('asd', 'reg')).to.equal(translationList);
-      });
-  });
-
-  describe('#getByLangAndCode()', () => {
-    const callback = sinon.stub(translationRepository, 'getByLangAndCode');
+    const englishLanguage = {
+      code: englishLanguageCode,
+      translations: translationList,
+    };
+    const existingLanguage = {
+      code: existingLanguageCode,
+      translations: translationList,
+    };
 
     it('gets the translation by its language and code values', () => {
-      const translation = {
-        code: 'some-code',
-        prefix: 'reg',
-        result: 'Some code',
-      };
-      callback.withArgs('en', 'some-code').returns(translation);
-      expect(callback('en', 'some-code')).to.equal(translation);
+      languageModel.findByCode = sinon.stub()
+        .withArgs(existingLanguageCode)
+        .returns(existingLanguage);
+      getByLangAndCode(existingLanguageCode, 'some-code').then((data) => {
+        expect(data).to.equal(translation);
+      });
     });
 
     it('returns the default translation if there is no suitable translation on the requested language and code', () => {
-      const translation = {
-        code: 'some-code',
-        prefix: 'reg',
-        result: 'Some code',
-      };
-      callback.withArgs('asd', 'some-code').returns(translation);
-      expect(callback('asd', 'some-code')).to.equal(translation);
+      languageModel.findByCode = sinon.stub()
+        .withArgs(notExistingLanguageCode)
+        .returns(null)
+        .withArgs(englishLanguageCode)
+        .returns(englishLanguage);
+      getByLangAndCode(notExistingLanguageCode, 'some-code').then((data) => {
+        expect(data).to.equal(translation);
+      });
     });
   });
 });
