@@ -2,10 +2,11 @@ import * as newsModel from '../db/models/newsModel';
 import * as languageModel from '../db/models/languageModel';
 import { newsComparator } from '../utils/comparators';
 
-/** @param {string} theme requested theme of the news
+/** 
+ * @param {string} theme requested theme of the news
  * @param {string} language requested language code
  * @returns {object} the news found by language and code
- * */
+ */
 async function getNews(theme, language) {
   // We get a language id from the database
   const langId = await languageModel.getId(language);
@@ -19,11 +20,12 @@ async function getNews(theme, language) {
   return {};
 }
 
-/** @param {string} language requested language code
+/** 
+ * @param {string} language requested language code
  * @param {number} page requested page
  * @param {number} amount requested page length
  * @returns {array} the news list
- * */
+ */
 async function getNewsPage(language, page, amount) {
   // We get a language id from the database
   const langId = await languageModel.getId(language);
