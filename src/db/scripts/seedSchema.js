@@ -17,7 +17,6 @@ async function seedData() {
     nsl: await languageModel.getId('nsl'),
     is: await languageModel.getId('is'),
   };
-  console.log('I`m here');
   newsSeeder.forEach((news) => {
     const languageId = languages[news.languageId];
     news.languageId = languageId;

@@ -144,7 +144,38 @@ export const newsSeeder = [
     fullText: 'This is a full version of a news.',
     languageId: 'en',
     createdAt: '1',
-    commentaries: [],
+    commentaries: [
+      {
+        text: 'First commentary',
+        rating: 2.0,
+        timestamp: '8',
+        publishedBy: null,
+      },
+      {
+        text: 'Second commentary',
+        rating: 2.0,
+        timestamp: '8',
+        publishedBy: null,
+      },
+      {
+        text: 'Third commentary',
+        rating: 2.0,
+        timestamp: '8',
+        publishedBy: null,
+      },
+      {
+        text: 'Fourth commentary',
+        rating: 2.0,
+        timestamp: '8',
+        publishedBy: null,
+      },
+      {
+        text: 'Fifth commentary',
+        rating: 2.0,
+        timestamp: '8',
+        publishedBy: null,
+      },
+    ],
   },
   {
     theme: 'hello-world',

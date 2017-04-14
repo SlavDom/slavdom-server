@@ -7,7 +7,6 @@ const commentarySchema = new Schema({
   rating: Number,
   timestamp: Schema.Types.Date,
   publishedBy: Schema.Types.ObjectId,
-  publishedOn: Schema.Types.ObjectId,
 });
 
 export default commentarySchema;
