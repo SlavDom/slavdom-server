@@ -1,6 +1,6 @@
 import mongoose from '../db';
 import newsSchema from '../schemas/newsSchema';
-import * as logger from '../../log';
+import * as logger from '../../logger';
 
 async function create(news) {
   const newsModel = mongoose.model('News', newsSchema);

@@ -10,7 +10,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../../webpack.config.dev';
 import config from './config';
 import router from './routes';
-import logger from './logger';
+import { logError, logInfo } from './logger';
 import dropAndSeedSchema from '../src/db/scripts/dropSchema';
 
 const app = express();
@@ -44,7 +44,7 @@ function initExpress() {
 function initErrorHandling(app) {
   // log unhandled errors
   app.use((err, req, res) => {
-    logger.error(err);
+    logError(err);
     const message = isError(err) ? err.message : err;
     res.status(500).send({ error: message });
   });
@@ -65,7 +65,7 @@ function start() {
   initErrorHandling(app);
 
   app.listen(config.web.port, () => {
-    console.log(`Server is listening on port ${config.web.port}!`);
+    logInfo(`Server is listening on port ${config.web.port}!`);
   });
 }
 

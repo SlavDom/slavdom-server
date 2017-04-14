@@ -1,6 +1,6 @@
 import db from '../db';
 import seedData from './seedSchema';
-import * as logger from '../../log';
+import * as logger from '../../logger';
 
 export default function dropAndSeedSchema() {
   db.connection.dropDatabase((err) => {

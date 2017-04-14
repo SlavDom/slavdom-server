@@ -1,91 +1,101 @@
-import * as _ from 'lodash';
-import * as moment from 'moment';
-import * as winston from 'winston';
-import pathHelper from './helpers/pathHelper';
-import config from './config';
-import AppError from './appError';
+import intel from 'intel';
+import isError from 'lodash/isError';
+import fs from 'fs';
 
-let errorLogger = null;
-let performanceLogger = null;
-let infoLogger = null;
-let performanceCache = {};
-
-function initLoggers() {
-  const getTransportFile = logFileName =>
-        new winston.transports.File({ filename: pathHelper.getDataRelative('logs', logFileName) });
-
-  performanceLogger = new (winston.Logger)({
-    transports: [
-      getTransportFile('performance.log'),
-    ],
+function init() {
+  process.stdout.write('\x1Bc');
+  fs.writeFile('server/data/logs/db.log', '');
+  fs.writeFile('server/data/logs/error.log', '');
+  intel.config({
+    formatters: {
+      simple: {
+        format: '[%(levelname)s] %(message)s',
+        colorize: true,
+      },
+      details: {
+        format: '[%(date)s] %(name)s.%(levelname)s: %(message)s',
+        strip: true,
+      },
+    },
+    handlers: {
+      terminal: {
+        class: intel.handlers.Console,
+        formatter: 'simple',
+        level: intel.VERBOSE,
+      },
+      logErrors: {
+        class: intel.handlers.File,
+        level: intel.ERROR,
+        file: 'server/data/logs/error.log',
+        formatter: 'details',
+      },
+      logDatabase: {
+        class: intel.handlers.File,
+        level: intel.DEBUG,
+        file: 'server/data/logs/db.log',
+        formatter: 'details',
+      },
+    },
+    loggers: {
+      root: {
+        handlers: ['terminal'],
+        level: intel.INFO,
+        handleExceptions: true,
+        exitOnError: false,
+        propagate: false,
+      },
+      'root.db': {
+        handlers: ['logDatabase'],
+        level: intel.DEBUG,
+      },
+      'root.err': {
+        handlers: ['logErrors'],
+        level: intel.ERROR,
+      },
+    },
   });
+}
 
-  errorLogger = new (winston.Logger)({
-    transports: [
-      getTransportFile('errors.log'),
-    ],
-  });
+init();
 
-  if (config.app.logErrors) {
-    winston.handleExceptions(
-            (new (winston.transports.Console)()),
-            getTransportFile('errors.log'),
-        );
+function getErrorMessage(error) {
+  if (!error) return '';
+
+  if (error.isAppError) {
+    if (!error.message) {
+      let message = `error.${error.type}.${error.code}.${error.data}`;
+      if (!message) message = `Cannot find error message for type:${error.type} code:${error.code}`;
+      error.message = message;
+    }
+    if (error.uiShow) return error.message;
   }
 
-  infoLogger = new (winston.Logger)({
-    transports: [
-      new (winston.transports.Console)(),
-      getTransportFile('info.log'),
-    ],
-  });
-}
-
-initLoggers();
-
-function logTimeStart(timerName) {
-  if (!config.app.isDevLocal) return;
-
-  if (performanceCache[timerName]) throw new AppError(`Timer was already created. Timer name: ${timerName}`);
-
-  performanceCache[timerName] = new Date().getTime();
-}
-
-function logTimeEnd(timerName) {
-  if (!config.app.isDevLocal) return;
-
-  if (!performanceCache[timerName]) throw new AppError(`Timer was not previously created. Timer name: ${timerName}`);
-
-  const endTime = new Date().getTime();
-  const startTime = performanceCache[timerName];
-
-  const ms = endTime - startTime;
-  performanceLogger.info(`Timer ${timerName}: ${moment.utc(ms).format('HH:mm:ss.SSS')}`);
-
-  performanceCache = _.omit(performanceCache, timerName);
+  return error.message || error;
 }
 
 function logError(err) {
-  if (_.isError(err)) {
-    errorLogger.error('Error', { errorMessage: err.message, stack: err.stack });
-    return;
+  const message = getErrorMessage(err);
+  if (isError(err)) {
+    const logger = intel.getLogger('root.err');
+    logger.error(message);
   }
-
-  errorLogger.error(err);
+  return message;
 }
 
-function logInfo(message) {
-  infoLogger.info(message);
+function logInfo(msg) {
+  const logger = intel.getLogger('root');
+  logger.info(msg);
+  return msg;
 }
 
-function logMessage(message, metadata) {
-  infoLogger.info(message, metadata);
+function logDatabase(msg) {
+  const logger = intel.getLogger('root.db');
+  logger.debug(msg);
+  return msg;
 }
 
-export default {
-  error: logError,
-  info: logInfo,
-  timeStart: logTimeStart,
-  timeEnd: logTimeEnd,
-  logMessage,
+export {
+  logError,
+  logInfo,
+  logDatabase,
 };

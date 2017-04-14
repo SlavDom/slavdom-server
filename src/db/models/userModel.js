@@ -1,6 +1,6 @@
 import mongoose from '../db';
 import userSchema from '../schemas/userSchema';
-import * as logger from '../../log';
+import * as logger from '../../logger';
 
 export default class UserModel {
 

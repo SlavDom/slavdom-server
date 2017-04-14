@@ -1,6 +1,6 @@
 import mongoose from '../db';
 import languageSchema from '../schemas/languageSchema';
-import * as logger from '../../log';
+import * as logger from '../../logger';
 
 async function create(language) {
   const languageModel = mongoose.model('Language', languageSchema);

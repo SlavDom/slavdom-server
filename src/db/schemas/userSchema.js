@@ -34,6 +34,7 @@ const userSchema = new Schema({
     default: Date.now(),
   },
   loggedAt: Schema.Types.Date,
+  role: Number,
 });
 
 export default userSchema;

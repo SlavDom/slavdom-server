@@ -1,9 +1,8 @@
-import errorHelper from '../helpers/errorHelper';
+import { logError } from '../logger';
 
 function sendFailureMessage(error, res) {
-  errorHelper.logError(error);
-  const errorMessage = errorHelper.getErrorMessage(error);
-  res.send({ status: 'failure', message: errorMessage });
+  const message = logError(error);
+  res.send({ status: 'failure', message });
 }
 
 function sendSuccessMessage(message, res) {
