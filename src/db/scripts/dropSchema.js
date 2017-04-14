@@ -9,6 +9,7 @@ export default function dropAndSeedSchema() {
   }).then(() => {
     logger.logInfo('Database is created.');
     seedData().then(() => {
+      logger.logInfo('Database is seeded.');
     });
   });
 }
