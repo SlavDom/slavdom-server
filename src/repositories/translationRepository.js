@@ -63,7 +63,7 @@ async function getTranslationsByPrefix(lang, prefix) {
   if (language !== null) {
     // We search all values from the list
     language.translations.forEach((elem) => {
-      if (elem.prefix === prefix) {
+      if (elem.prefix.includes(prefix)) {
         res[elem.code] = elem.result;
       }
     });
@@ -72,7 +72,7 @@ async function getTranslationsByPrefix(lang, prefix) {
   language = await languageModel.findByCode('en');
   // We check whether all values have been added to array
   language.translations.forEach((elem) => {
-    if (elem.prefix === prefix) {
+    if (elem.prefix.includes(prefix)) {
       if (!res[elem.code]) {
         res[elem.code] = elem.result;
       }
@@ -81,8 +81,11 @@ async function getTranslationsByPrefix(lang, prefix) {
   return res;
 }
 
-  /** Getting translations with common code
-   * @returns the list of translations */
+  /**
+   * Getting translations with common code
+   * @param {string} lang language
+   * @param {string} code code of the translation
+   * @returns {object} the list of translations */
 async function getByLangAndCode(lang, code) {
   let res = null;
   // We read the requested language model

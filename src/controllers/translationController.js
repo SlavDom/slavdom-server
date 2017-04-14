@@ -61,8 +61,7 @@ async function getTranslationsByPrefix(req, res) {
   try {
     const lang = req.query.lang;
     const prefix = req.query.prefix;
-    let result = null;
-    result = await translationRepository.getTranslationsByPrefix(lang, prefix);
+    const result = await translationRepository.getTranslationsByPrefix(lang, prefix);
     return helper.sendData({ data: result }, res);
   } catch (err) {
     return helper.sendFailureMessage(err, res);
