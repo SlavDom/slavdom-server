@@ -49,7 +49,7 @@ function initErrorHandling(app) {
     res.status(500).send({ error: message });
   });
 
-  process.on('uncaughtException', err => logger.error(err));
+  process.on('uncaughtException', err => logError(err));
 }
 
 /** Function that starts the server itself
