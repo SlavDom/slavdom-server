@@ -3,6 +3,7 @@ import express from 'express';
 import userController from './controllers/userController';
 import translationController from './controllers/translationController';
 import newsController from './controllers/newsController';
+import commonController from './controllers/commonController';
 
 const router = express.Router();
 
@@ -25,8 +26,13 @@ function initNewsRoutes() {
   router.post('api/news/save', newsController.saveNews);
 }
 
+function initCommonRoutes() {
+  router.post('/api/common/mail', commonController.mailSender);
+}
+
 initUserRoutes();
 initTranslationRoutes();
 initNewsRoutes();
+initCommonRoutes();
 
 export default router;
