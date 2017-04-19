@@ -50,17 +50,17 @@ export default languageSeeder = [
       },
       {
         code: 'read_more',
-        prefix: ['news'],
+        prefix: ['newslist'],
         result: 'Читати далѣй',
       },
       {
         code: 'next',
-        prefix: ['news'],
+        prefix: ['newslist'],
         result: 'Слѣдна',
       },
       {
         code: 'previous',
-        prefix: ['news'],
+        prefix: ['newslist'],
         result: 'Предна',
       },
       {
@@ -77,6 +77,31 @@ export default languageSeeder = [
         code: 'send',
         prefix: ['contact'],
         result: 'Послати',
+      },
+      {
+        code: 'faq',
+        prefix: ['common'],
+        result: 'Запыты и одказы',
+      },
+      {
+        code: 'about',
+        prefix: ['common'],
+        result: 'О пројектѣ',
+      },
+      {
+        code: 'commentary_pl',
+        prefix: ['news'],
+        result: 'Коментары',
+      },
+      {
+        code: 'category',
+        prefix: ['news'],
+        result: 'Катеґорија',
+      },
+      {
+        code: 'author',
+        prefix: ['news'],
+        result: 'Творец',
       },
     ],
   },
@@ -130,17 +155,17 @@ export default languageSeeder = [
       },
       {
         code: 'read_more',
-        prefix: ['news'],
+        prefix: ['newslist'],
         result: 'Read more',
       },
       {
         code: 'next',
-        prefix: ['news'],
+        prefix: ['newslist'],
         result: 'Next',
       },
       {
         code: 'previous',
-        prefix: ['news'],
+        prefix: ['newslist'],
         result: 'Previous',
       },
       {
@@ -157,6 +182,31 @@ export default languageSeeder = [
         code: 'send',
         prefix: ['contact'],
         result: 'Send',
+      },
+      {
+        code: 'faq',
+        prefix: ['common'],
+        result: 'FAQ',
+      },
+      {
+        code: 'about',
+        prefix: ['common'],
+        result: 'About',
+      },
+      {
+        code: 'commentary_pl',
+        prefix: ['news'],
+        result: 'Commentaries',
+      },
+      {
+        code: 'category',
+        prefix: ['news'],
+        result: 'Category',
+      },
+      {
+        code: 'author',
+        prefix: ['news'],
+        result: 'Author',
       },
     ],
   },
@@ -210,17 +260,17 @@ export default languageSeeder = [
       },
       {
         code: 'read_more',
-        prefix: ['news'],
+        prefix: ['newslist'],
         result: 'Read more',
       },
       {
         code: 'next',
-        prefix: ['news'],
+        prefix: ['newslist'],
         result: 'Next',
       },
       {
         code: 'previous',
-        prefix: ['news'],
+        prefix: ['newslist'],
         result: 'Previous',
       },
       {
@@ -237,6 +287,31 @@ export default languageSeeder = [
         code: 'send',
         prefix: ['contact'],
         result: 'Send',
+      },
+      {
+        code: 'faq',
+        prefix: ['common'],
+        result: 'FAQ',
+      },
+      {
+        code: 'about',
+        prefix: ['common'],
+        result: 'About',
+      },
+      {
+        code: 'commentary_pl',
+        prefix: ['news'],
+        result: 'Commentaries',
+      },
+      {
+        code: 'category',
+        prefix: ['news'],
+        result: 'Category',
+      },
+      {
+        code: 'author',
+        prefix: ['news'],
+        result: 'Author',
       },
     ],
   },
