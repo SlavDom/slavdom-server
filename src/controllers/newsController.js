@@ -3,9 +3,9 @@ import helper from './controllerHelper';
 
 /**
  * @param {object} req - the request
-* @param {object} res - the response
+ * @param {object} res - the response
  * @returns {json}
-* Get a single news by its theme and lang
+ * Get a single news by its theme and lang
  */
 async function getNews(req, res) {
   try {
@@ -19,10 +19,10 @@ async function getNews(req, res) {
 }
 
 /**
-* @param {object} req - the request
-* @param {object} res - the response
+ * @param {object} req - the request
+ * @param {object} res - the response
  * @returns {json}
-* Get the list page of news
+ * Get the list page of news
  */
 async function getNewsPage(req, res) {
   try {
@@ -57,8 +57,8 @@ async function saveNews(req, res) {
     const news = {
       theme: req.body.theme,
       title: req.body.title,
-      short_text: req.body.short_text,
-      full_text: req.body.full_text,
+      shortText: req.body.shortText,
+      fullText: req.body.fullText,
     };
     const result = await newsRepository.saveNews(news, lang);
     return helper.sendData({ data: result }, res);

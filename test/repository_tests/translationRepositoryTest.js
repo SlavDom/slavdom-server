@@ -1,11 +1,15 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import { getTranslationsFromList, getByLangAndCode, getTranslations, getTranslationsByPrefix } from '../../src/repositories/translationRepository';
+import {
+  getTranslationsFromList,
+  getByLangAndCode,
+  getTranslations,
+  getTranslationsByPrefix,
+} from '../../src/repositories/translationRepository';
 import * as languageModel from '../../src/db/models/languageModel';
 
 describe('TranslationRepository', () => {
-
   describe('#getTranslations()', () => {
     const englishLanguageCode = 'en';
     const notExistingLanguageCode = 'notExistingLanguageCode';

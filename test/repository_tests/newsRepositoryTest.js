@@ -25,7 +25,7 @@ describe('NewsRepository', () => {
       });
     });
 
-    it('returns empty list if there is no such a language', () => {
+    it('returns empty object if there is no such a language', () => {
       languageModel.getId = sinon.stub().returns(null);
       getNews(randomNewsTheme, notExistingLanguageCode).then((data) => {
         expect(data).to.be.empty;
@@ -40,7 +40,7 @@ describe('NewsRepository', () => {
     const existingPage = 1;
     const nonExistingPage = 3;
 
-    const newsList =  [
+    const newsList = [
       {
         fullText: '',
         theme: 'hello-world',
@@ -48,7 +48,8 @@ describe('NewsRepository', () => {
       {
         fulltext: '',
         theme: 'hello-england',
-      }];
+      },
+    ];
 
     it('gets the news list by language, page and page length', () => {
       languageModel.getId = sinon.stub().returns(englishLanguageId);
