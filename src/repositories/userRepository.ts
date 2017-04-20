@@ -1,18 +1,18 @@
-import UserModel from '../db/models/userModel';
+import UserModel from "../db/models/userModel";
 
 export default class UserRepository {
 
-  userModel: any;
+  private userModel: any;
 
   constructor() {
     this.userModel = new UserModel();
   }
 
-  async saveUser(user) {
+  public async saveUser(user) {
     await this.userModel.create(user);
   }
 
-  checkUniqueness(username, email) {
+  public checkUniqueness(username: string, email: string) {
     return this.userModel.checkUniqueness(username, email);
   }
 

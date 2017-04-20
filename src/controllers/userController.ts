@@ -1,6 +1,6 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from "bcrypt";
 
-import UserRepository from '../repositories/userRepository';
+import UserRepository from "../repositories/userRepository";
 
 async function saveUser(req, res) {
   const passwordDigest = bcrypt.hashSync(req.body.password, 10);

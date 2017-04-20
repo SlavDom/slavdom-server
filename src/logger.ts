@@ -1,11 +1,11 @@
 // import intel from 'intel';
-import * as _ from 'lodash';
-import * as fs from 'fs';
+import * as _ from "lodash";
+import * as fs from "fs";
 
 function init() {
-  process.stdout.write('\x1Bc');
-  fs.writeFile('server/data/logs/db.log', '');
-  fs.writeFile('server/data/logs/error.log', '');
+  process.stdout.write("\x1Bc");
+  fs.writeFile("server/data/logs/db.log", "");
+  fs.writeFile("server/data/logs/error.log", "");
   // intel.config({
   //   formatters: {
   //     simple: {
@@ -59,15 +59,21 @@ function init() {
 init();
 
 function getErrorMessage(error) {
-  if (!error) return '';
+  if (!error) {
+    return "";
+  }
 
   if (error.isAppError) {
     if (!error.message) {
       let message = `error.${error.type}.${error.code}.${error.data}`;
-      if (!message) message = `Cannot find error message for type:${error.type} code:${error.code}`;
+      if (!message) {
+        message = `Cannot find error message for type:${error.type} code:${error.code}`;
+      }
       error.message = message;
     }
-    if (error.uiShow) return error.message;
+    if (error.uiShow) {
+      return error.message;
+    }
   }
 
   return error.message || error;

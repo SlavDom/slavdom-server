@@ -1,6 +1,6 @@
-import * as mongoose from 'mongoose';
+import * as mongoose from "mongoose";
 
 export interface ILanguage extends mongoose.Document {
-    code: string,
-    translations: object
+    code: string;
+    translations: object;
 }

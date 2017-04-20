@@ -1,6 +1,6 @@
-import * as newsModel from '../db/models/newsModel';
-import * as languageModel from '../db/models/languageModel';
-import { newsComparator } from '../utils/comparators';
+import * as newsModel from "../db/models/newsModel";
+import * as languageModel from "../db/models/languageModel";
+import { newsComparator } from "../utils/comparators";
 
 /**
  * @param {string} theme requested theme of the news
@@ -43,7 +43,7 @@ async function getNewsPage(language, page, amount) {
       // Shorten the result array
       newsListToSlice.length = amount;
       const result = [];
-      newsListToSlice.forEach((a) => {
+      newsListToSlice.forEach(a => {
         if (a !== null) {
           result.push(a);
         }
@@ -57,7 +57,7 @@ async function getNewsPage(language, page, amount) {
     // Shorten the result array
     newsList.length = amount;
     const result = [];
-    newsList.forEach((a) => {
+    newsList.forEach(a => {
       if (a !== null) {
         result.push(a);
       }

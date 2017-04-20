@@ -1,53 +1,58 @@
-import mongoose from '../db';
-import languageSchema from '../schemas/languageSchema';
-import * as logger from '../../logger';
+import mongoose from "../db";
+import languageSchema from "../schemas/languageSchema";
+import * as logger from "../../logger";
 import {ILanguage} from "../data/language";
 
 async function create(language) {
-  const languageModel = mongoose.model<ILanguage>('Language', languageSchema);
+  const languageModel = mongoose.model<ILanguage>("Language", languageSchema);
   const languageObject = new languageModel(language);
-  return languageObject.save((err) => {
-    if (err) throw err;
+  return languageObject.save(err => {
+    if (err) {
+      throw err;
+    }
     logger.logDatabase(`Language ${language.code} has been created`);
     return true;
   });
 }
 
 async function findByCode(code) {
-  const languageModel = mongoose.model<ILanguage>('Language', languageSchema);
+  const languageModel = mongoose.model<ILanguage>("Language", languageSchema);
   return languageModel
     .findOne({
       code,
     })
     .exec((err, language) => {
-      if (err) throw err;
+      if (err) {
+        throw err;
+      }
       return language;
     });
 }
 
 async function getId(code) {
-  const languageModel = mongoose.model<ILanguage>('Language', languageSchema);
+  const languageModel = mongoose.model<ILanguage>("Language", languageSchema);
   return languageModel
     .findOne({
       code,
-    }, '_id')
+    }, "_id")
     .exec((err, id) => {
-      if (err) throw err;
+      if (err) {
+        throw err;
+      }
       return id;
     });
 }
 
 async function update(language) {
-  const languageModel = mongoose.model<ILanguage>('Language', languageSchema);
+  const languageModel = mongoose.model<ILanguage>("Language", languageSchema);
   return languageModel.update(
     { _id: language.id },
     { $set: language },
-    () => {},
   );
 }
 
 function remove(id) {
-  const languageModel = mongoose.model<ILanguage>('Language', languageSchema);
+  const languageModel = mongoose.model<ILanguage>("Language", languageSchema);
   languageModel.remove({
     id,
   });
@@ -58,5 +63,5 @@ export {
   findByCode,
   getId,
   update,
-  remove
-}
+  remove,
+};

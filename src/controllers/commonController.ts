@@ -1,6 +1,6 @@
-import { sendMail } from '../utils/mailer';
-import helper from './controllerHelper';
-import { logInfo } from '../logger';
+import { sendMail } from "../utils/mailer";
+import helper from "./controllerHelper";
+import { logInfo } from "../logger";
 
 async function mailSender(req, res) {
   try {
@@ -8,7 +8,7 @@ async function mailSender(req, res) {
     const message = req.body.message;
     const theme = req.body.theme;
     const result = await sendMail(from, theme, message);
-    logInfo('Mail is sent!');
+    logInfo("Mail is sent!");
     return helper.sendData({ data: result }, res);
   } catch (err) {
     return helper.sendFailureMessage(err, res);

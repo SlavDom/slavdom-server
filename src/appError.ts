@@ -1,21 +1,21 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
 export default class AppError {
 
-  message: string;
-  uiShow: boolean;
-  log: boolean;
-  type: string;
-  code: string;
-  data: any;
-  isAppError: boolean;
+  private message: string;
+  private uiShow: boolean;
+  private log: boolean;
+  private type: string;
+  private code: string;
+  private data: any;
+  private isAppError: boolean;
 
   constructor(...args) {
-    this.message = '';
+    this.message = "";
     this.uiShow = true;
     this.log = false;
-    this.type = '';
-    this.code = '';
+    this.type = "";
+    this.code = "";
     this.data = null;
     this.isAppError = true;
 
@@ -29,7 +29,7 @@ export default class AppError {
       this.message = args[0];
       _.merge(this, args[1]);
     } else {
-      throw new Error('Unsupported AppError signature');
+      throw new Error("Unsupported AppError signature");
     }
   }
 }

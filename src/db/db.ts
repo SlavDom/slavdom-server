@@ -1,5 +1,5 @@
-import * as mongoose from 'mongoose';
+import * as mongoose from "mongoose";
 
-mongoose.connect('mongodb://localhost/slavdom');
+mongoose.connect("mongodb://localhost/slavdom");
 
 export default mongoose;

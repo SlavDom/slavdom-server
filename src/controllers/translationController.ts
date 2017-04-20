@@ -1,5 +1,5 @@
-import helper from './controllerHelper';
-import * as translationRepository from '../repositories/translationRepository';
+import helper from "./controllerHelper";
+import * as translationRepository from "../repositories/translationRepository";
 
 /** @param {object} req - The request
  *  @param {object} res - The response
@@ -15,8 +15,9 @@ async function getTranslations(req, res) {
 }
 
 /** @param {object} req - The request
- *  @param {object} res - The response
- *  @returns {json} a list of translations **/
+ * @param {object} res - The response
+ * @returns {json} a list of translations
+ **/
 async function getTranslationsFromList(req, res) {
   try {
     const lang = req.query.lang;
@@ -38,7 +39,6 @@ async function getTranslation(req, res) {
     let lang;
     let code;
     let student;
-
 
     if (req.query.id !== undefined) {
       id = req.query.id;

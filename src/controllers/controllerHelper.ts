@@ -1,16 +1,16 @@
-import { logError } from '../logger';
+import { logError } from "../logger";
 
 function sendFailureMessage(error, res) {
   const message = logError(error);
-  res.send({ status: 'failure', message });
+  res.send({ status: "failure", message });
 }
 
 function sendSuccessMessage(message, res) {
-  res.send({ status: 'success', message });
+  res.send({ status: "success", message });
 }
 
 function sendData(data, res) {
-  data.status = 'success';
+  data.status = "success";
   res.send(data);
 }
 

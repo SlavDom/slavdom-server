@@ -1,5 +1,5 @@
-import mongoose from '../db';
-import commentarySchema from './commentarySchema';
+import mongoose from "../db";
+import commentarySchema from "./commentarySchema";
 
 const Schema = mongoose.Schema;
 

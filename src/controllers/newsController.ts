@@ -1,5 +1,5 @@
-import * as newsRepository from '../repositories/newsRepository';
-import helper from './controllerHelper';
+import * as newsRepository from "../repositories/newsRepository";
+import helper from "./controllerHelper";
 
 /**
  * @param {object} req - the request
@@ -36,7 +36,7 @@ async function getNewsPage(req, res) {
       amount = 5;
     }
     if (lang === undefined) {
-      return helper.sendFailureMessage('There is no language parameter in the query', res);
+      return helper.sendFailureMessage("There is no language parameter in the query", res);
     }
     const result = await newsRepository.getNewsPage(lang, page, amount);
     return helper.sendData(result, res);
