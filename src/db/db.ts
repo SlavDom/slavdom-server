@@ -1,6 +1,5 @@
-import mongoose from 'mongoose';
+import * as mongoose from 'mongoose';
 
-mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/slavdom');
 
 export default mongoose;

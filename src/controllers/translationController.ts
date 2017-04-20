@@ -68,23 +68,23 @@ async function getTranslationsByPrefix(req, res) {
   }
 }
 
-/** @param {object} req - The request
- *  @param {object} res - The response
- *  @returns {json}
- *  Controller saves received translation **/
-async function saveTranslation(req, res) {
-  try {
-    const translation = {
-      code: req.body.code,
-      language: req.body.language,
-      result: req.body.result,
-    };
-    const result = await translationRepository.saveTranslation(translation);
-    return helper.sendData({ data: result }, res);
-  } catch (err) {
-    return helper.sendFailureMessage(err, res);
-  }
-}
+// /** @param {object} req - The request
+//  *  @param {object} res - The response
+//  *  @returns {json}
+//  *  Controller saves received translation **/
+// async function saveTranslation(req, res) {
+//   try {
+//     const translation = {
+//       code: req.body.code,
+//       language: req.body.language,
+//       result: req.body.result,
+//     };
+//     const result = await translationRepository.saveTranslation(translation);
+//     return helper.sendData({ data: result }, res);
+//   } catch (err) {
+//     return helper.sendFailureMessage(err, res);
+//   }
+// }
 
 /** Controller function for deleting an existing translation
  *  @param req - The request
@@ -92,9 +92,6 @@ async function saveTranslation(req, res) {
 async function deleteTranslation(req, res) {
   try {
     const id = req.body.id;
-
-        // await translationRepository.deleteById(id);
-
     return helper.sendData({}, res);
   } catch (err) {
     return helper.sendFailureMessage(err, res);
@@ -107,6 +104,6 @@ export default {
   getTranslationsFromList,
   getTranslation,
   getTranslationsByPrefix,
-  saveTranslation,
+  // saveTranslation,
   deleteTranslation,
 };

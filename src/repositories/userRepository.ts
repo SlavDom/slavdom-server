@@ -2,6 +2,8 @@ import UserModel from '../db/models/userModel';
 
 export default class UserRepository {
 
+  userModel: any;
+
   constructor() {
     this.userModel = new UserModel();
   }

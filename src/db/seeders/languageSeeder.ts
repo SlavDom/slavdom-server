@@ -1,5 +1,4 @@
-let languageSeeder;
-export default languageSeeder = [
+export default [
   {
     code: 'nsl',
     translations: [

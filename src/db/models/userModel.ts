@@ -4,6 +4,8 @@ import * as logger from '../../logger';
 
 export default class UserModel {
 
+  userModel: any;
+
   constructor() {
     this.userModel = mongoose.model('User', userSchema);
   }

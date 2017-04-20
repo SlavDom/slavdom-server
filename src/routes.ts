@@ -1,11 +1,11 @@
-import express from 'express';
+import { Router } from "express";
 
 import userController from './controllers/userController';
 import translationController from './controllers/translationController';
 import newsController from './controllers/newsController';
 import commonController from './controllers/commonController';
 
-const router = express.Router();
+const router: Router = Router();
 
 function initUserRoutes() {
   router.get('/api/users/:identifier', userController.ajaxCheck);
@@ -17,7 +17,7 @@ function initTranslationRoutes() {
   router.get('/api/translations/package', translationController.getTranslationsFromList);
   router.get('/api/translations/page', translationController.getTranslationsByPrefix);
   router.get('/api/translations/get', translationController.getTranslation);
-  router.post('/api/translations/save', translationController.saveTranslation);
+  // router.post('/api/translations/save', translationController.saveTranslation);
 }
 
 function initNewsRoutes() {

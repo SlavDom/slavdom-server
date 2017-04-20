@@ -1,10 +1,11 @@
 import mongoose from '../db';
 import languageSchema from '../schemas/languageSchema';
 import * as logger from '../../logger';
+import {ILanguage} from "../data/language";
 
 async function create(language) {
-  const languageModel = mongoose.model('Language', languageSchema);
-  const languageObject = languageModel(language);
+  const languageModel = mongoose.model<ILanguage>('Language', languageSchema);
+  const languageObject = new languageModel(language);
   return languageObject.save((err) => {
     if (err) throw err;
     logger.logDatabase(`Language ${language.code} has been created`);
@@ -13,7 +14,7 @@ async function create(language) {
 }
 
 async function findByCode(code) {
-  const languageModel = mongoose.model('Language', languageSchema);
+  const languageModel = mongoose.model<ILanguage>('Language', languageSchema);
   return languageModel
     .findOne({
       code,
@@ -25,7 +26,7 @@ async function findByCode(code) {
 }
 
 async function getId(code) {
-  const languageModel = mongoose.model('Language', languageSchema);
+  const languageModel = mongoose.model<ILanguage>('Language', languageSchema);
   return languageModel
     .findOne({
       code,
@@ -37,7 +38,7 @@ async function getId(code) {
 }
 
 async function update(language) {
-  const languageModel = mongoose.model('Language', languageSchema);
+  const languageModel = mongoose.model<ILanguage>('Language', languageSchema);
   return languageModel.update(
     { _id: language.id },
     { $set: language },
@@ -46,7 +47,7 @@ async function update(language) {
 }
 
 function remove(id) {
-  const languageModel = mongoose.model('Language', languageSchema);
+  const languageModel = mongoose.model<ILanguage>('Language', languageSchema);
   languageModel.remove({
     id,
   });

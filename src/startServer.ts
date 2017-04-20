@@ -1,3 +1,4 @@
+import 'es6-promise';
 import server from './server';
 
 process.on('uncaughtException', (err) => {

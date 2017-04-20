@@ -1,5 +1,4 @@
-let newsSeeder;
-export default newsSeeder = [
+export default [
   {
     theme: 'hello-world',
     title: 'Hello, world',

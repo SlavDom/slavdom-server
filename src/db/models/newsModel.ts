@@ -4,7 +4,7 @@ import * as logger from '../../logger';
 
 async function create(news) {
   const newsModel = mongoose.model('News', newsSchema);
-  const newsObject = newsModel(news);
+  const newsObject = new newsModel(news);
   return newsObject.save((err) => {
     if (err) throw err;
     logger.logDatabase(`News ${news.title} has been created.`);

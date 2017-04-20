@@ -1,4 +1,4 @@
-import path from 'path';
+import * as path from 'path';
 import * as _ from 'lodash';
 
 const rootPath = path.join(__dirname, '../..');

@@ -18,8 +18,7 @@ async function seedData() {
     is: await languageModel.getId('is'),
   };
   newsSeeder.forEach((news) => {
-    const languageId = languages[news.languageId];
-    news.languageId = languageId;
+    news.languageId = languages[news.languageId];
     newsModel.create(news);
   });
 }

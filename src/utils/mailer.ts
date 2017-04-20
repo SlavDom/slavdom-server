@@ -1,6 +1,6 @@
-import nodemailer from 'nodemailer';
+import * as nodemailer from 'nodemailer';
 
-async function sendMail(from, subject, text) {
+function sendMail(from, subject, text) {
   const smtpConfig = {
     host: 'smtp.yandex.ru',
     port: 465,
@@ -18,8 +18,7 @@ async function sendMail(from, subject, text) {
     text: `From ${from}: ${text}`,
     html: `<p>From: ${from}</p><p>Text message: ${text}</p>`,
   };
-  const result = await transport.sendMail(message);
-  return result;
+  return transport.sendMail(message);
 }
 
 export {
