@@ -1,11 +1,12 @@
 import helper from "./controllerHelper";
-import * as translationRepository from "../repositories/translationRepository";
+import TranslationRepository from "../repositories/translationRepository";
 
 /** @param {object} req - The request
  *  @param {object} res - The response
  *  @returns {json} Controller function of receiving a list of translations **/
 async function getTranslations(req, res) {
   try {
+    const translationRepository = new TranslationRepository();
     const lang = req.query.lang;
     const result = await translationRepository.getTranslations(lang);
     return helper.sendData({ data: result }, res);
@@ -20,6 +21,7 @@ async function getTranslations(req, res) {
  **/
 async function getTranslationsFromList(req, res) {
   try {
+    const translationRepository = new TranslationRepository();
     const lang = req.query.lang;
     const codeList = req.query.code;
     const codes = JSON.parse(codeList);
@@ -35,6 +37,7 @@ async function getTranslationsFromList(req, res) {
  *  @returns {json} one translation **/
 async function getTranslation(req, res) {
   try {
+    const translationRepository = new TranslationRepository();
     let id;
     let lang;
     let code;
@@ -59,6 +62,7 @@ async function getTranslation(req, res) {
  *  @returns {json}  a list of translations **/
 async function getTranslationsByPrefix(req, res) {
   try {
+    const translationRepository = new TranslationRepository();
     const lang = req.query.lang;
     const prefix = req.query.prefix;
     const result = await translationRepository.getTranslationsByPrefix(lang, prefix);
@@ -91,6 +95,7 @@ async function getTranslationsByPrefix(req, res) {
  *  @param res - The responce **/
 async function deleteTranslation(req, res) {
   try {
+    const translationRepository = new TranslationRepository();
     const id = req.body.id;
     return helper.sendData({}, res);
   } catch (err) {

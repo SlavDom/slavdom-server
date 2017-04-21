@@ -1,127 +1,132 @@
 import * as _ from "lodash";
 import LanguageModel from "../db/models/languageModel";
 
+export default class TranslationRepository {
+
+  languageModel: LanguageModel;
+
+  constructor() {
+    this.languageModel = new LanguageModel();
+  }
+
   /** @param {string} lang requested languages
    * @returns {array} the list of translations
    * Getting a list of translations */
-async function getTranslations(lang) {
-  const languageModel = new LanguageModel();
-  // We read the requested language entity
-  let language = await languageModel.findByCode(lang);
-  // If there is no such a language in the database
-  if (language === null) {
-    // Then we read the default language entity
-    language = await languageModel.findByCode("en");
+  async getTranslations(lang) {
+    // We read the requested language entity
+    let language = await this.languageModel.findByCode(lang);
+    // If there is no such a language in the database
+    if (language === null) {
+      // Then we read the default language entity
+      language = await this.languageModel.findByCode("en");
+    }
+    // We return only the array of translations into this language
+    return language.translations;
   }
-  // We return only the array of translations into this language
-  return language.translations;
-}
 
-/** @param {string} lang requested language
- * @param {array} codes the list of requested codes
- * @returns {array} the list of translations
- * */
-async function getTranslationsFromList(lang, codes) {
-  const languageModel = new LanguageModel();
-  // We create a result array
-  const res = [];
-  // We read language entity by its code name
-  const language = await languageModel.findByCode(lang);
-  let languageEn = null;
-  if (lang !== "en") {
-    // If the requested language is not English, we should read the default language entity
-    languageEn = await languageModel.findByCode("en");
+  /** @param {string} lang requested language
+   * @param {array} codes the list of requested codes
+   * @returns {array} the list of translations
+   * */
+  async getTranslationsFromList(lang, codes) {
+    // We create a result array
+    const res = [];
+    // We read language entity by its code name
+    const language = await this.languageModel.findByCode(lang);
+    let languageEn = null;
+    if (lang !== "en") {
+      // If the requested language is not English, we should read the default language entity
+      languageEn = await this.languageModel.findByCode("en");
+    }
+    // In this cycle we collect translations
+    for (const code of codes) {
+      let flag: boolean = false;
+      // Checking language existence
+      if (language !== null) {
+        // In this cycle we try to get proper values from the requested language entity
+        _.forEach(language.translations, elem => {
+          if (elem.code === code) {
+            res.push(elem.result);
+            flag = true;
+          }
+        })
+        ;
+      }
+      // If there is no such a language or we have not collected necessary translations
+      // we read data from default language entity
+      if (!flag) {
+        _.forEach(languageEn.translations, elem => {
+          if (elem.code === code) {
+            res.push(elem.result);
+            flag = true;
+          }
+        });
+      }
+    }
+    return res;
   }
-  // In this cycle we collect translations
-  for (const code of codes) {
-    let flag: boolean = false;
-    // Checking language existence
+
+  async getTranslationsByPrefix(lang, prefix) {
+    const res = {};
+    // We read the requested language model
+    let language = await this.languageModel.findByCode(lang);
     if (language !== null) {
-      // In this cycle we try to get proper values from the requested language entity
+      // We search all values from the list
       _.forEach(language.translations, elem => {
-        if (elem.code === code) {
-          res.push(elem.result);
-          flag = true;
-        }
-      })
-      ;    }
-    // If there is no such a language or we have not collected necessary translations
-    // we read data from default language entity
-    if (!flag) {
-      _.forEach(languageEn.translations, elem => {
-        if (elem.code === code) {
-          res.push(elem.result);
-          flag = true;
+        if (elem.prefix.includes(prefix)) {
+          res[elem.code] = elem.result;
         }
       });
     }
-  }
-  return res;
-}
-
-async function getTranslationsByPrefix(lang, prefix) {
-  const languageModel = new LanguageModel();
-  const res = {};
-  // We read the requested language model
-  let language = await languageModel.findByCode(lang);
-  if (language !== null) {
-    // We search all values from the list
+    // We read the default language
+    language = await this.languageModel.findByCode("en");
+    // We check whether all values have been added to array
     _.forEach(language.translations, elem => {
       if (elem.prefix.includes(prefix)) {
-        res[elem.code] = elem.result;
+        if (!res[elem.code]) {
+          res[elem.code] = elem.result;
+        }
       }
     });
+    return res;
   }
-  // We read the default language
-  language = await languageModel.findByCode("en");
-  // We check whether all values have been added to array
-  _.forEach(language.translations, elem => {
-    if (elem.prefix.includes(prefix)) {
-      if (!res[elem.code]) {
-        res[elem.code] = elem.result;
-      }
-    }
-  });
-  return res;
-}
 
   /**
    * Getting translations with common code
    * @param {string} lang language
    * @param {string} code code of the translation
    * @returns {object} the list of translations */
-async function getByLangAndCode(lang, code) {
-  const languageModel = new LanguageModel();
-  let res = null;
-  // We read the requested language model
-  let language = await languageModel.findByCode(lang);
-  let flag: boolean = false;
-  let translations = null;
-  // If there is such a language in the database
-  if (language !== null) {
-    // We read the array of translations into this language
-    translations = language.translations;
-    translations.forEach(a => {
-      // We try to find the requested translation by its code
-      if (a.code === code) {
-        // If there is such a translations, we turn the checker on
-        res = a;
-        flag = true;
-      }
-    });
+  async getByLangAndCode(lang, code) {
+    let res = null;
+    // We read the requested language model
+    let language = await this.languageModel.findByCode(lang);
+    let flag: boolean = false;
+    let translations = null;
+    // If there is such a language in the database
+    if (language !== null) {
+      // We read the array of translations into this language
+      translations = language.translations;
+      translations.forEach(a => {
+        // We try to find the requested translation by its code
+        if (a.code === code) {
+          // If there is such a translations, we turn the checker on
+          res = a;
+          flag = true;
+        }
+      });
+    }
+    // If the checker is still off, we get the default translation value
+    if (!flag) {
+      language = await this.languageModel.findByCode("en");
+      translations = language[0].translations;
+      translations.forEach(a => {
+        if (a.code === code) {
+          res = a;
+        }
+      });
+    }
+    return res;
   }
-  // If the checker is still off, we get the default translation value
-  if (!flag) {
-    language = await languageModel.findByCode("en");
-    translations = language[0].translations;
-    translations.forEach(a => {
-      if (a.code === code) {
-        res = a;
-      }
-    });
-  }
-  return res;
-}
 
 //   /** Saving a new translation to repository
 //    * @returns boolean created translation */
@@ -163,11 +168,4 @@ async function getByLangAndCode(lang, code) {
 //     // If there is no such a language, we return false
 //   return false;
 // }
-
-export {
-  getTranslations,
-  getByLangAndCode,
-  getTranslationsFromList,
-  getTranslationsByPrefix,
-  // saveTranslation
-};
+}

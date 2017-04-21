@@ -1,4 +1,4 @@
-import * as newsRepository from "../repositories/newsRepository";
+import NewsRepository from "../repositories/newsRepository";
 import helper from "./controllerHelper";
 
 /**
@@ -9,6 +9,7 @@ import helper from "./controllerHelper";
  */
 async function getNews(req, res) {
   try {
+    const newsRepository = new NewsRepository();
     const lang = req.query.lang;
     const theme = req.query.theme;
     const result = await newsRepository.getNews(theme, lang);
@@ -26,6 +27,7 @@ async function getNews(req, res) {
  */
 async function getNewsPage(req, res) {
   try {
+    const newsRepository = new NewsRepository();
     const lang = req.query.lang;
     let page = req.query.page;
     let amount = req.query.amount;
@@ -53,6 +55,7 @@ async function getNewsPage(req, res) {
  */
 async function saveNews(req, res) {
   try {
+    const newsRepository = new NewsRepository();
     const lang = req.body.lang;
     const news = {
       theme: req.body.theme,
