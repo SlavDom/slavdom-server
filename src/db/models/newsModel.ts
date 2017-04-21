@@ -2,18 +2,21 @@ import mongoose from "../db";
 import newsSchema from "../schemas/newsSchema";
 import * as logger from "../../logger";
 import {INews} from "../data/news";
+import {ObjectID} from "bson";
+import {MongoError} from "mongodb";
+import {Model} from "mongoose";
 
 export default class NewsModel {
 
-  private newsModel: any;
+  private newsModel: Model<INews>;
 
   constructor() {
     this.newsModel = mongoose.model<INews>("News", newsSchema);
   }
 
-  public async create(news: INews): Promise<boolean> {
-    const newsObject = this.newsModel(news);
-    return newsObject.save(err => {
+  public async create(news: INews): Promise<INews> {
+    const newsObject = new this.newsModel(news);
+    return newsObject.save((err: MongoError): boolean => {
       if (err) {
         throw err;
       }
@@ -22,12 +25,12 @@ export default class NewsModel {
     });
   }
 
-  public async get(id: string): Promise<INews> {
+  public async get(id: ObjectID): Promise<INews> {
     return this.newsModel
         .findOne({
           id,
         })
-        .exec((err, news) => {
+        .exec((err: MongoError, news: INews) => {
           if (err) {
             throw err;
           }
@@ -35,13 +38,13 @@ export default class NewsModel {
         });
   }
 
-  public async findByThemeAndLanguageId(theme: string, languageId: string): Promise<INews> {
+  public async findByThemeAndLanguageId(theme: string, languageId: ObjectID): Promise<INews> {
     return this.newsModel
         .findOne({
           theme,
           languageId,
         })
-        .exec((err, news) => {
+        .exec((err: MongoError, news: INews) => {
           if (err) {
             throw err;
           }
@@ -49,12 +52,12 @@ export default class NewsModel {
         });
   }
 
-  public async findByLanguageId(languageId: string): Promise<INews> {
+  public async findByLanguageId(languageId: ObjectID): Promise<INews[]> {
     return this.newsModel
         .find({
           languageId,
         })
-        .exec((err, news) => {
+        .exec((err: MongoError, news: INews) => {
           if (err) {
             throw err;
           }
@@ -69,7 +72,7 @@ export default class NewsModel {
     );
   }
 
-  public remove(id) {
+  public remove(id: ObjectID) {
     this.newsModel.remove({
       id,
     });

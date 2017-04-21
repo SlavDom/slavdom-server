@@ -10,7 +10,7 @@ export default class AppError {
   private data: any;
   private isAppError: boolean;
 
-  constructor(...args) {
+  constructor(...args: string[]) {
     this.message = "";
     this.uiShow = true;
     this.log = false;

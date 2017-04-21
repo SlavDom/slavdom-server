@@ -1,10 +1,7 @@
 import * as mongoose from "mongoose";
 
 export interface INews extends mongoose.Document {
-  title: {
-    type: string,
-    required: true,
-  };
+  title: string;
   shortText: string;
   fullText: string;
   theme: string;

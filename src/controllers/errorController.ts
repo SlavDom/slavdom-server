@@ -1,6 +1,7 @@
 import helper from "./controllerHelper";
+import {Request, Response} from "express";
 
-async function send(req, res) {
+async function send(req: Request, res: Response) {
   try {
     return helper.sendFailureMessage("404 error", res);
   } catch (err) {

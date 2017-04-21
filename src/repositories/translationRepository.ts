@@ -1,5 +1,7 @@
 import * as _ from "lodash";
 import LanguageModel from "../db/models/languageModel";
+import {ITranslation} from "../db/data/translation";
+import {Mongoose} from "mongoose";
 
 export default class TranslationRepository {
 
@@ -96,7 +98,7 @@ export default class TranslationRepository {
    * @param {string} lang language
    * @param {string} code code of the translation
    * @returns {object} the list of translations */
-  public async getByLangAndCode(lang: string, code: string): Promise<object> {
+  public async getByLangAndCode(lang: string, code: string): Promise<ITranslation> {
     let res = null;
     // We read the requested language model
     let language = await this.languageModel.findByCode(lang);
@@ -130,7 +132,7 @@ export default class TranslationRepository {
 
 //   /** Saving a new translation to repository
 //    * @returns boolean created translation */
-  public async saveTranslation(translation) {
+  public async saveTranslation(translation): Promise<boolean> {
     // We read a language entity from the database
     const language = await this.languageModel.findByCode(translation.language);
     // If there is such a language
@@ -140,10 +142,11 @@ export default class TranslationRepository {
       // We build a model for inserting into database
       const translationForInsertion = {
         code: translation.code,
+        prefix: translation.prefix,
         result: translation.result,
       };
       // We checkUniqueness whether there is already a translation with the same code
-      const translationToCheck = await this.getByLangAndCode(translation.language, translation.code);
+      const translationToCheck: ITranslation = await this.getByLangAndCode(translation.language, translation.code);
       // If we create a new one
       if (translationToCheck === null) {
         // We add to array of translations a new translation

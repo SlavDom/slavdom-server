@@ -1,4 +1,5 @@
 import * as bcrypt from "bcrypt";
+import {Request, Response} from "express";
 
 import UserRepository from "../repositories/userRepository";
 
@@ -10,7 +11,7 @@ export default class UserController {
     this.userRepository = new UserRepository();
   }
 
-  public async saveUser(req, res) {
+  public async saveUser(req: Request, res: Response): Promise<void> {
     const passwordDigest = bcrypt.hashSync(req.body.password, 10);
     const username = req.body.username.toLowerCase();
     const email = req.body.email.toLowerCase();
@@ -21,7 +22,7 @@ export default class UserController {
       .catch(err => res.status(500).json({error: err}));
   }
 
-  public ajaxCheck(req, res) {
+  public ajaxCheck(req: Request, res: Response): JSON {
     return this.userRepository.checkUniqueness(req.params.identifier.toLowerCase(), req.params.identifier.toLowerCase())
       .then(user => res.json({user}));
   }

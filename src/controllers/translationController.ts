@@ -1,5 +1,6 @@
 import helper from "./controllerHelper";
 import TranslationRepository from "../repositories/translationRepository";
+import {Request, Response} from "express";
 
 export default class TranslationController {
 
@@ -12,7 +13,7 @@ export default class TranslationController {
   /** @param {object} req - The request
    *  @param {object} res - The response
    *  @returns {json} Controller function of receiving a list of translations **/
-  public async getTranslations(req, res): Promise<void> {
+  public async getTranslations(req: Request, res: Response): Promise<void> {
     try {
       const lang = req.query.lang;
       const result = await this.translationRepository.getTranslations(lang);
@@ -26,7 +27,7 @@ export default class TranslationController {
    * @param {object} res - The response
    * @returns {json} a list of translations
    **/
-  public async getTranslationsFromList(req, res): Promise<void> {
+  public async getTranslationsFromList(req: Request, res: Response): Promise<void> {
     try {
       const lang = req.query.lang;
       const codeList = req.query.code;
@@ -41,7 +42,7 @@ export default class TranslationController {
   /** @param {object} req - The request
    *  @param {object} res - The response
    *  @returns {json} one translation **/
-  public async getTranslation(req, res): Promise<void> {
+  public async getTranslation(req: Request, res: Response): Promise<void> {
     try {
       let id;
       let lang;
@@ -65,7 +66,7 @@ export default class TranslationController {
   /** @param {object} req - The request
    *  @param {object} res - The response
    *  @returns {json}  a list of translations **/
-  public async getTranslationsByPrefix(req, res): Promise<void> {
+  public async getTranslationsByPrefix(req: Request, res: Response): Promise<void> {
     try {
       const lang = req.query.lang;
       const prefix = req.query.prefix;
@@ -97,7 +98,7 @@ export default class TranslationController {
   /** Controller function for deleting an existing translation
    *  @param req - The request
    *  @param res - The responce **/
-  public async deleteTranslation(req, res): Promise<void> {
+  public async deleteTranslation(req: Request, res: Response): Promise<void> {
     try {
       const id = req.body.id;
       return helper.sendData({}, res);

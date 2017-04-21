@@ -14,7 +14,7 @@ import dropAndSeedSchema from "../src/db/scripts/dropSchema";
 
 const app = express();
 
-function initWebpack() {
+function initWebpack(): void {
   const compiler = webpack(webpackConfig);
   app.use(webpackMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
@@ -24,12 +24,12 @@ function initWebpack() {
 }
 
 /** Synchronizing database */
-function initDB() {
+function initDB(): void {
   dropAndSeedSchema();
 }
 
 /** Function of Express initialisation */
-function initExpress() {
+function initExpress(): void {
   app.use(morgan("dev")); // log requests
   app.use(bodyParser.json()); // get information from html forms
   app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,7 +39,7 @@ function initExpress() {
 }
 
 /** Error handling initializing */
-function initErrorHandling(application) {
+function initErrorHandling(application): void {
   // log unhandled errors
   application.use((err, req, res) => {
     logError(err);
@@ -52,7 +52,7 @@ function initErrorHandling(application) {
 
 /** Function that starts the server itself
  * @params options {any} options, that can be evaluated in the initialisation */
-function start() {
+function start(): void {
   initLogger();
   initWebpack();
   initExpress();

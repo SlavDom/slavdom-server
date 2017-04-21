@@ -1,6 +1,6 @@
 import * as nodemailer from "nodemailer";
 
-function sendMail(from, subject, text) {
+function sendMail(from: string, subject: string, text: string): object {
   const smtpConfig = {
     host: "smtp.yandex.ru",
     port: 465,

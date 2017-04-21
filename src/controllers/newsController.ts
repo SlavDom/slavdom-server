@@ -1,5 +1,6 @@
 import NewsRepository from "../repositories/newsRepository";
 import helper from "./controllerHelper";
+import {Request, Response} from "express";
 
 export default class NewsController {
 
@@ -15,7 +16,7 @@ export default class NewsController {
    * @returns {json}
    * Get a single news by its theme and lang
    */
-  public async getNews(req, res) {
+  public async getNews(req: Request, res: Response) {
     try {
       const lang = req.query.lang;
       const theme = req.query.theme;
@@ -32,7 +33,7 @@ export default class NewsController {
    * @returns {json}
    * Get the list page of news
    */
-  public async getNewsPage(req, res) {
+  public async getNewsPage(req: Request, res: Response) {
     try {
       const lang = req.query.lang;
       let page = req.query.page;
@@ -59,7 +60,7 @@ export default class NewsController {
    * @returns {json}
    * Saves the news
    */
-  public async saveNews(req, res) {
+  public async saveNews(req: Request, res: Response) {
     try {
       const lang = req.body.lang;
       const news = {

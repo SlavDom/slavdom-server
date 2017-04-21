@@ -2,6 +2,8 @@ import mongoose from "../db";
 import languageSchema from "../schemas/languageSchema";
 import * as logger from "../../logger";
 import {ILanguage} from "../data/language";
+import {MongoError} from "mongodb";
+import {ObjectID} from "bson";
 
 export default class LanguageModel {
 
@@ -35,12 +37,12 @@ export default class LanguageModel {
         });
   }
 
-  public async getId(code: string): Promise<ILanguage> {
+  public async getId(code: string): Promise<ObjectID> {
     return this.languageModel
         .findOne({
           code,
         }, "_id")
-        .exec((err, id) => {
+        .exec((err: MongoError, id: ObjectID) => {
           if (err) {
             throw err;
           }
@@ -55,7 +57,7 @@ export default class LanguageModel {
     );
   }
 
-  public remove(id): void {
+  public remove(id: ObjectID): void {
     this.languageModel.remove({
       id,
     });

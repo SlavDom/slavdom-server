@@ -1,6 +1,8 @@
 import mongoose from "../db";
 import userSchema from "../schemas/userSchema";
 import * as logger from "../../logger";
+import {IUser} from "../data/user";
+import {MongoError} from "mongodb";
 
 export default class UserModel {
 
@@ -10,9 +12,9 @@ export default class UserModel {
     this.mongooseUserModel = mongoose.model("User", userSchema);
   }
 
-  public async create(user) {
+  public async create(user: IUser): Promise<IUser> {
     const userObject = this.mongooseUserModel(user);
-    return userObject.save(err => {
+    return userObject.save((err: MongoError): boolean => {
       if (err) {
         throw err;
       }
@@ -21,7 +23,7 @@ export default class UserModel {
     });
   }
 
-  public async checkUniqueness(username, email) {
+  public async checkUniqueness(username: string, email: string): Promise<IUser> {
     return this.mongooseUserModel
       .findOne({
         $or: [
