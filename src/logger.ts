@@ -1,64 +1,49 @@
-// import intel from 'intel';
 import * as _ from "lodash";
 import * as fs from "fs";
+import * as bunyan from "bunyan";
+import * as Logger from "bunyan";
 
-function init() {
+function initLogger(): void {
   process.stdout.write("\x1Bc");
   fs.writeFile("server/data/logs/db.log", "");
   fs.writeFile("server/data/logs/error.log", "");
-  // intel.config({
-  //   formatters: {
-  //     simple: {
-  //       format: '[%(levelname)s] %(message)s',
-  //       colorize: true,
-  //     },
-  //     details: {
-  //       format: '[%(date)s] %(name)s.%(levelname)s: %(message)s',
-  //       strip: true,
-  //     },
-  //   },
-  //   handlers: {
-  //     terminal: {
-  //       class: intel.handlers.Console,
-  //       formatter: 'simple',
-  //       level: intel.VERBOSE,
-  //     },
-  //     logErrors: {
-  //       class: intel.handlers.File,
-  //       level: intel.ERROR,
-  //       file: 'server/data/logs/error.log',
-  //       formatter: 'details',
-  //     },
-  //     logDatabase: {
-  //       class: intel.handlers.File,
-  //       level: intel.DEBUG,
-  //       file: 'server/data/logs/db.log',
-  //       formatter: 'details',
-  //     },
-  //   },
-  //   loggers: {
-  //     root: {
-  //       handlers: ['terminal'],
-  //       level: intel.INFO,
-  //       handleExceptions: true,
-  //       exitOnError: false,
-  //       propagate: false,
-  //     },
-  //     'root.db': {
-  //       handlers: ['logDatabase'],
-  //       level: intel.DEBUG,
-  //     },
-  //     'root.err': {
-  //       handlers: ['logErrors'],
-  //       level: intel.ERROR,
-  //     },
-  //   },
-  // });
 }
 
-init();
+const errorLogger: Logger = bunyan.createLogger({
+  name: "error",
+  streams: [
+    {
+      stream: process.stderr,
+      level: "error",
+    },
+    {
+      path: "server/data/logs/error.log",
+      level: "error",
+    },
+  ],
+});
 
-function getErrorMessage(error) {
+const databaseLogger: Logger = bunyan.createLogger({
+  name: "database",
+  streams: [
+    {
+      stream: process.stdout,
+      level: "debug",
+    },
+    {
+      path: "server/data/logs/db.log",
+      level: "debug",
+    },
+  ],
+});
+
+const infoLogger: Logger = bunyan.createLogger({
+  name: "info",
+  stream: process.stdout,
+  level: "info",
+});
+
+function getErrorMessage(error: any) {
   if (!error) {
     return "";
   }
@@ -79,24 +64,21 @@ function getErrorMessage(error) {
   return error.message || error;
 }
 
-function logError(err) {
+function logError(err: Error | string): string {
   const message = getErrorMessage(err);
   if (_.isError(err)) {
-    // const logger = intel.getLogger('root.err');
-    // logger.error(message);
+    errorLogger.error(message);
   }
   return message;
 }
 
-function logInfo(msg) {
-  // const logger = intel.getLogger('root');
-  // logger.info(msg);
+function logInfo(msg: string): string {
+  infoLogger.info(msg);
   return msg;
 }
 
-function logDatabase(msg) {
-  // const logger = intel.getLogger('root.db');
-  // logger.debug(msg);
+function logDatabase(msg: string): string {
+  databaseLogger.debug(msg);
   return msg;
 }
 
@@ -104,4 +86,5 @@ export {
   logError,
   logInfo,
   logDatabase,
+  initLogger,
 };

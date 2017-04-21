@@ -9,7 +9,7 @@ import * as webpackHotMiddleware from "webpack-hot-middleware";
 
 import webpackConfig from "../../webpack.config.dev";
 import router from "./routes";
-import { logError, logInfo } from "./logger";
+import {initLogger, logError, logInfo} from "./logger";
 import dropAndSeedSchema from "../src/db/scripts/dropSchema";
 
 const app = express();
@@ -53,6 +53,7 @@ function initErrorHandling(application) {
 /** Function that starts the server itself
  * @params options {any} options, that can be evaluated in the initialisation */
 function start() {
+  initLogger();
   initWebpack();
   initExpress();
 
