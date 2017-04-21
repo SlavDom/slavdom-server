@@ -1,7 +1,9 @@
 import * as mongoose from "mongoose";
-import {ITranslation} from "./translation";
+import {Translation} from "./Translation";
+import {ObjectID} from "bson";
 
-export interface ILanguage extends mongoose.Document {
+export interface Language extends mongoose.Document {
+  id: ObjectID;
   code: string;
-  translations: object[];
+  translations: Translation[];
 }
