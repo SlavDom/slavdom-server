@@ -1,3 +1,3 @@
-export interface AssociativeArray {
-  [key: string]: string | boolean | number;
+export interface AssociativeArray<T> {
+  [key: string]: T;
 }

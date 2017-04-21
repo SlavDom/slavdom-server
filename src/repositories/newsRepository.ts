@@ -19,7 +19,7 @@ export default class NewsRepository {
    * @param {string} language requested language code
    * @returns {object} the news found by language and code
    */
-  public async getNews(theme: string, language: string) {
+  public async getNews(theme: string, language: string): Promise<News> {
     // We get a language id from the database
     const langId: ObjectID = await this.languageModel.getId(language);
     // If there exists such a language. we get its id
@@ -29,7 +29,7 @@ export default class NewsRepository {
       return news;
     }
     // If there is no such a language
-    return {};
+    return null;
   }
 
   /**
@@ -38,7 +38,7 @@ export default class NewsRepository {
    * @param {number} amount requested page length
    * @returns {array} the news list
    */
-  public async getNewsPage(language: string, page: number, amount: number) {
+  public async getNewsPage(language: string, page: number, amount: number): Promise<object> {
     // We get a language id from the database
     const langId: ObjectID = await this.languageModel.getId(language);
     // If there exists such a language. we get its id

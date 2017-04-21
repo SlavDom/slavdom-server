@@ -16,7 +16,7 @@ export default class TranslationRepository {
   /** @param {string} lang requested languages
    * @returns {array} the list of translations
    * Getting a list of translations */
-  public async getTranslations(lang: string): Promise<object> {
+  public async getTranslations(lang: string): Promise<Translation[]> {
     // We read the requested language entity
     let language = await this.languageModel.findByCode(lang);
     // If there is no such a language in the database
@@ -32,7 +32,7 @@ export default class TranslationRepository {
    * @param {array} codes the list of requested codes
    * @returns {array} the list of translations
    * */
-  public async getTranslationsFromList(lang: string, codes: string[]): Promise<object> {
+  public async getTranslationsFromList(lang: string, codes: string[]): Promise<string[]> {
     // We create a result array
     const res: string[] = [];
     // We read language entity by its code name
@@ -70,8 +70,8 @@ export default class TranslationRepository {
     return res;
   }
 
-  public async getTranslationsByPrefix(lang: string, prefix: string): Promise<object> {
-    const res: AssociativeArray = {};
+  public async getTranslationsByPrefix(lang: string, prefix: string): Promise<AssociativeArray<string>> {
+    const res: AssociativeArray<string> = {};
     // We read the requested language model
     let language: Language = await this.languageModel.findByCode(lang);
     if (language !== null) {
