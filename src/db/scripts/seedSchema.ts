@@ -1,8 +1,8 @@
-import * as languageModel from "../models/languageModel";
-import * as newsModel from "../models/newsModel";
+import LanguageModel from "../models/languageModel";
+import NewsModel from "../models/newsModel";
 import { languageSeeder, newsSeeder } from "../seeders";
 
-async function seedLanguages() {
+async function seedLanguages(languageModel:LanguageModel) {
   const promises = [];
   languageSeeder.forEach(language => {
     promises.push(languageModel.create(language));
@@ -11,7 +11,9 @@ async function seedLanguages() {
 }
 
 async function seedData() {
-  await seedLanguages();
+  const languageModel = new LanguageModel();
+  const newsModel = new NewsModel();
+  await seedLanguages(languageModel);
   const languages = {
     en: await languageModel.getId("en"),
     nsl: await languageModel.getId("nsl"),

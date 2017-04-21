@@ -1,82 +1,78 @@
 import mongoose from "../db";
 import newsSchema from "../schemas/newsSchema";
 import * as logger from "../../logger";
+import {INews} from "../data/news";
 
-async function create(news) {
-  const newsModel = mongoose.model("News", newsSchema);
-  const newsObject = new newsModel(news);
-  return newsObject.save(err => {
-    if (err) {
-      throw err;
-    }
-    logger.logDatabase(`News ${news.title} has been created.`);
-    return true;
-  });
-}
+export default class NewsModel {
 
-async function get(id) {
-  const newsModel = mongoose.model("News", newsSchema);
-  return newsModel
-    .findOne({
+  newsModel: any;
+
+  constructor() {
+    this.newsModel = mongoose.model<INews>("News", newsSchema);
+  }
+
+  async create(news) {
+    const newsObject = this.newsModel(news);
+    return newsObject.save(err => {
+      if (err) {
+        throw err;
+      }
+      logger.logDatabase(`News ${news.title} has been created.`);
+      return true;
+    });
+  }
+
+  async get(id) {
+    return this.newsModel
+        .findOne({
+          id,
+        })
+        .exec((err, news) => {
+          if (err) {
+            throw err;
+          }
+          return news;
+        });
+  }
+
+  async findByThemeAndLanguageId(theme, languageId) {
+    return this.newsModel
+        .findOne({
+          theme,
+          languageId,
+        })
+        .exec((err, news) => {
+          if (err) {
+            throw err;
+          }
+          return news;
+        });
+  }
+
+  async findByLanguageId(languageId) {
+    return this.newsModel
+        .find({
+          languageId,
+        })
+        .exec((err, news) => {
+          if (err) {
+            throw err;
+          }
+          return news;
+        });
+  }
+
+  async update(news) {
+    return this.newsModel.update(
+        {_id: news.id},
+        {$set: news},
+    );
+  }
+
+  remove(id) {
+    this.newsModel.remove({
       id,
-    })
-    .exec((err, news) => {
-      if (err) {
-        throw err;
-      }
-      return news;
     });
-}
+  }
 
-async function findByThemeAndLanguageId(theme, languageId) {
-  const newsModel = mongoose.model("News", newsSchema);
-  return newsModel
-    .findOne({
-      theme,
-      languageId,
-    })
-    .exec((err, news) => {
-      if (err) {
-        throw err;
-      }
-      return news;
-    });
 }
-
-async function findByLanguageId(languageId) {
-  const newsModel = mongoose.model("News", newsSchema);
-  return newsModel
-    .find({
-      languageId,
-    })
-    .exec((err, news) => {
-      if (err) {
-        throw err;
-      }
-      return news;
-    });
-}
-
-async function update(news) {
-  const newsModel = mongoose.model("News", newsSchema);
-  return newsModel.update(
-    { _id: news.id },
-    { $set: news },
-  );
-}
-
-function remove(id) {
-  const newsModel = mongoose.model("News", newsSchema);
-  newsModel.remove({
-    id,
-  });
-}
-
-export {
-  get,
-  remove,
-  update,
-  findByLanguageId,
-  findByThemeAndLanguageId,
-  create,
-};

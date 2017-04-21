@@ -1,5 +1,5 @@
-import * as newsModel from "../db/models/newsModel";
-import * as languageModel from "../db/models/languageModel";
+import NewsModel from "../db/models/newsModel";
+import LanguageModel from "../db/models/languageModel";
 import { newsComparator } from "../utils/comparators";
 
 /**
@@ -8,6 +8,8 @@ import { newsComparator } from "../utils/comparators";
  * @returns {object} the news found by language and code
  */
 async function getNews(theme, language) {
+  const languageModel = new LanguageModel();
+  const newsModel = new NewsModel();
   // We get a language id from the database
   const langId = await languageModel.getId(language);
   // If there exists such a language. we get its id
@@ -27,6 +29,8 @@ async function getNews(theme, language) {
  * @returns {array} the news list
  */
 async function getNewsPage(language, page, amount) {
+  const languageModel = new LanguageModel();
+  const newsModel = new NewsModel();
   // We get a language id from the database
   const langId = await languageModel.getId(language);
   // If there exists such a language. we get its id
@@ -79,6 +83,8 @@ async function getNewsPage(language, page, amount) {
  * @param {string} language language the news is related to
  */
 async function saveNews(news, language) {
+  const languageModel = new LanguageModel();
+  const newsModel = new NewsModel();
   // We get a language entity from the database
   const langId = await languageModel.getId(language);
   // If there exists such a language. we get its id

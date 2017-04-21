@@ -1,10 +1,11 @@
 import * as _ from "lodash";
-import * as languageModel from "../db/models/languageModel";
+import LanguageModel from "../db/models/languageModel";
 
   /** @param {string} lang requested languages
    * @returns {array} the list of translations
    * Getting a list of translations */
 async function getTranslations(lang) {
+  const languageModel = new LanguageModel();
   // We read the requested language entity
   let language = await languageModel.findByCode(lang);
   // If there is no such a language in the database
@@ -21,6 +22,7 @@ async function getTranslations(lang) {
  * @returns {array} the list of translations
  * */
 async function getTranslationsFromList(lang, codes) {
+  const languageModel = new LanguageModel();
   // We create a result array
   const res = [];
   // We read language entity by its code name
@@ -58,6 +60,7 @@ async function getTranslationsFromList(lang, codes) {
 }
 
 async function getTranslationsByPrefix(lang, prefix) {
+  const languageModel = new LanguageModel();
   const res = {};
   // We read the requested language model
   let language = await languageModel.findByCode(lang);
@@ -88,6 +91,7 @@ async function getTranslationsByPrefix(lang, prefix) {
    * @param {string} code code of the translation
    * @returns {object} the list of translations */
 async function getByLangAndCode(lang, code) {
+  const languageModel = new LanguageModel();
   let res = null;
   // We read the requested language model
   let language = await languageModel.findByCode(lang);
