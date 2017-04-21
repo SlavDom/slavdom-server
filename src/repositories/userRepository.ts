@@ -1,4 +1,5 @@
 import UserModel from "../db/models/userModel";
+import {User} from "../db/data/User";
 
 export default class UserRepository {
 
@@ -8,7 +9,7 @@ export default class UserRepository {
     this.userModel = new UserModel();
   }
 
-  public async saveUser(user) {
+  public async saveUser(user: User) {
     await this.userModel.create(user);
   }
 

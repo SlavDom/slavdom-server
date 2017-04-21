@@ -1,6 +1,8 @@
 import * as mongoose from "mongoose";
+import {ObjectID} from "bson";
 
-export interface ITranslation extends mongoose.Document {
+export interface Translation extends mongoose.Document {
+  id: ObjectID;
   code: string;
   prefix: string[];
   result: string;

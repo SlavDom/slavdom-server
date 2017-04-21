@@ -3,7 +3,7 @@ import seedData from "./seedSchema";
 import * as logger from "../../logger";
 
 export default function dropAndSeedSchema() {
-  db.connection.dropDatabase(err => {
+  db.connection.dropDatabase((err: Error) => {
     if (err) {
       logger.logError("Error while dropping database.");
       throw err;

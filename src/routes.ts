@@ -8,7 +8,7 @@ import UserController from "./controllers/userController";
 class SlavDomRouter {
 
   public static init(): Router {
-    const slavDomRouter = new SlavDomRouter();
+    const slavDomRouter: SlavDomRouter = new SlavDomRouter();
     slavDomRouter.initUserRoutes();
     slavDomRouter.initTranslationRoutes();
     slavDomRouter.initNewsRoutes();

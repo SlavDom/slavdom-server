@@ -1,21 +1,21 @@
 import mongoose from "../db";
 import languageSchema from "../schemas/languageSchema";
 import * as logger from "../../logger";
-import {ILanguage} from "../data/language";
 import {MongoError} from "mongodb";
 import {ObjectID} from "bson";
+import {Language} from "../data/Language";
 
 export default class LanguageModel {
 
   private languageModel: any;
 
   constructor() {
-    this.languageModel = mongoose.model<ILanguage>("Language", languageSchema);
+    this.languageModel = mongoose.model<Language>("Language", languageSchema);
   }
 
-  public async create(language: ILanguage): Promise<boolean> {
+  public async create(language: Language): Promise<boolean> {
     const languageObject = this.languageModel(language);
-    return languageObject.save(err => {
+    return languageObject.save((err: MongoError) => {
       if (err) {
         throw err;
       }
@@ -24,12 +24,12 @@ export default class LanguageModel {
     });
   }
 
-  public async findByCode(code: string): Promise<ILanguage> {
+  public async findByCode(code: string): Promise<Language> {
     return this.languageModel
         .findOne({
           code,
         })
-        .exec((err, language) => {
+        .exec((err: MongoError, language: Language) => {
           if (err) {
             throw err;
           }
@@ -50,7 +50,7 @@ export default class LanguageModel {
         });
   }
 
-  public async update(language): Promise<void> {
+  public async update(language: Language): Promise<void> {
     return this.languageModel.update(
         {_id: language.id},
         {$set: language},

@@ -28,7 +28,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  nonCussing: Boolean,
   registeredAt: {
     type: Date,
     default: Date.now(),

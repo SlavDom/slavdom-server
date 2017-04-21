@@ -1,10 +1,14 @@
+import * as _ from "lodash";
 import LanguageModel from "../models/languageModel";
 import NewsModel from "../models/newsModel";
 import { languageSeeder, newsSeeder } from "../seeders";
+import {Language} from "../data/Language";
+import {News} from "../data/News";
+import {ObjectID} from "bson";
 
 async function seedLanguages(languageModel: LanguageModel) {
-  const promises = [];
-  languageSeeder.forEach(language => {
+  const promises: Array<Promise<boolean>> = [];
+  languageSeeder.forEach((language: Language) => {
     promises.push(languageModel.create(language));
   });
   await Promise.all(promises);
@@ -19,8 +23,8 @@ async function seedData() {
     nsl: await languageModel.getId("nsl"),
     is: await languageModel.getId("is"),
   };
-  newsSeeder.forEach(news => {
-    news.languageId = languages[news.languageId];
+  _.forEach(newsSeeder, (news: News) => {
+    news.languageId = _.get<ObjectID>(languages, news.languageId);
     newsModel.create(news);
   });
 }

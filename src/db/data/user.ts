@@ -1,6 +1,8 @@
 import * as mongoose from "mongoose";
+import {ObjectID} from "bson";
 
-export interface IUser extends mongoose.Document {
+export interface User extends mongoose.Document {
+  id: ObjectID;
   username: string;
   passwordDigest: string;
   email: string;
@@ -12,7 +14,6 @@ export interface IUser extends mongoose.Document {
   nativeLang: string;
   city: string;
   timezone: string;
-  nonCussing: boolean;
   registeredAt: Date;
   loggedAt: Date;
   role: number;

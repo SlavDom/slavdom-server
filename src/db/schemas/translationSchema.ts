@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const translationSchema = new Schema({
   code: String,
-  prefix: String,
+  prefix: [String],
   result: String,
 });
 

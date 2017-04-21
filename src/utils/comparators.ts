@@ -1,6 +1,6 @@
-import {INews} from "../db/data/news";
+import {News} from "../db/data/News";
 
-function newsComparator(n1: INews, n2: INews): number {
+function newsComparator(n1: News, n2: News): number {
   if (n1.createdAt > n2.createdAt) {
     return 1;
   }

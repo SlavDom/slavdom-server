@@ -1,6 +1,7 @@
 import NewsRepository from "../repositories/newsRepository";
 import helper from "./controllerHelper";
 import {Request, Response} from "express";
+import {News} from "../db/data/News";
 
 export default class NewsController {
 
@@ -68,7 +69,7 @@ export default class NewsController {
         title: req.body.title,
         shortText: req.body.shortText,
         fullText: req.body.fullText,
-      };
+      } as News;
       const result = await this.newsRepository.saveNews(news, lang);
       return helper.sendData({data: result}, res);
     } catch (err) {
