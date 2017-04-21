@@ -4,8 +4,8 @@ import { newsComparator } from "../utils/comparators";
 
 export default class NewsRepository {
 
-  newsModel: NewsModel;
-  languageModel: LanguageModel;
+  private newsModel: NewsModel;
+  private languageModel: LanguageModel;
 
   constructor() {
     this.newsModel = new NewsModel();
@@ -17,7 +17,7 @@ export default class NewsRepository {
    * @param {string} language requested language code
    * @returns {object} the news found by language and code
    */
-  async getNews(theme, language) {
+  public async getNews(theme, language) {
     // We get a language id from the database
     const langId = await this.languageModel.getId(language);
     // If there exists such a language. we get its id
@@ -36,7 +36,7 @@ export default class NewsRepository {
    * @param {number} amount requested page length
    * @returns {array} the news list
    */
-  async getNewsPage(language, page, amount) {
+  public async getNewsPage(language, page, amount) {
     // We get a language id from the database
     const langId = await this.languageModel.getId(language);
     // If there exists such a language. we get its id
@@ -88,7 +88,7 @@ export default class NewsRepository {
    * @param {object} news the news to save
    * @param {string} language language the news is related to
    */
-  async saveNews(news, language) {
+  public async saveNews(news, language) {
     // We get a language entity from the database
     const langId = await this.languageModel.getId(language);
     // If there exists such a language. we get its id

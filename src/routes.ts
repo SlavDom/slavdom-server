@@ -1,38 +1,60 @@
 import { Router } from "express";
 
-import userController from "./controllers/userController";
-import translationController from "./controllers/translationController";
-import newsController from "./controllers/newsController";
-import commonController from "./controllers/commonController";
+import TranslationController from "./controllers/translationController";
+import CommonController from "./controllers/commonController";
+import NewsController from "./controllers/newsController";
+import UserController from "./controllers/userController";
 
-const router: Router = Router();
+class SlavDomRouter {
 
-function initUserRoutes() {
-  router.get("/api/users/:identifier", userController.ajaxCheck);
-  router.post("/api/users/save", userController.saveUser);
+  public static init(): Router {
+    const slavDomRouter = new SlavDomRouter();
+    slavDomRouter.initUserRoutes();
+    slavDomRouter.initTranslationRoutes();
+    slavDomRouter.initNewsRoutes();
+    slavDomRouter.initCommonRoutes();
+    return slavDomRouter.router;
+  }
+
+  private router: Router = Router();
+  private translationController: TranslationController;
+  private newsController: NewsController;
+  private commonController: CommonController;
+  private userController: UserController;
+
+  constructor() {
+    this.translationController = new TranslationController();
+    this.newsController = new NewsController();
+    this.commonController = new CommonController();
+    this.userController = new UserController();
+  }
+
+  public initUserRoutes(): void {
+    this.router.get("/api/users/:identifier", this.userController.ajaxCheck.bind(this.userController));
+    this.router.post("/api/users/save", this.userController.saveUser.bind(this.userController));
+  }
+
+  public initTranslationRoutes(): void {
+    this.router.get("/api/translations/list",
+      this.translationController.getTranslations.bind(this.translationController));
+    this.router.get("/api/translations/package",
+      this.translationController.getTranslationsFromList.bind(this.translationController));
+    this.router.get("/api/translations/page",
+      this.translationController.getTranslationsByPrefix.bind(this.translationController));
+    this.router.get("/api/translations/get",
+      this.translationController.getTranslation.bind(this.translationController));
+    // router.post('/api/translations/save', translationController.saveTranslation);
+  }
+
+  public initNewsRoutes(): void {
+    this.router.get("/api/news/list", this.newsController.getNewsPage.bind(this.newsController));
+    this.router.get("/api/news/get", this.newsController.getNews.bind(this.newsController));
+    this.router.post("api/news/save", this.newsController.saveNews.bind(this.newsController));
+  }
+
+  public  initCommonRoutes(): void {
+    this.router.post("/api/common/mail", CommonController.mailSender);
+  }
 }
 
-function initTranslationRoutes() {
-  router.get("/api/translations/list", translationController.getTranslations);
-  router.get("/api/translations/package", translationController.getTranslationsFromList);
-  router.get("/api/translations/page", translationController.getTranslationsByPrefix);
-  router.get("/api/translations/get", translationController.getTranslation);
-  // router.post('/api/translations/save', translationController.saveTranslation);
-}
-
-function initNewsRoutes() {
-  router.get("/api/news/list", newsController.getNewsPage);
-  router.get("/api/news/get", newsController.getNews);
-  router.post("api/news/save", newsController.saveNews);
-}
-
-function initCommonRoutes() {
-  router.post("/api/common/mail", commonController.mailSender);
-}
-
-initUserRoutes();
-initTranslationRoutes();
-initNewsRoutes();
-initCommonRoutes();
-
-export default router;
+export default SlavDomRouter.init();

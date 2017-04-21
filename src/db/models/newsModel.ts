@@ -5,13 +5,13 @@ import {INews} from "../data/news";
 
 export default class NewsModel {
 
-  newsModel: any;
+  private newsModel: any;
 
   constructor() {
     this.newsModel = mongoose.model<INews>("News", newsSchema);
   }
 
-  async create(news) {
+  public async create(news: INews): Promise<boolean> {
     const newsObject = this.newsModel(news);
     return newsObject.save(err => {
       if (err) {
@@ -22,7 +22,7 @@ export default class NewsModel {
     });
   }
 
-  async get(id) {
+  public async get(id: string): Promise<INews> {
     return this.newsModel
         .findOne({
           id,
@@ -35,7 +35,7 @@ export default class NewsModel {
         });
   }
 
-  async findByThemeAndLanguageId(theme, languageId) {
+  public async findByThemeAndLanguageId(theme: string, languageId: string): Promise<INews> {
     return this.newsModel
         .findOne({
           theme,
@@ -49,7 +49,7 @@ export default class NewsModel {
         });
   }
 
-  async findByLanguageId(languageId) {
+  public async findByLanguageId(languageId: string): Promise<INews> {
     return this.newsModel
         .find({
           languageId,
@@ -62,14 +62,14 @@ export default class NewsModel {
         });
   }
 
-  async update(news) {
+  public async update(news): Promise<void> {
     return this.newsModel.update(
         {_id: news.id},
         {$set: news},
     );
   }
 
-  remove(id) {
+  public remove(id) {
     this.newsModel.remove({
       id,
     });

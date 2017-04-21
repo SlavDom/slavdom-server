@@ -2,7 +2,7 @@ import LanguageModel from "../models/languageModel";
 import NewsModel from "../models/newsModel";
 import { languageSeeder, newsSeeder } from "../seeders";
 
-async function seedLanguages(languageModel:LanguageModel) {
+async function seedLanguages(languageModel: LanguageModel) {
   const promises = [];
   languageSeeder.forEach(language => {
     promises.push(languageModel.create(language));

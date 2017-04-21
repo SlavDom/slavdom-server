@@ -5,13 +5,13 @@ import {ILanguage} from "../data/language";
 
 export default class LanguageModel {
 
-  languageModel: any;
+  private languageModel: any;
 
   constructor() {
     this.languageModel = mongoose.model<ILanguage>("Language", languageSchema);
   }
 
-  async create(language) {
+  public async create(language: ILanguage): Promise<boolean> {
     const languageObject = this.languageModel(language);
     return languageObject.save(err => {
       if (err) {
@@ -22,7 +22,7 @@ export default class LanguageModel {
     });
   }
 
-  async findByCode(code) {
+  public async findByCode(code: string): Promise<ILanguage> {
     return this.languageModel
         .findOne({
           code,
@@ -35,7 +35,7 @@ export default class LanguageModel {
         });
   }
 
-  async getId(code) {
+  public async getId(code: string): Promise<ILanguage> {
     return this.languageModel
         .findOne({
           code,
@@ -48,14 +48,14 @@ export default class LanguageModel {
         });
   }
 
-  async update(language) {
+  public async update(language): Promise<void> {
     return this.languageModel.update(
         {_id: language.id},
         {$set: language},
     );
   }
 
-  remove(id) {
+  public remove(id): void {
     this.languageModel.remove({
       id,
     });

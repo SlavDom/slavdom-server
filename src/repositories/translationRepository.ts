@@ -3,7 +3,7 @@ import LanguageModel from "../db/models/languageModel";
 
 export default class TranslationRepository {
 
-  languageModel: LanguageModel;
+  private languageModel: LanguageModel;
 
   constructor() {
     this.languageModel = new LanguageModel();
@@ -12,7 +12,7 @@ export default class TranslationRepository {
   /** @param {string} lang requested languages
    * @returns {array} the list of translations
    * Getting a list of translations */
-  async getTranslations(lang) {
+  public async getTranslations(lang: string): Promise<object> {
     // We read the requested language entity
     let language = await this.languageModel.findByCode(lang);
     // If there is no such a language in the database
@@ -28,7 +28,7 @@ export default class TranslationRepository {
    * @param {array} codes the list of requested codes
    * @returns {array} the list of translations
    * */
-  async getTranslationsFromList(lang, codes) {
+  public async getTranslationsFromList(lang: string, codes: string[]): Promise<object> {
     // We create a result array
     const res = [];
     // We read language entity by its code name
@@ -66,7 +66,7 @@ export default class TranslationRepository {
     return res;
   }
 
-  async getTranslationsByPrefix(lang, prefix) {
+  public async getTranslationsByPrefix(lang: string, prefix: string): Promise<object> {
     const res = {};
     // We read the requested language model
     let language = await this.languageModel.findByCode(lang);
@@ -96,7 +96,7 @@ export default class TranslationRepository {
    * @param {string} lang language
    * @param {string} code code of the translation
    * @returns {object} the list of translations */
-  async getByLangAndCode(lang, code) {
+  public async getByLangAndCode(lang: string, code: string): Promise<object> {
     let res = null;
     // We read the requested language model
     let language = await this.languageModel.findByCode(lang);
@@ -130,42 +130,41 @@ export default class TranslationRepository {
 
 //   /** Saving a new translation to repository
 //    * @returns boolean created translation */
-// async function saveTranslation(translation) {
-//   const languageModel = new LanguageModel();
-//   // We read a language entity from the database
-//   const language = await languageModel.findByCode(translation.language);
-//   // If there is such a language
-//   if (language !== null) {
-//     // We get the array of translation into this language
-//     const translations = language.translations;
-//     // We build a model for inserting into database
-//     const translationForInsertion = {
-//       code: translation.code,
-//       result: translation.result,
-//     };
-//     // We checkUniqueness whether there is already a translation with the same code
-//     const translationToCheck = getByLangAndCode(translation.language, translation.code);
-//     // If we create a new one
-//     if (translationToCheck === null) {
-//       // We add to array of translations a new translation
-//       translations.push(translationForInsertion);
-//     } else {
-//       // Here we should replace the value of the result in existing translation
-//       translations.map((a) => {
-//         if (a.code === translationToCheck.code) {
-//           a.result = translation.result;
-//         }
-//         return a;
-//       });
-//     }
-//     // We update the value of array
-//     language.translations = translations;
-//     // And then we update the entity's value in the database
-//     await this.languageModel.update(language);
-//     // If everything is ok, we just return true
-//     return true;
-//   }
-//     // If there is no such a language, we return false
-//   return false;
-// }
+  public async saveTranslation(translation) {
+    // We read a language entity from the database
+    const language = await this.languageModel.findByCode(translation.language);
+    // If there is such a language
+    if (language !== null) {
+      // We get the array of translation into this language
+      const translations = language.translations;
+      // We build a model for inserting into database
+      const translationForInsertion = {
+        code: translation.code,
+        result: translation.result,
+      };
+      // We checkUniqueness whether there is already a translation with the same code
+      const translationToCheck = await this.getByLangAndCode(translation.language, translation.code);
+      // If we create a new one
+      if (translationToCheck === null) {
+        // We add to array of translations a new translation
+        translations.push(translationForInsertion);
+      } else {
+        // Here we should replace the value of the result in existing translation
+        translations.map(a => {
+          if (a.code === translationToCheck.code) {
+            a.result = translation.result;
+          }
+          return a;
+        });
+      }
+      // We update the value of array
+      language.translations = translations;
+      // And then we update the entity's value in the database
+      await this.languageModel.update(language);
+      // If everything is ok, we just return true
+      return true;
+    }
+    // If there is no such a language, we return false
+    return false;
+  }
 }

@@ -1,15 +1,12 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import {
-  getTranslationsFromList,
-  getByLangAndCode,
-  getTranslations,
-  getTranslationsByPrefix,
-} from '../../src/repositories/translationRepository';
+import TranslationRepository from '../../src/repositories/translationRepository';
 import * as languageModel from '../../src/db/models/languageModel';
 
 describe('TranslationRepository', () => {
+  const translationRepository = new TranslationRepository();
+
   describe('#getTranslations()', () => {
     const englishLanguageCode = 'en';
     const notExistingLanguageCode = 'notExistingLanguageCode';
@@ -38,7 +35,7 @@ describe('TranslationRepository', () => {
       languageModel.findByCode = sinon.stub()
         .withArgs(existingLanguageCode)
         .returns(existingLanguage);
-      getTranslations(existingLanguageCode).then((data) => {
+      translationRepository.getTranslations(existingLanguageCode).then((data) => {
         expect(data).to.equal(translationList);
       });
     });
@@ -49,7 +46,7 @@ describe('TranslationRepository', () => {
         .returns(null)
         .withArgs(englishLanguageCode)
         .returns(englishLanguage);
-      getTranslations(notExistingLanguageCode).then((data) => {
+      translationRepository.getTranslations(notExistingLanguageCode).then((data) => {
         expect(data).to.equal(translationList);
       });
     });
@@ -94,7 +91,7 @@ describe('TranslationRepository', () => {
       languageModel.findByCode = sinon.stub()
         .withArgs(existingLanguageCode)
         .returns(existingLanguage);
-      getTranslationsFromList(existingLanguageCode, codesList).then((data) => {
+      translationRepository.getTranslationsFromList(existingLanguageCode, codesList).then((data) => {
         data.forEach((t) => {
           expect(resultList).to.include(t);
         });
@@ -108,7 +105,7 @@ describe('TranslationRepository', () => {
           .returns(null)
           .withArgs(englishLanguageCode)
           .returns(englishLanguage);
-        getTranslationsFromList(notExistingLanguageCode, codesList).then((data) => {
+        translationRepository.getTranslationsFromList(notExistingLanguageCode, codesList).then((data) => {
           data.forEach((t) => {
             expect(resultList).to.include(t);
           });
@@ -151,7 +148,7 @@ describe('TranslationRepository', () => {
       languageModel.findByCode = sinon.stub()
         .withArgs(existingLanguageCode)
         .returns(existingLanguage);
-      getTranslationsByPrefix(existingLanguageCode, prefix).then((data) => {
+      translationRepository.getTranslationsByPrefix(existingLanguageCode, prefix).then((data) => {
         for (key in data.keys) {
           expect(resultList).to.include(data[key]);
         }
@@ -165,7 +162,7 @@ describe('TranslationRepository', () => {
           .returns(null)
           .withArgs(englishLanguageCode)
           .returns(englishLanguage);
-        getTranslationsByPrefix(notExistingLanguageCode, prefix).then((data) => {
+        translationRepository.getTranslationsByPrefix(notExistingLanguageCode, prefix).then((data) => {
           for (key in data.keys) {
             expect(resultList).to.include(data[key]);
           }
@@ -205,7 +202,7 @@ describe('TranslationRepository', () => {
       languageModel.findByCode = sinon.stub()
         .withArgs(existingLanguageCode)
         .returns(existingLanguage);
-      getByLangAndCode(existingLanguageCode, 'some-code').then((data) => {
+      translationRepository.getByLangAndCode(existingLanguageCode, 'some-code').then((data) => {
         expect(data).to.equal(translation);
       });
     });
@@ -216,7 +213,7 @@ describe('TranslationRepository', () => {
         .returns(null)
         .withArgs(englishLanguageCode)
         .returns(englishLanguage);
-      getByLangAndCode(notExistingLanguageCode, 'some-code').then((data) => {
+      translationRepository.getByLangAndCode(notExistingLanguageCode, 'some-code').then((data) => {
         expect(data).to.equal(translation);
       });
     });
