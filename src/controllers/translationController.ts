@@ -17,7 +17,7 @@ export default class TranslationController {
     try {
       const lang = req.query.lang;
       const result = await this.translationRepository.getTranslations(lang);
-      return helper.sendData({data: result}, res);
+      return helper.sendData(result, res);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
@@ -33,7 +33,7 @@ export default class TranslationController {
       const codeList = req.query.code;
       const codes = JSON.parse(codeList);
       const result = await this.translationRepository.getTranslationsFromList(lang, codes);
-      return helper.sendData({data: result}, res);
+      return helper.sendData(result, res);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
@@ -57,7 +57,7 @@ export default class TranslationController {
         student = await this.translationRepository.getByLangAndCode(lang, code);
       }
 
-      return helper.sendData({data: student}, res);
+      return helper.sendData(student, res);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
@@ -71,7 +71,7 @@ export default class TranslationController {
       const lang = req.query.lang;
       const prefix = req.query.prefix;
       const result = await this.translationRepository.getTranslationsByPrefix(lang, prefix);
-      return helper.sendData({data: result}, res);
+      return helper.sendData(result, res);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }

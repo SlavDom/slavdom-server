@@ -2,7 +2,7 @@ import * as bcrypt from "bcrypt";
 import {Request, Response} from "express";
 
 import UserRepository from "../repositories/userRepository";
-import {User} from "../db/data/User";
+import {User} from "../db/types/User";
 
 export default class UserController {
 
@@ -25,6 +25,6 @@ export default class UserController {
 
   public ajaxCheck(req: Request, res: Response): JSON {
     return this.userRepository.checkUniqueness(req.params.identifier.toLowerCase(), req.params.identifier.toLowerCase())
-      .then((user) => res.json({user}));
+      .then((user: User) => res.json({user}));
   }
 }

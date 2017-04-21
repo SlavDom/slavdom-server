@@ -13,7 +13,7 @@ export default class CommonController {
       const result = await
       sendMail(from, theme, message);
       logInfo("Mail is sent!");
-      return helper.sendData({data: result}, res);
+      return helper.sendData(result, res);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }

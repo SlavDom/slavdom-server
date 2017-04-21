@@ -3,7 +3,7 @@ import languageSchema from "../schemas/languageSchema";
 import * as logger from "../../logger";
 import {MongoError} from "mongodb";
 import {ObjectID} from "bson";
-import {Language} from "../data/Language";
+import {Language} from "../types/Language";
 
 export default class LanguageModel {
 

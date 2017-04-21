@@ -4,7 +4,7 @@ import * as logger from "../../logger";
 import {ObjectID} from "bson";
 import {MongoError} from "mongodb";
 import {Model} from "mongoose";
-import {News} from "../data/News";
+import {News} from "../types/News";
 
 export default class NewsModel {
 

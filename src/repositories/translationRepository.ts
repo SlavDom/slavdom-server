@@ -1,7 +1,9 @@
 import * as _ from "lodash";
 import LanguageModel from "../db/models/languageModel";
-import {Translation} from "../db/data/Translation";
+import {Translation} from "../db/types/Translation";
 import {Mongoose} from "mongoose";
+import {Language} from "../db/types/Language";
+import {AssociativeArray} from "../../types/AssociativeArray";
 
 export default class TranslationRepository {
 
@@ -32,7 +34,7 @@ export default class TranslationRepository {
    * */
   public async getTranslationsFromList(lang: string, codes: string[]): Promise<object> {
     // We create a result array
-    const res = [];
+    const res: string[] = [];
     // We read language entity by its code name
     const language = await this.languageModel.findByCode(lang);
     let languageEn = null;
@@ -69,9 +71,9 @@ export default class TranslationRepository {
   }
 
   public async getTranslationsByPrefix(lang: string, prefix: string): Promise<object> {
-    const res = {};
+    const res: AssociativeArray = {};
     // We read the requested language model
-    let language = await this.languageModel.findByCode(lang);
+    let language: Language = await this.languageModel.findByCode(lang);
     if (language !== null) {
       // We search all values from the list
       _.forEach(language.translations, (translation: Translation) => {
@@ -101,9 +103,9 @@ export default class TranslationRepository {
   public async getByLangAndCode(lang: string, code: string): Promise<Translation> {
     let res = null;
     // We read the requested language model
-    let language = await this.languageModel.findByCode(lang);
+    let language: Language = await this.languageModel.findByCode(lang);
     let flag: boolean = false;
-    let translations = null;
+    let translations: Translation[] | null = null;
     // If there is such a language in the database
     if (language !== null) {
       // We read the array of translations into this language
@@ -120,7 +122,7 @@ export default class TranslationRepository {
     // If the checker is still off, we get the default translation value
     if (!flag) {
       language = await this.languageModel.findByCode("en");
-      translations = language[0].translations;
+      translations = language.translations;
       translations.forEach((translation: Translation) => {
         if (translation.code === code) {
           res = translation;

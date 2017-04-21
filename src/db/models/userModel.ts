@@ -2,7 +2,7 @@ import mongoose from "../db";
 import userSchema from "../schemas/userSchema";
 import * as logger from "../../logger";
 import {MongoError} from "mongodb";
-import {User} from "../data/User";
+import {User} from "../types/User";
 
 export default class UserModel {
 

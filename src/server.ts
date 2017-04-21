@@ -11,6 +11,7 @@ import webpackConfig from "../../webpack.config.dev";
 import router from "./routes";
 import {initLogger, logError, logInfo} from "./logger";
 import dropAndSeedSchema from "../src/db/scripts/dropSchema";
+import {Request, Response, Express} from "express";
 
 const app = express();
 
@@ -39,9 +40,9 @@ function initExpress(): void {
 }
 
 /** Error handling initializing */
-function initErrorHandling(application): void {
+function initErrorHandling(application: Express): void {
   // log unhandled errors
-  application.use((err, req, res) => {
+  application.use((err: Error, req: Request, res: Response) => {
     logError(err);
     const message = _.isError(err) ? err.message : err;
     res.status(500).send({ error: message });

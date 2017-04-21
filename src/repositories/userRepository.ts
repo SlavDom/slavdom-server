@@ -1,5 +1,5 @@
 import UserModel from "../db/models/userModel";
-import {User} from "../db/data/User";
+import {User} from "../db/types/User";
 
 export default class UserRepository {
 

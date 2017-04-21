@@ -1,7 +1,7 @@
 import NewsModel from "../db/models/newsModel";
 import LanguageModel from "../db/models/languageModel";
 import { newsComparator } from "../utils/comparators";
-import {News} from "../db/data/News";
+import {News} from "../db/types/News";
 import {ObjectID} from "bson";
 
 export default class NewsRepository {
@@ -90,16 +90,18 @@ export default class NewsRepository {
    * @param {object} news the news to save
    * @param {string} languageCode language the news is related to
    */
-  public async saveNews(news: News, languageCode: string) {
+  public async saveNews(news: News, languageCode: string): Promise<News> {
     // We get a language entity from the database
     const languageId: ObjectID = await this.languageModel.getId(languageCode);
     // If there exists such a language. we get its id
+    let result: News = null;
     if (languageId !== null) {
       // We add to news model a language attribute with its ID
       news.languageId = languageId;
       // We created the model into the database
-      await this.newsModel.create(news);
+      result = await this.newsModel.create(news);
     }
+    return result;
   }
 }
 

@@ -12,7 +12,7 @@ function getDataPath() {
   return defaultDataPath;
 }
 
-function getRelativePath(...paths) {
+function getRelativePath(...paths: string[]) {
   const args = _.toArray(arguments);
 
   args.unshift(rootPath);
@@ -20,7 +20,7 @@ function getRelativePath(...paths) {
   return path.join.apply(this, args);
 }
 
-function getDataRelativePath(...paths) {
+function getDataRelativePath(...paths: string[]) {
   const args = _.toArray(arguments);
 
   args.unshift(getDataPath());

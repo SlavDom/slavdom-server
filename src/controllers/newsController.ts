@@ -1,7 +1,7 @@
 import NewsRepository from "../repositories/newsRepository";
 import helper from "./controllerHelper";
 import {Request, Response} from "express";
-import {News} from "../db/data/News";
+import {News} from "../db/types/News";
 
 export default class NewsController {
 
@@ -22,7 +22,7 @@ export default class NewsController {
       const lang = req.query.lang;
       const theme = req.query.theme;
       const result = await this.newsRepository.getNews(theme, lang);
-      return helper.sendData({data: result}, res);
+      return helper.sendData(result, res);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
@@ -49,7 +49,7 @@ export default class NewsController {
         return helper.sendFailureMessage("There is no language parameter in the query", res);
       }
       const result = await this.newsRepository.getNewsPage(lang, page, amount);
-      return helper.sendData(result, res);
+      return helper.sendDataWithoutShell(result, res);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
@@ -71,7 +71,7 @@ export default class NewsController {
         fullText: req.body.fullText,
       } as News;
       const result = await this.newsRepository.saveNews(news, lang);
-      return helper.sendData({data: result}, res);
+      return helper.sendData(result, res);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
