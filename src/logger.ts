@@ -3,10 +3,13 @@ import * as fs from "fs";
 import * as bunyan from "bunyan";
 import * as Logger from "bunyan";
 
+const databaseLogFolder = "server/logs/db.log";
+const errorLogFolder = "server/logs/error.log";
+
 function initLogger(): void {
   process.stdout.write("\x1Bc");
-  fs.writeFile("server/data/logs/db.log", "");
-  fs.writeFile("server/data/logs/error.log", "");
+  fs.writeFile(databaseLogFolder, "");
+  fs.writeFile(errorLogFolder, "");
 }
 
 const errorLogger: Logger = bunyan.createLogger({
@@ -17,7 +20,7 @@ const errorLogger: Logger = bunyan.createLogger({
       level: "error",
     },
     {
-      path: "server/data/logs/error.log",
+      path: errorLogFolder,
       level: "error",
     },
   ],
@@ -31,7 +34,7 @@ const databaseLogger: Logger = bunyan.createLogger({
       level: "debug",
     },
     {
-      path: "server/data/logs/db.log",
+      path: databaseLogFolder,
       level: "debug",
     },
   ],
