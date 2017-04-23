@@ -3,6 +3,7 @@ import LanguageModel from "../db/models/languageModel";
 import { newsComparator } from "../utils/comparators";
 import {News} from "../db/types/News";
 import {ObjectID} from "bson";
+import {Page} from "../../types/Page";
 
 export default class NewsRepository {
 
@@ -38,7 +39,7 @@ export default class NewsRepository {
    * @param {number} amount requested page length
    * @returns {array} the news list
    */
-  public async getNewsPage(language: string, page: number, amount: number): Promise<object> {
+  public async getNewsPage(language: string, page: number, amount: number): Promise<Page<News>> {
     // We get a language id from the database
     const langId: ObjectID = await this.languageModel.getId(language);
     // If there exists such a language. we get its id
