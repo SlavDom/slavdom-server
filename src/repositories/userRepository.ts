@@ -3,7 +3,7 @@ import {User} from "../db/types/User";
 
 export default class UserRepository {
 
-  private userModel: any;
+  private userModel: UserModel;
 
   constructor() {
     this.userModel = new UserModel();

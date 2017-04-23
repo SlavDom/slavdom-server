@@ -23,7 +23,7 @@ export default class UserController {
       .catch((err: Error) => res.status(500).json({error: err}));
   }
 
-  public ajaxCheck(req: Request, res: Response): JSON {
+  public ajaxCheck(req: Request, res: Response): Promise<Response> {
     return this.userRepository.checkUniqueness(req.params.identifier.toLowerCase(), req.params.identifier.toLowerCase())
       .then((user: User) => res.json({user}));
   }
