@@ -20,6 +20,9 @@ function initWebpack(): void {
   app.use(webpackMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
     noInfo: true,
+    headers: {
+      "Access-Control-Allow-Origin": "http://localhost",
+    },
   }));
   app.use(webpackHotMiddleware(compiler));
 }
@@ -65,7 +68,7 @@ function start(): void {
   initErrorHandling(app);
 
   app.listen(3000, () => {
-    logInfo(`Server is listening on port 3000!`);
+    logInfo("Server is listening on port 3000!");
   });
 }
 

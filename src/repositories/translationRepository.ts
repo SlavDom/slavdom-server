@@ -31,9 +31,9 @@ export default class TranslationRepository {
 
   /** @param {string} lang requested language
    * @param {array} codes the list of requested codes
-   * @returns {array} the list of translations
+   * @returns {array} the list of translations results
    * */
-  public async getTranslationsFromList(lang: string, codes: string[]): Promise<string[]> {
+  public async getTranslationsResultsFromList(lang: string, codes: string[]): Promise<string[]> {
     // We create a result array
     const res: string[] = [];
     // We read language entity by its code name
@@ -72,14 +72,14 @@ export default class TranslationRepository {
   }
 
   public async getTranslationsByPrefix(lang: string, prefix: string): Promise<AssociativeArray<string>> {
-    const res: AssociativeArray<string> = {};
+    const translations: AssociativeArray<string> = {};
     // We read the requested language model
     let language: Language = await this.languageModel.findByCode(lang);
     if (language !== null) {
       // We search all values from the list
       _.forEach(language.translations, (translation: Translation) => {
         if (_.includes(translation.prefix, prefix)) {
-          res[translation.code] = translation.result;
+          translations[translation.code] = translation.result;
         }
       });
     }
@@ -88,12 +88,12 @@ export default class TranslationRepository {
     // We check whether all values have been added to array
     _.forEach(language.translations, (translation: Translation) => {
       if (_.includes(translation.prefix, prefix)) {
-        if (!res[translation.code]) {
-          res[translation.code] = translation.result;
+        if (!translations[translation.code]) {
+          translations[translation.code] = translation.result;
         }
       }
     });
-    return res;
+    return translations;
   }
 
   /**

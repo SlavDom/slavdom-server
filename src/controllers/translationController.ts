@@ -32,7 +32,7 @@ export default class TranslationController {
       const lang = req.query.lang;
       const codeList = req.query.code;
       const codes = JSON.parse(codeList);
-      const result = await this.translationRepository.getTranslationsFromList(lang, codes);
+      const result = await this.translationRepository.getTranslationsResultsFromList(lang, codes);
       return helper.sendData(result, res);
     } catch (err) {
       return helper.sendFailureMessage(err, res);

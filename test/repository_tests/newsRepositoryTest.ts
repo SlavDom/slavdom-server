@@ -5,7 +5,7 @@ import * as sinon from "sinon";
 import LanguageModel from "../../src/db/models/languageModel";
 import NewsModel from "../../src/db/models/newsModel";
 import NewsRepository from "../../src/repositories/newsRepository";
-import {Page} from "../../types/Page";
+import {Page} from "../../src/types/Page";
 import {News} from "../../src/db/types/News";
 
 describe("newsRepository", () => {
@@ -33,8 +33,8 @@ describe("newsRepository", () => {
 
     it("returns empty object if there is no such a language", () => {
       languageModel.getId = sinon.stub().returns(null);
-      newsRepository.getNews(randomNewsTheme, notExistingLanguageCode).then((data: News) => {
-        expect(data).to.be.empty;
+      newsRepository.getNews(randomNewsTheme, notExistingLanguageCode).then((news: News) => {
+        expect(news).to.be.empty;
       });
     });
   });
@@ -59,29 +59,29 @@ describe("newsRepository", () => {
     it("gets the news list by language, page and page length", () => {
       languageModel.getId = sinon.stub().returns(englishLanguageId);
       newsModel.findByLanguageId = sinon.stub().returns(newsList);
-      newsRepository.getNewsPage(englishLanguageCode, existingPage, 3).then((data: Page<News>) => {
-        data.data.forEach((t) => {
-          expect(newsList).to.include(t);
+      newsRepository.getNewsPage(englishLanguageCode, existingPage, 3).then((page: Page<News>) => {
+        page.data.forEach((news) => {
+          expect(newsList).to.include(news);
         });
-        expect(data.amount).to.equal(2);
+        expect(page.amount).to.equal(2);
       });
     });
 
     it("returns empty list if there is no such a language", () => {
       languageModel.getId = sinon.stub().returns(null);
-      newsRepository.getNewsPage(notExistingLanguageCode, existingPage, 3).then((data: Page<News>) => {
-        expect(data.amount).to.equal(0);
+      newsRepository.getNewsPage(notExistingLanguageCode, existingPage, 3).then((page: Page<News>) => {
+        expect(page.amount).to.equal(0);
       });
     });
 
     it("returns the first page if the page value is too big", () => {
       languageModel.getId = sinon.stub().returns(englishLanguageId);
       newsModel.findByLanguageId = sinon.stub().returns(newsList);
-      newsRepository.getNewsPage(englishLanguageCode, nonExistingPage, 3).then((data: Page<News>) => {
-        data.data.forEach((t) => {
-          expect(newsList).to.include(t);
+      newsRepository.getNewsPage(englishLanguageCode, nonExistingPage, 3).then((page: Page<News>) => {
+        page.data.forEach((news) => {
+          expect(newsList).to.include(news);
         });
-        expect(data.amount).to.equal(2);
+        expect(page.amount).to.equal(2);
       });
     });
   });
