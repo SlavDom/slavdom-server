@@ -1,5 +1,4 @@
 import "jest";
-
 import {Request, Response} from "express";
 import * as sinon from "sinon";
 
@@ -8,7 +7,6 @@ import NewsRepository from "../../src/repositories/newsRepository";
 import helper from "../../src/controllers/controllerHelper";
 import {ObjectID} from "bson";
 import {Page} from "../../src/types/Page";
-import * as assert from "assert";
 
 describe("NewsController", () => {
   const newsController = new NewsController();
@@ -38,7 +36,7 @@ describe("NewsController", () => {
       req.query.theme = randomNewsTheme;
       NewsRepository.prototype.getNews = jest.fn().mockReturnValue(testNews);
       return newsController.getNews(req, res).then(() => {
-        assert(spy.withArgs(res, testNews).calledOnce);
+        expect(spy.withArgs(res, testNews).calledOnce).toBeTruthy();
       });
     });
 
@@ -47,7 +45,7 @@ describe("NewsController", () => {
       req.query.theme = randomNewsTheme;
       NewsRepository.prototype.getNews = jest.fn().mockReturnValue(null);
       return newsController.getNews(req, res).then(() => {
-        assert(spy.withArgs(res, null).calledOnce);
+        expect(spy.withArgs(res, null).calledOnce).toBeTruthy();
       });
     });
   });
@@ -80,7 +78,7 @@ describe("NewsController", () => {
       req.query.page = existingPage;
       NewsRepository.prototype.getNewsPage = jest.fn().mockReturnValue(newsList);
       return newsController.getNewsPage(req, res).then(() => {
-        assert(spy.withArgs(res, newsList).calledOnce);
+        expect(spy.withArgs(res, newsList).calledOnce).toBeTruthy();
       });
     });
 
@@ -90,7 +88,7 @@ describe("NewsController", () => {
       req.query.page = nonExistingPage;
       NewsRepository.prototype.getNewsPage = jest.fn().mockReturnValue(emptyList);
       return newsController.getNewsPage(req, res).then(() => {
-        assert(spy.withArgs(res, emptyList).calledOnce);
+        expect(spy.withArgs(res, emptyList).calledOnce).toBeTruthy();
       });
     });
 
@@ -100,7 +98,7 @@ describe("NewsController", () => {
       req.query.page = nonExistingPage;
       NewsRepository.prototype.getNewsPage = jest.fn().mockReturnValue(newsList);
       return newsController.getNewsPage(req, res).then(() => {
-        assert(spy.withArgs(res, newsList).calledTwice);
+        expect(spy.withArgs(res, newsList).calledTwice).toBeTruthy();
       });
     });
   });
