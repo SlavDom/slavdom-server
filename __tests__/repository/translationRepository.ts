@@ -28,7 +28,7 @@ describe("TranslationRepository", () => {
 
   const translationEnglishList: Translation[] = [
     someTranslation,
-    someNewTranslation
+    someNewTranslation,
   ] as Translation[];
   const englishLanguage: Language = {
     code: englishLanguageCode,
@@ -36,7 +36,7 @@ describe("TranslationRepository", () => {
   } as Language;
   const translationList: Translation[] = [
     someTranslation,
-    someNewTranslation
+    someNewTranslation,
   ] as Translation[];
   const existingLanguage: Language = {
     code: existingLanguageCode,
