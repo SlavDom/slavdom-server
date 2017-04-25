@@ -17,12 +17,12 @@ export default class NewsRepository {
 
   /**
    * @param {string} theme requested theme of the news
-   * @param {string} language requested language code
+   * @param {string} languageCode requested language code
    * @returns {object} the news found by language and code
    */
-  public async getNews(theme: string, language: string): Promise<News> {
+  public async getNews(theme: string, languageCode: string): Promise<News> {
     // We get a language id from the database
-    const langId: ObjectID = await this.languageModel.getId(language);
+    const langId: ObjectID = await this.languageModel.getId(languageCode);
     // If there exists such a language. we get its id
     if (langId !== null) {
       // We get the amount of news that are of the requested theme and language
