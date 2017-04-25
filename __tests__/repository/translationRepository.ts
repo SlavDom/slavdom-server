@@ -134,18 +134,21 @@ describe("TranslationRepository", () => {
 
     test("gets the translation by its language and code values", () => {
       LanguageModel.prototype.findByCode = jest.fn().mockReturnValue(existingLanguage);
-      translationRepository.getByLangAndCode(existingLanguageCode, "some-code").then((translation: Translation) => {
-        expect(translation).toEqual(someTranslation);
-      });
+      return translationRepository.getByLangAndCode(existingLanguageCode, "some-code")
+        .then((translation: Translation) => {
+          expect(translation).toEqual(someTranslation);
+        });
     });
 
     it("returns the default translation if there is no suitable translation on the requested language and code",
       () => {
-      LanguageModel.prototype.findByCode = jest.fn().mockReturnValue(null);
-      translationRepository.getByLangAndCode(notExistingLanguageCode, "some-code")
+      LanguageModel.prototype.findByCode = jest.fn()
+        .mockReturnValueOnce(null)
+        .mockReturnValue(englishLanguage);
+      return translationRepository.getByLangAndCode(notExistingLanguageCode, "some-code")
         .then((translation: Translation) => {
           expect(translation).toEqual(someTranslation);
-      });
+        });
     });
   });
 });
