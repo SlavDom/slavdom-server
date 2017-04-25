@@ -9,7 +9,7 @@ import {ObjectID} from "bson";
 import {Page} from "../../src/types/Page";
 
 describe("NewsController", () => {
-  const newsController = new NewsController();
+  const newsController: NewsController = new NewsController();
   const englishLanguageCode: string = "englishLanguageCode";
   const englishLanguageId: ObjectID = new ObjectID("XXXXXXXXXXXX");
   const notExistingLanguageCode: string = "notExistingLanguageCode";
