@@ -1,13 +1,14 @@
 import "jest";
 
 import {Request, Response} from "express";
+import * as sinon from "sinon";
 
 import NewsController from "../../src/controllers/newsController";
 import NewsRepository from "../../src/repositories/newsRepository";
 import helper from "../../src/controllers/controllerHelper";
-import {News} from "../../src/db/types/News";
 import {ObjectID} from "bson";
 import {Page} from "../../src/types/Page";
+import * as assert from "assert";
 
 describe("NewsController", () => {
   const newsController = new NewsController();
@@ -18,12 +19,14 @@ describe("NewsController", () => {
   const req: Request = {} as Request;
   req.query = {};
   const res: Response = {} as Response;
+  res.send = () => res;
 
   afterEach = () => {
     req.query = {};
   };
 
   describe("#getNews()", () => {
+    const spy = sinon.spy(helper, "sendData");
     const randomNewsTheme: string =  "randomNewsTheme";
     const testNews: object = {
       theme: randomNewsTheme,
@@ -34,9 +37,8 @@ describe("NewsController", () => {
       req.query.lang = englishLanguageCode;
       req.query.theme = randomNewsTheme;
       NewsRepository.prototype.getNews = jest.fn().mockReturnValue(testNews);
-      helper.sendData = jest.fn().mockReturnValue(testNews);
-      return newsController.getNews(req, res).then((news: News) => {
-        expect(news).toEqual(testNews);
+      return newsController.getNews(req, res).then(() => {
+        assert(spy.withArgs(res, testNews).calledOnce);
       });
     });
 
@@ -44,14 +46,14 @@ describe("NewsController", () => {
       req.query.lang = notExistingLanguageCode;
       req.query.theme = randomNewsTheme;
       NewsRepository.prototype.getNews = jest.fn().mockReturnValue(null);
-      helper.sendData = jest.fn().mockReturnValue(undefined);
-      return newsController.getNews(req, res).then((news: News) => {
-        expect(news).toEqual(undefined);
+      return newsController.getNews(req, res).then(() => {
+        assert(spy.withArgs(res, null).calledOnce);
       });
     });
   });
 
   describe("#getNewsPage()", () => {
+    const spy = sinon.spy(helper, "sendDataWithoutShell");
     const existingPage: number = 1;
     const nonExistingPage: number = 3;
     const newsList: Page<object> = {
@@ -76,13 +78,9 @@ describe("NewsController", () => {
       req.query.lang = englishLanguageCode;
       req.query.amount = 3;
       req.query.page = existingPage;
-      NewsRepository.prototype.getNewsPage = jest.fn().mockReturnValue(englishLanguageId);
-      helper.sendDataWithoutShell = jest.fn().mockReturnValue(newsList);
-      return newsController.getNewsPage(req, res).then((page: Page<News>) => {
-        page.data.forEach((news: News) => {
-          expect(newsList.data).toContain(news);
-        });
-        expect(page.amount).toEqual(2);
+      NewsRepository.prototype.getNewsPage = jest.fn().mockReturnValue(newsList);
+      return newsController.getNewsPage(req, res).then(() => {
+        assert(spy.withArgs(res, newsList).calledOnce);
       });
     });
 
@@ -90,10 +88,9 @@ describe("NewsController", () => {
       req.query.lang = nonExistingPage;
       req.query.amount = 3;
       req.query.page = nonExistingPage;
-      NewsRepository.prototype.getNewsPage = jest.fn().mockReturnValue(null);
-      helper.sendDataWithoutShell = jest.fn().mockReturnValue(emptyList);
-      return newsController.getNewsPage(req, res).then((page: Page<News>) => {
-        expect(page.amount).toEqual(0);
+      NewsRepository.prototype.getNewsPage = jest.fn().mockReturnValue(emptyList);
+      return newsController.getNewsPage(req, res).then(() => {
+        assert(spy.withArgs(res, emptyList).calledOnce);
       });
     });
 
@@ -102,12 +99,8 @@ describe("NewsController", () => {
       req.query.amount = 3;
       req.query.page = nonExistingPage;
       NewsRepository.prototype.getNewsPage = jest.fn().mockReturnValue(newsList);
-      helper.sendDataWithoutShell = jest.fn().mockReturnValue(newsList);
-      return newsController.getNewsPage(req, res).then((page: Page<News>) => {
-        page.data.forEach((news: News) => {
-          expect(newsList.data).toContain(news);
-        });
-        expect(page.amount).toEqual(2);
+      return newsController.getNewsPage(req, res).then(() => {
+        assert(spy.withArgs(res, newsList).calledTwice);
       });
     });
   });

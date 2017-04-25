@@ -23,7 +23,7 @@ function sendData(res: Response, data?: object): void {
   });
 }
 
-function sendDataWithoutShell(data: object, res: Response): void {
+function sendDataWithoutShell(res: Response, data: object): void {
   res.send(data);
 }
 

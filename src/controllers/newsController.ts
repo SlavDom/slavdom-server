@@ -18,7 +18,7 @@ export default class NewsController {
    * @returns {json}
    * Get a single news by its theme and lang
    */
-  public async getNews(req: Request, res: Response) {
+  public async getNews(req: Request, res: Response): Promise<void> {
     try {
       const lang = req.query.lang;
       const theme = req.query.theme;
@@ -35,7 +35,7 @@ export default class NewsController {
    * @returns {json}
    * Get the list page of news
    */
-  public async getNewsPage(req: Request, res: Response) {
+  public async getNewsPage(req: Request, res: Response): Promise<void> {
     try {
       const lang = req.query.lang;
       let page = req.query.page;
@@ -50,7 +50,7 @@ export default class NewsController {
         return helper.sendFailureMessage("There is no language parameter in the query", res);
       }
       const result: Page<News> = await this.newsRepository.getNewsPage(lang, page, amount);
-      return helper.sendDataWithoutShell(result, res);
+      return helper.sendDataWithoutShell(res, result);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
@@ -62,7 +62,7 @@ export default class NewsController {
    * @returns {json}
    * Saves the news
    */
-  public async saveNews(req: Request, res: Response) {
+  public async saveNews(req: Request, res: Response): Promise<void> {
     try {
       const lang = req.body.lang;
       const news = {
