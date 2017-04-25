@@ -59,7 +59,7 @@ export default class TranslationRepository {
       }
       // If there is no such a language or we have not collected necessary translations
       // we read data from default language entity
-      if (!flag) {
+      if (!flag && languageEn !== null) {
         _.forEach(languageEn.translations, (translation: Translation) => {
           if (translation.code === code) {
             res.push(translation.result);
@@ -98,15 +98,15 @@ export default class TranslationRepository {
 
   /**
    * Getting translations with common code
-   * @param {string} lang language
+   * @param {string} languageCode language
    * @param {string} code code of the translation
    * @returns {object} the list of translations */
-  public async getByLangAndCode(lang: string, code: string): Promise<Translation> {
-    let res = null;
+  public async getByLangAndCode(languageCode: string, code: string): Promise<Translation|undefined> {
+    let result: Translation|undefined;
     // We read the requested language model
-    let language: Language = await this.languageModel.findByCode(lang);
+    let language: Language = await this.languageModel.findByCode(languageCode);
     let flag: boolean = false;
-    let translations: Translation[] | null = null;
+    let translations: Translation[] = [];
     // If there is such a language in the database
     if (language !== null) {
       // We read the array of translations into this language
@@ -115,7 +115,7 @@ export default class TranslationRepository {
         // We try to find the requested translation by its code
         if (translation.code === code) {
           // If there is such a translations, we turn the checker on
-          res = translation;
+          result = translation;
           flag = true;
         }
       });
@@ -126,11 +126,11 @@ export default class TranslationRepository {
       translations = language.translations;
       translations.forEach((translation: Translation) => {
         if (translation.code === code) {
-          res = translation;
+          result = translation;
         }
       });
     }
-    return res;
+    return result;
   }
 
 // //   /** Saving a new translation to repository

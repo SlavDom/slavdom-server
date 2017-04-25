@@ -30,7 +30,7 @@ describe("NewsRepository", () => {
     test("returns empty object if there is no such a language", () => {
       LanguageModel.prototype.getId = jest.fn().mockReturnValue(null);
       return newsRepository.getNews(randomNewsTheme, notExistingLanguageCode).then((news: News) => {
-        expect(news).toEqual(null);
+        expect(news).toEqual(undefined);
       });
     });
   });

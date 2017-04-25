@@ -16,7 +16,7 @@ function sendSuccessMessage(message: string, res: Response): void {
   });
 }
 
-function sendData(data: object, res: Response): void {
+function sendData(res: Response, data?: object): void {
   res.send({
     status: "success",
     data,

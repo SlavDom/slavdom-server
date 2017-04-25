@@ -23,7 +23,7 @@ export default class NewsController {
       const lang = req.query.lang;
       const theme = req.query.theme;
       const result = await this.newsRepository.getNews(theme, lang);
-      return helper.sendData(result, res);
+      return helper.sendData(res, result);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
@@ -72,7 +72,7 @@ export default class NewsController {
         fullText: req.body.fullText,
       } as News;
       const result = await this.newsRepository.saveNews(news, lang);
-      return helper.sendData(result, res);
+      return helper.sendData(res, result);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }

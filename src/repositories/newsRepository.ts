@@ -20,17 +20,17 @@ export default class NewsRepository {
    * @param {string} languageCode requested language code
    * @returns {object} the news found by language and code
    */
-  public async getNews(theme: string, languageCode: string): Promise<News> {
+  public async getNews(theme: string, languageCode: string): Promise<News|undefined> {
     // We get a language id from the database
     const langId: ObjectID = await this.languageModel.getId(languageCode);
+    let news: News|undefined;
     // If there exists such a language. we get its id
     if (langId !== null) {
       // We get the amount of news that are of the requested theme and language
-      const news: News = await this.newsModel.findByThemeAndLanguageId(theme, langId);
-      return news;
+      news = await this.newsModel.findByThemeAndLanguageId(theme, langId);
     }
     // If there is no such a language
-    return null;
+    return news;
   }
 
   /**
@@ -91,11 +91,11 @@ export default class NewsRepository {
    * @param {object} news the news to save
    * @param {string} languageCode language the news is related to
    */
-  public async saveNews(news: News, languageCode: string): Promise<News> {
+  public async saveNews(news: News, languageCode: string): Promise<News|undefined> {
     // We get a language entity from the database
     const languageId: ObjectID = await this.languageModel.getId(languageCode);
     // If there exists such a language. we get its id
-    let result: News = null;
+    let result: News|undefined;
     if (languageId !== null) {
       // We add to news model a language attribute with its ID
       news.languageId = languageId;

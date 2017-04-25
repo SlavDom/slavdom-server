@@ -10,10 +10,9 @@ export default class CommonController {
       const from = req.body.from;
       const message = req.body.message;
       const theme = req.body.theme;
-      const result = await
-      sendMail(from, theme, message);
+      const result = await sendMail(from, theme, message);
       logInfo("Mail is sent!");
-      return helper.sendData(result, res);
+      return helper.sendData(res, result);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }

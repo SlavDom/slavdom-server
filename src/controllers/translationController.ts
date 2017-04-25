@@ -17,7 +17,7 @@ export default class TranslationController {
     try {
       const lang = req.query.lang;
       const result = await this.translationRepository.getTranslations(lang);
-      return helper.sendData(result, res);
+      return helper.sendData(res, result);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
@@ -33,7 +33,7 @@ export default class TranslationController {
       const codeList = req.query.code;
       const codes = JSON.parse(codeList);
       const result = await this.translationRepository.getTranslationsResultsFromList(lang, codes);
-      return helper.sendData(result, res);
+      return helper.sendData(res, result);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
@@ -44,20 +44,17 @@ export default class TranslationController {
    *  @returns {json} one translation **/
   public async getTranslation(req: Request, res: Response): Promise<void> {
     try {
-      let id;
       let lang;
       let code;
-      let student;
+      let translation;
 
-      if (req.query.id !== undefined) {
-        id = req.query.id;
-      } else {
+      if (req.query.id === undefined) {
         code = req.query.code;
         lang = req.query.lang;
-        student = await this.translationRepository.getByLangAndCode(lang, code);
+        translation = await this.translationRepository.getByLangAndCode(lang, code);
       }
 
-      return helper.sendData(student, res);
+      return helper.sendData(res, translation);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
@@ -71,7 +68,7 @@ export default class TranslationController {
       const lang = req.query.lang;
       const prefix = req.query.prefix;
       const result = await this.translationRepository.getTranslationsByPrefix(lang, prefix);
-      return helper.sendData(result, res);
+      return helper.sendData(res, result);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
@@ -101,7 +98,7 @@ export default class TranslationController {
   public async deleteTranslation(req: Request, res: Response): Promise<void> {
     try {
       const id = req.body.id;
-      return helper.sendData({}, res);
+      return helper.sendData(res);
     } catch (err) {
       return helper.sendFailureMessage(err, res);
     }
