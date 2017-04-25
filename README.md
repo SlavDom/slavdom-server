@@ -4,7 +4,7 @@ Server of the SlavDom web portal
 ### What is this repository for? ###
 
 * This is a repository for interslavic community web project
-* Version 0.1.2
+* Version 0.2.0
 
 ### How do I get set up? ###
 
