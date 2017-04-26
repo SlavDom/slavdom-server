@@ -2,8 +2,8 @@ import * as _ from "lodash";
 import LanguageModel from "../models/languageModel";
 import NewsModel from "../models/newsModel";
 import { languageSeeder, newsSeeder } from "../seeders";
-import {Language} from "../types/Language";
-import {News} from "../types/News";
+import {Language} from "../../types/Language";
+import {News} from "../../types/News";
 import {ObjectID} from "bson";
 
 async function seedLanguages(languageModel: LanguageModel) {

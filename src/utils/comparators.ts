@@ -1,4 +1,4 @@
-import {News} from "../db/types/News";
+import {News} from "../types/News";
 
 function newsComparator(n1: News, n2: News): number {
   if (n1.createdAt > n2.createdAt) {

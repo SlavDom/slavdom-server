@@ -2,7 +2,7 @@ import "jest";
 import NewsRepository from "../../src/repositories/newsRepository";
 import NewsModel from "../../src/db/models/newsModel";
 import LanguageModel from "../../src/db/models/languageModel";
-import {News} from "../../src/db/types/News";
+import {News} from "../../src/types/News";
 import {ObjectID} from "bson";
 import {Page} from "../../src/types/Page";
 

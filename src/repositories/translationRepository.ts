@@ -2,8 +2,8 @@ import * as _ from "lodash";
 import {Mongoose} from "mongoose";
 
 import LanguageModel from "../db/models/languageModel";
-import {Translation} from "../db/types/Translation";
-import {Language} from "../db/types/Language";
+import {Translation} from "../types/Translation";
+import {Language} from "../types/Language";
 import {AssociativeArray} from "../types/AssociativeArray";
 
 export default class TranslationRepository {

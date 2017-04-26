@@ -1,7 +1,7 @@
 import NewsModel from "../db/models/newsModel";
 import LanguageModel from "../db/models/languageModel";
 import { newsComparator } from "../utils/comparators";
-import {News} from "../db/types/News";
+import {News} from "../types/News";
 import {ObjectID} from "bson";
 import {Page} from "../types/Page";
 

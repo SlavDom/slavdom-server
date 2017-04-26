@@ -1,7 +1,7 @@
 import NewsRepository from "../repositories/newsRepository";
 import helper from "./controllerHelper";
 import {Request, Response} from "express";
-import {News} from "../db/types/News";
+import {News} from "../types/News";
 import {Page} from "../types/Page";
 
 export default class NewsController {

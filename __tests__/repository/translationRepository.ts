@@ -3,8 +3,8 @@ import "jest";
 import TranslationRepository from "../../src/repositories/translationRepository";
 import LanguageModel from "../../src/db/models/languageModel";
 import {AssociativeArray} from "../../src/types/AssociativeArray";
-import {Translation} from "../../src/db/types/Translation";
-import {Language} from "../../src/db/types/Language";
+import {Translation} from "../../src/types/Translation";
+import {Language} from "../../src/types/Language";
 import {ObjectID} from "bson";
 
 describe("TranslationRepository", () => {

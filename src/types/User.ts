@@ -18,3 +18,19 @@ export interface User extends mongoose.Document {
   loggedAt: Date;
   role: number;
 }
+
+export interface UserData {
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+  timezone: string;
+}
+
+export interface UserError {
+  username?: string;
+  email?: string;
+  password?: string;
+  passwordConfirmation?: string;
+  timezone?: string;
+}

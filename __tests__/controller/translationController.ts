@@ -7,7 +7,7 @@ import TranslationRepository from "../../src/repositories/translationRepository"
 import TranslationController from "../../src/controllers/translationController";
 import helper from "../../src/controllers/controllerHelper";
 import {AssociativeArray} from "../../src/types/AssociativeArray";
-import {Translation} from "../../src/db/types/Translation";
+import {Translation} from "../../src/types/Translation";
 import {ObjectID} from "bson";
 
 describe("TranslationRepository", () => {
