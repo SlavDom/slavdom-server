@@ -17,4 +17,12 @@ export default class UserRepository {
     return this.userModel.checkUniqueness(username, email);
   }
 
+  public checkUsernameUniqueness(username: string) {
+    return this.userModel.checkUsernameUniqueness(username);
+  }
+
+  public checkEmailUniqueness(email: string) {
+    return this.userModel.checkEmailUniqueness(email);
+  }
+
 }

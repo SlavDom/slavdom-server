@@ -30,7 +30,8 @@ class SlavDomRouter {
   }
 
   public initUserRoutes(): void {
-    this.router.get("/api/users/:identifier", this.userController.ajaxCheck.bind(this.userController));
+    this.router.get("/api/users/username/:identifier", this.userController.ajaxUsernameCheck.bind(this.userController));
+    this.router.get("/api/users/email/:identifier", this.userController.ajaxEmailCheck.bind(this.userController));
     this.router.post("/api/users/save", this.userController.saveUser.bind(this.userController));
   }
 

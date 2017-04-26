@@ -31,8 +31,13 @@ export default class UserController {
     });
   }
 
-  public ajaxCheck(req: Request, res: Response): Promise<Response> {
-    return this.userRepository.checkUniqueness(req.params.identifier.toLowerCase(), req.params.identifier.toLowerCase())
+  public ajaxUsernameCheck(req: Request, res: Response): Promise<Response> {
+    return this.userRepository.checkUsernameUniqueness(req.params.identifier.toLowerCase())
+      .then((user: User) => res.json({user}));
+  }
+
+  public ajaxEmailCheck(req: Request, res: Response): Promise<Response> {
+    return this.userRepository.checkEmailUniqueness(req.params.identifier.toLowerCase())
       .then((user: User) => res.json({user}));
   }
 
