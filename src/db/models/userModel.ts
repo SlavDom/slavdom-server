@@ -18,7 +18,7 @@ export default class UserModel {
       if (err) {
         throw err;
       }
-      logger.logDatabase(`User ${user.name} has been created.`);
+      logger.logDatabase(`User ${user.username} has been created.`);
       return true;
     });
   }

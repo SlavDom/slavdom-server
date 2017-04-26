@@ -52,7 +52,7 @@ class SlavDomRouter {
     this.router.post("api/news/save", this.newsController.saveNews.bind(this.newsController));
   }
 
-  public  initCommonRoutes(): void {
+  public initCommonRoutes(): void {
     this.router.post("/api/common/mail", CommonController.mailSender);
   }
 }
