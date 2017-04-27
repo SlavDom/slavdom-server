@@ -5,7 +5,7 @@ import {Request, Response} from "express";
 
 export default class CommonController {
 
-  public static async mailSender(req: Request, res: Response) {
+  public static async mailSender(req: Request, res: Response): Promise<void> {
     try {
       const from = req.body.from;
       const message = req.body.message;

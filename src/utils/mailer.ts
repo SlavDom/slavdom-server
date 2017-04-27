@@ -1,6 +1,7 @@
 import * as nodemailer from "nodemailer";
+import {SentMessageInfo} from "nodemailer";
 
-function sendMail(from: string, subject: string, text: string): object {
+function sendMail(from: string, subject: string, text: string): Promise<SentMessageInfo> {
   const smtpConfig = {
     host: "smtp.yandex.ru",
     port: 465,
