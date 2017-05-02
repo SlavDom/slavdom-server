@@ -23,6 +23,22 @@ export default class UserModel {
     });
   }
 
+  public async getUserByUsernameOrEmail(username: string, email: string): Promise<User> {
+    return this.mongooseUserModel
+      .findOne({
+        $or: [
+          { username },
+          { email },
+        ],
+      })
+      .exec((err: MongoError, user: User) => {
+        if (err) {
+          throw err;
+        }
+        return user;
+      });
+  }
+
   public async checkUniqueness(username: string, email: string): Promise<User> {
     return this.mongooseUserModel
       .findOne({

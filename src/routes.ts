@@ -5,6 +5,7 @@ import CommonController from "./controllers/commonController";
 import NewsController from "./controllers/newsController";
 import UserController from "./controllers/userController";
 import Dispatcher from "./controllers/dispatcher";
+import AuthController from "./controllers/authController";
 
 class SlavDomRouter {
 
@@ -15,6 +16,7 @@ class SlavDomRouter {
     slavDomRouter.initNewsRoutes();
     slavDomRouter.initCommonRoutes();
     slavDomRouter.initDispatchRoutes();
+    slavDomRouter.initAuthRoutes();
     return slavDomRouter.router;
   }
 
@@ -23,6 +25,7 @@ class SlavDomRouter {
   private newsController: NewsController;
   private commonController: CommonController;
   private userController: UserController;
+  private authController: AuthController;
   private dispatcher: Dispatcher;
 
   constructor() {
@@ -30,6 +33,7 @@ class SlavDomRouter {
     this.newsController = new NewsController();
     this.commonController = new CommonController();
     this.userController = new UserController();
+    this.authController = new AuthController();
     this.dispatcher = new Dispatcher();
   }
 
@@ -63,6 +67,10 @@ class SlavDomRouter {
 
   public initDispatchRoutes(): void {
     this.router.get("/api/dispatch/news_translations", this.dispatcher.translationPageAndNews.bind(this.dispatcher));
+  }
+
+  public initAuthRoutes(): void {
+    this.router.post("/api/auth", this.authController.auth.bind(this.authController));
   }
 
 }

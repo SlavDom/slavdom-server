@@ -13,6 +13,10 @@ export default class UserRepository {
     await this.userModel.create(user);
   }
 
+  public getUserByUsernameOrEmail(username: string, email: string) {
+    return this.userModel.getUserByUsernameOrEmail(username, email);
+  }
+
   public checkUniqueness(username: string, email: string) {
     return this.userModel.checkUniqueness(username, email);
   }
