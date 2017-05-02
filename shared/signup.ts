@@ -1,9 +1,9 @@
 import * as Validator from "validator";
 import * as _ from "lodash";
-import {UserData, UserError} from "../src/types/User";
+import {UserSignupData, UserSignupErrors} from "../src/types/User";
 
-export default function signupValidation(data: UserData): {errors: UserError, isValid: boolean} {
-  const errors: UserError = {};
+export default function signupValidation(data: UserSignupData): {errors: UserSignupErrors, isValid: boolean} {
+  const errors: UserSignupErrors = {};
 
   if (Validator.isEmpty(data.username)) {
     errors.username = "This field is required";

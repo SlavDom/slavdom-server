@@ -3,8 +3,9 @@ import * as _ from "lodash";
 import {Request, Response} from "express";
 
 import UserRepository from "../repositories/userRepository";
-import {User, UserData, UserError} from "../types/User";
+import {User, UserSignupData, UserSignupErrors} from "../types/User";
 import signupValidation from "../../shared/signup";
+import signinValidation from "../../shared/signin";
 
 export default class UserController {
 
@@ -42,9 +43,9 @@ export default class UserController {
   }
 
   private validateInput(
-    data: UserData,
-    otherValidations: (data: UserData) => { errors: UserError, isValid: boolean },
-  ): Promise<{errors: UserError, isValid: boolean}> {
+    data: UserSignupData,
+    otherValidations: (data: UserSignupData) => { errors: UserSignupErrors, isValid: boolean },
+  ): Promise<{errors: UserSignupErrors, isValid: boolean}> {
     const {errors} = otherValidations(data);
     const userRepository = new UserRepository();
     return userRepository.checkUniqueness(data.username, data.email).then((user: User) => {

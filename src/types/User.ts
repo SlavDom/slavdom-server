@@ -19,7 +19,7 @@ export interface User extends mongoose.Document {
   role: number;
 }
 
-export interface UserData {
+export interface UserSignupData {
   username: string;
   email: string;
   password: string;
@@ -27,10 +27,20 @@ export interface UserData {
   timezone: string;
 }
 
-export interface UserError {
+export interface UserSignupErrors {
   username?: string;
   email?: string;
   password?: string;
   passwordConfirmation?: string;
   timezone?: string;
+}
+
+export interface UserSigninData {
+  identifier: string;
+  password: string;
+}
+
+export interface UserSigninErrors {
+  identifier?: string;
+  password?: string;
 }

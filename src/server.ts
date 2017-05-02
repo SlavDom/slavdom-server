@@ -2,16 +2,14 @@ import * as express from "express";
 import * as path from "path";
 import * as morgan from "morgan";
 import * as bodyParser from "body-parser";
-import * as _ from "lodash";
 import * as webpack from "webpack";
 import * as webpackMiddleware from "webpack-dev-middleware";
 import * as webpackHotMiddleware from "webpack-hot-middleware";
 
 import webpackConfig from "../../webpack.config.dev";
 import router from "./routes";
-import {initLogger, logError, logInfo} from "./logger";
+import {initLogger, logInfo} from "./logger";
 import dropAndSeedSchema from "../src/db/scripts/dropSchema";
-import {Request, Response, Express} from "express";
 
 const app = express();
 
@@ -42,18 +40,6 @@ function initExpress(): void {
   initDB();
 }
 
-/** Error handling initializing */
-function initErrorHandling(application: Express): void {
-  // log unhandled errors
-  application.use((err: Error, req: Request, res: Response) => {
-    logError(err);
-    const message = _.isError(err) ? err.message : err;
-    res.status(500).send({ error: message });
-  });
-
-  process.on("uncaughtException", (err: Error) => logError(err));
-}
-
 /** Function that starts the server itself
  * @params options {any} options, that can be evaluated in the initialisation */
 function start(): void {
@@ -64,8 +50,6 @@ function start(): void {
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../../../client/public/index.html"));
   });
-
-  initErrorHandling(app);
 
   app.listen(3000, () => {
     logInfo("Server is listening on port 3000!");
