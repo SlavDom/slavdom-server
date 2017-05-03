@@ -5,7 +5,6 @@ import {Request, Response} from "express";
 import UserRepository from "../repositories/userRepository";
 import {User, UserSignupData, UserSignupErrors} from "../types/User";
 import signupValidation from "../../shared/signup";
-import signinValidation from "../../shared/signin";
 
 export default class UserController {
 
