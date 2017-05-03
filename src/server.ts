@@ -8,7 +8,7 @@ import * as webpackHotMiddleware from "webpack-hot-middleware";
 
 import webpackConfig from "../../webpack.config.dev";
 import router from "./routes";
-import {initLogger, logInfo} from "./logger";
+import {initLogger, logError, logInfo} from "./logger";
 import dropAndSeedSchema from "../src/db/scripts/dropSchema";
 
 const app = express();
@@ -40,6 +40,14 @@ function initExpress(): void {
   initDB();
 }
 
+/** Error handling initializing */
+function initErrorHandling(): void {
+  process.on("uncaughtException", (err: Error) => {
+    logError(err);
+    process.exit(1);
+  });
+}
+
 /** Function that starts the server itself
  * @params options {any} options, that can be evaluated in the initialisation */
 function start(): void {
@@ -50,6 +58,8 @@ function start(): void {
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../../../client/public/index.html"));
   });
+
+  initErrorHandling();
 
   app.listen(3000, () => {
     logInfo("Server is listening on port 3000!");
