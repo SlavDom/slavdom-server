@@ -63,6 +63,7 @@ class SlavDomRouter {
 
   public initCommonRoutes(): void {
     this.router.post("/api/common/mail", CommonController.mailSender);
+    this.router.get("/api/validate/signup", CommonController.validateSignUp);
   }
 
   public initDispatchRoutes(): void {

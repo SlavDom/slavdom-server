@@ -1,37 +1,48 @@
 import * as Validator from "validator";
-import * as _ from "lodash";
 import {UserSignupData, UserSignupErrors} from "../src/types/User";
 
-export default function signupValidation(data: UserSignupData): {errors: UserSignupErrors, isValid: boolean} {
-  const errors: UserSignupErrors = {};
+export default function signupValidation(data: UserSignupData, field: string|undefined, errors: UserSignupErrors):
+  UserSignupErrors {
 
-  if (Validator.isEmpty(data.username)) {
-    errors.username = "This field is required";
+  if ((field === "username" || typeof field === "undefined") && data.username.touched) {
+    errors.username = undefined;
+    if (Validator.isEmpty(data.username.value)) {
+      errors.username = "This field is required";
+    }
+    if (!Validator.isAlphanumeric(data.username.value)) {
+      errors.username = "Login can contain only english letters and numbers";
+    }
   }
-  if (!Validator.isAlphanumeric(data.username)) {
-    errors.username = "Login can contain only english letters and numbers";
+  if ((field === "email"  || typeof field === "undefined") && data.email.touched) {
+    errors.email = undefined;
+    if (Validator.isEmpty(data.email.value)) {
+      errors.email = "This field is required";
+    }
+    if (!Validator.isEmail(data.email.value)) {
+      errors.email = "Email is invalid";
+    }
   }
-  if (Validator.isEmpty(data.email)) {
-    errors.email = "This field is required";
+  if ((field === "password"  || typeof field === "undefined") && data.password.touched) {
+    errors.password = undefined;
+    if (Validator.isEmpty(data.password.value)) {
+      errors.password = "This field is required";
+    }
   }
-  if (!Validator.isEmail(data.email)) {
-    errors.email = "Email is invalid";
+  if ((field === "passwordConfirmation" || typeof field === "undefined") && data.passwordConfirmation.touched) {
+    errors.passwordConfirmation = undefined;
+    if (Validator.isEmpty(data.passwordConfirmation.value)) {
+      errors.passwordConfirmation = "This field is required";
+    }
+    if (!Validator.equals(data.password.value, data.passwordConfirmation.value)) {
+      errors.passwordConfirmation = "Passwords must match";
+    }
   }
-  if (Validator.isEmpty(data.password)) {
-    errors.password = "This field is required";
-  }
-  if (Validator.isEmpty(data.passwordConfirmation)) {
-    errors.passwordConfirmation = "This field is required";
-  }
-  if (!Validator.equals(data.password, data.passwordConfirmation)) {
-    errors.passwordConfirmation = "Passwords must match";
-  }
-  if (Validator.isEmpty(data.timezone)) {
-    errors.timezone = "This field is required";
+  if ((field === "timezone"  || typeof field === "undefined") && data.timezone.touched) {
+    errors.timezone = undefined;
+    if (Validator.isEmpty(data.timezone.value)) {
+      errors.timezone = "This field is required";
+    }
   }
 
-  return {
-    errors,
-    isValid: _.isEmpty(errors),
-  };
+  return errors;
 }

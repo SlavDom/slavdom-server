@@ -1,5 +1,7 @@
 import * as mongoose from "mongoose";
 import {ObjectID} from "bson";
+import {Input} from "./Input";
+import {Dictionary} from "lodash";
 
 export interface User extends mongoose.Document {
   id: ObjectID;
@@ -20,14 +22,14 @@ export interface User extends mongoose.Document {
 }
 
 export interface UserSignupData {
-  username: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-  timezone: string;
+  username: Input;
+  email: Input;
+  password: Input;
+  passwordConfirmation: Input;
+  timezone: Input;
 }
 
-export interface UserSignupErrors {
+export interface UserSignupErrors extends Dictionary<string|undefined> {
   username?: string;
   email?: string;
   password?: string;
