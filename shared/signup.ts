@@ -33,7 +33,7 @@ export default function signupValidation(data: UserSignupData, field: string|und
     if (Validator.isEmpty(data.password.value)) {
       errors.password = "This field is required";
     } else {
-      if (Validator.isLength(data.username.value, {min: 6, max: undefined})) {
+      if (!Validator.isLength(data.password.value, {min: 6, max: undefined})) {
         errors.password = "Password should have more than 6 symbols";
       } else {
         // TODO: Here should be check on having one number, caitalized and not capitalized letters
