@@ -4,7 +4,6 @@ import NewsRepository from "../repositories/newsRepository";
 import TranslationRepository from "../repositories/translationRepository";
 import {AssociativeArray} from "../types/AssociativeArray";
 import {News} from "../types/News";
-import {logInfo} from "../logger";
 
 export default class Dispatcher {
 
