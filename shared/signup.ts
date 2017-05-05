@@ -9,8 +9,12 @@ export default function signupValidation(data: UserSignupData, field: string|und
     if (Validator.isEmpty(data.username.value)) {
       errors.username = "This field is required";
     } else {
-      if (!Validator.isAlphanumeric(data.username.value)) {
-        errors.username = "Login can contain only english letters and numbers";
+      if (!Validator.isLength(data.username.value, {min: 4, max: 32})) {
+        errors.username = "Login should be in 4 and 32 symbols";
+      } else {
+        if (!Validator.isAlphanumeric(data.username.value)) {
+          errors.username = "Login can contain only english letters and numbers";
+        }
       }
     }
   }
@@ -28,6 +32,12 @@ export default function signupValidation(data: UserSignupData, field: string|und
     errors.password = undefined;
     if (Validator.isEmpty(data.password.value)) {
       errors.password = "This field is required";
+    } else {
+      if (!Validator.isLength(data.username.value, {min: 6, max: undefined})) {
+        errors.password = "Password should have more than 6 symbols";
+      } else {
+        // TODO: Here should be check on having one number, caitalized and not capitalized letters
+      }
     }
   }
   if ((field === "passwordConfirmation" || typeof field === "undefined") && data.passwordConfirmation.touched) {
