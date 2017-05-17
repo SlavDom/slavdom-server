@@ -17,9 +17,9 @@ export default class TranslationController {
     try {
       const lang = req.query.lang;
       const result = await this.translationRepository.getTranslations(lang);
-      return helper.sendData(res, result);
+      helper.sendData(res, result);
     } catch (err) {
-      return helper.sendFailureMessage(err, res);
+      helper.sendFailureMessage(err, res);
     }
   }
 
@@ -33,9 +33,9 @@ export default class TranslationController {
       const codeList = req.query.code;
       const codes = JSON.parse(codeList);
       const result = await this.translationRepository.getTranslationsResultsFromList(lang, codes);
-      return helper.sendData(res, result);
+      helper.sendData(res, result);
     } catch (err) {
-      return helper.sendFailureMessage(err, res);
+      helper.sendFailureMessage(err, res);
     }
   }
 
@@ -54,9 +54,9 @@ export default class TranslationController {
         translation = await this.translationRepository.getByLangAndCode(lang, code);
       }
 
-      return helper.sendData(res, translation);
+      helper.sendData(res, translation);
     } catch (err) {
-      return helper.sendFailureMessage(err, res);
+      helper.sendFailureMessage(err, res);
     }
   }
 
@@ -68,9 +68,9 @@ export default class TranslationController {
       const lang = req.query.lang;
       const prefix = req.query.prefix;
       const result = await this.translationRepository.getTranslationsByPrefix(lang, prefix);
-      return helper.sendData(res, result);
+      helper.sendData(res, result);
     } catch (err) {
-      return helper.sendFailureMessage(err, res);
+      helper.sendFailureMessage(err, res);
     }
   }
 
@@ -86,21 +86,21 @@ export default class TranslationController {
 //       result: req.body.result,
 //     };
 //     const result = await translationRepository.saveTranslation(translation);
-//     return helper.sendData({ data: result }, res);
+//     helper.sendData({ data: result }, res);
 //   } catch (err) {
-//     return helper.sendFailureMessage(err, res);
+//     helper.sendFailureMessage(err, res);
 //   }
 // }
 
   /** Controller function for deleting an existing translation
    *  @param req - The request
-   *  @param res - The responce **/
+   *  @param res - The response **/
   public async deleteTranslation(req: Request, res: Response): Promise<void> {
     try {
       const id = req.body.id;
-      return helper.sendData(res);
+      helper.sendData(res);
     } catch (err) {
-      return helper.sendFailureMessage(err, res);
+      helper.sendFailureMessage(err, res);
     }
   }
 }

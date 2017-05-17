@@ -11,7 +11,7 @@ import {Translation} from "../../src/types/Translation";
 import {ObjectID} from "bson";
 
 describe("TranslationRepository", () => {
-  const translationCotnroller: TranslationController = new TranslationController();
+  const translationController: TranslationController = new TranslationController();
 
   const englishLanguageCode: string = "en";
   const notExistingLanguageCode: string = "notExistingLanguageCode";
@@ -62,7 +62,7 @@ describe("TranslationRepository", () => {
     test("gets the list of translations by language", () => {
       req.query.lang = englishLanguageCode;
       TranslationRepository.prototype.getTranslations = jest.fn().mockReturnValue(translationList);
-      return translationCotnroller.getTranslations(req, res).then(() => {
+      return translationController.getTranslations(req, res).then(() => {
         expect(spy.withArgs(res, translationList).calledOnce).toBeTruthy();
       });
     });
@@ -70,7 +70,7 @@ describe("TranslationRepository", () => {
     test("returns the list of english translations if the language does not exist", () => {
       req.query.lang = notExistingLanguageCode;
       TranslationRepository.prototype.getTranslations = jest.fn().mockReturnValueOnce(translationEnglishList);
-      return translationCotnroller.getTranslations(req, res).then(() => {
+      return translationController.getTranslations(req, res).then(() => {
         expect(spy.withArgs(res, translationEnglishList).calledOnce).toBeTruthy();
       });
     });
@@ -82,7 +82,7 @@ describe("TranslationRepository", () => {
       req.query.lang = englishLanguageCode;
       req.query.code = "[\"some-code\", \"some-next-code\"]";
       TranslationRepository.prototype.getTranslationsResultsFromList = jest.fn().mockReturnValue(resultList);
-      return translationCotnroller.getTranslationsFromList(req, res).then(() => {
+      return translationController.getTranslationsFromList(req, res).then(() => {
         expect(spy.withArgs(res, resultList).calledOnce).toBeTruthy();
       });
     });
@@ -92,7 +92,7 @@ describe("TranslationRepository", () => {
       req.query.lang = notExistingLanguageCode;
       req.query.code = "[\"some-code\", \"some-next-code\"]";
       TranslationRepository.prototype.getTranslationsResultsFromList = jest.fn().mockReturnValue(resultList);
-      return translationCotnroller.getTranslationsFromList(req, res)
+      return translationController.getTranslationsFromList(req, res)
         .then(() => {
           expect(spy.withArgs(res, resultList).calledOnce).toBeTruthy();
         });
@@ -110,7 +110,7 @@ describe("TranslationRepository", () => {
       req.query.lang = englishLanguageCode;
       req.query.prefix = ["reg"];
       TranslationRepository.prototype.getTranslationsByPrefix = jest.fn().mockReturnValue(resultArray);
-      return translationCotnroller.getTranslationsByPrefix(req, res)
+      return translationController.getTranslationsByPrefix(req, res)
         .then(() => {
           expect(spy.withArgs(res, resultArray).calledOnce).toBeTruthy();
         });
@@ -121,7 +121,7 @@ describe("TranslationRepository", () => {
         req.query.lang = notExistingLanguageCode;
         req.query.prefix = ["reg"];
         TranslationRepository.prototype.getTranslationsByPrefix = jest.fn().mockReturnValue(resultArray);
-        return translationCotnroller.getTranslationsByPrefix(req, res)
+        return translationController.getTranslationsByPrefix(req, res)
           .then(() => {
             expect(spy.withArgs(res, resultArray).calledOnce).toBeTruthy();
           });
@@ -134,7 +134,7 @@ describe("TranslationRepository", () => {
       req.query.lang = englishLanguageCode;
       req.query.code = someTranslation.code;
       TranslationRepository.prototype.getByLangAndCode = jest.fn().mockReturnValue(someTranslation);
-      return translationCotnroller.getTranslation(req, res)
+      return translationController.getTranslation(req, res)
         .then(() => {
           expect(spy.withArgs(res, someTranslation).calledOnce).toBeTruthy();
         });
@@ -145,7 +145,7 @@ describe("TranslationRepository", () => {
         req.query.lang = englishLanguageCode;
         req.query.prefix = someNewTranslation.code;
         TranslationRepository.prototype.getByLangAndCode = jest.fn().mockReturnValue(someNewTranslation);
-        return translationCotnroller.getTranslation(req, res)
+        return translationController.getTranslation(req, res)
           .then(() => {
             expect(spy.withArgs(res, someNewTranslation).calledOnce).toBeTruthy();
           });

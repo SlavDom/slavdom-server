@@ -25,7 +25,7 @@ export default class Dispatcher {
         .getTranslationsByPrefix(lang, prefix);
       helper.sendDataWithoutShell(res, {news, translations});
     } catch (err) {
-      return helper.sendFailureMessage(err, res);
+      helper.sendFailureMessage(err, res);
     }
   }
 }

@@ -23,9 +23,9 @@ export default class NewsController {
       const lang = req.query.lang;
       const theme = req.query.theme;
       const result = await this.newsRepository.getNews(theme, lang);
-      return helper.sendData(res, result);
+      helper.sendData(res, result);
     } catch (err) {
-      return helper.sendFailureMessage(err, res);
+      helper.sendFailureMessage(err, res);
     }
   }
 
@@ -47,12 +47,12 @@ export default class NewsController {
         amount = 5;
       }
       if (lang === undefined) {
-        return helper.sendFailureMessage("There is no language parameter in the query", res);
+        helper.sendFailureMessage("There is no language parameter in the query", res);
       }
       const result: Page<News> = await this.newsRepository.getNewsPage(lang, page, amount);
-      return helper.sendDataWithoutShell(res, result);
+      helper.sendDataWithoutShell(res, result);
     } catch (err) {
-      return helper.sendFailureMessage(err, res);
+      helper.sendFailureMessage(err, res);
     }
   }
 
@@ -72,9 +72,9 @@ export default class NewsController {
         fullText: req.body.fullText,
       } as News;
       const result = await this.newsRepository.saveNews(news, lang);
-      return helper.sendData(res, result);
+      helper.sendData(res, result);
     } catch (err) {
-      return helper.sendFailureMessage(err, res);
+      helper.sendFailureMessage(err, res);
     }
   }
 }

@@ -9,13 +9,6 @@ function sendFailureMessage(error: Error | string, res: Response): void {
   });
 }
 
-function sendSuccessMessage(message: string, res: Response): void {
-  res.send({
-    status: "success",
-    message,
-  });
-}
-
 function sendData(res: Response, data?: object): void {
   res.send({
     status: "success",
@@ -29,7 +22,6 @@ function sendDataWithoutShell(res: Response, data: object): void {
 
 export default {
   sendFailureMessage,
-  sendSuccessMessage,
   sendData,
   sendDataWithoutShell,
 };

@@ -15,46 +15,45 @@ export default class UserController {
   }
 
   public async saveUser(req: Request, res: Response): Promise<void> {
-    const passwordOutter: string = req.body.password;
-    const usernameOutter: string = req.body.username;
-    const emailOutter: string = req.body.email;
-    const timezoneOutter: string = req.body.timezone;
+    const formPasswordData: string = req.body.password;
+    const formUsernameData: string = req.body.username;
+    const formEmailData: string = req.body.email;
+    const formTimezoneData: string = req.body.timezone;
     const userData: UserSignupData = {
       username: {
-        value: usernameOutter,
+        value: formUsernameData,
         touched: true,
       },
       email: {
-        value: emailOutter,
+        value: formEmailData,
         touched: true,
       },
       password: {
-        value: passwordOutter,
+        value: formPasswordData,
         touched: true,
       },
       passwordConfirmation: {
-        value: passwordOutter,
+        value: formPasswordData,
         touched: true,
       },
       timezone: {
-        value: timezoneOutter,
+        value: formTimezoneData,
         touched: true,
       },
     } as UserSignupData;
-    this.validateInput(userData, signupValidation).then((errors) => {
-      if (_.every(errors, (elem) => _.isUndefined(elem))) {
-        const passwordDigest = bcrypt.hashSync(req.body.password, 10);
-        const username = req.body.username.toLowerCase();
-        const email = req.body.email.toLowerCase();
-        const timezone = req.body.timezone;
-        const user = {username, passwordDigest, timezone, email} as User;
-        this.userRepository.saveUser(user)
-          .then(() => res.json({success: true}))
-          .catch((err: Error) => res.status(500).json({error: err}));
-      } else {
-        res.status(400).json(errors);
-      }
-    });
+    const errors = await this.validateInput(userData, signupValidation);
+    if (_.every(errors, (elem) => _.isUndefined(elem))) {
+      const passwordDigest = bcrypt.hashSync(req.body.password, 10);
+      const username = req.body.username.toLowerCase();
+      const email = req.body.email.toLowerCase();
+      const timezone = req.body.timezone;
+      const user = {username, passwordDigest, timezone, email} as User;
+      this.userRepository.saveUser(user)
+        .then(() => res.json({success: true}))
+        .catch((err: Error) => res.status(500).json({error: err}));
+    } else {
+      res.status(400).json(errors);
+    }
   }
 
   public ajaxUsernameCheck(req: Request, res: Response): Promise<Response> {
@@ -69,8 +68,7 @@ export default class UserController {
 
   private async validateInput(
     data: UserSignupData,
-    otherValidations: (data: UserSignupData, field: string|undefined, errors: UserSignupErrors ) =>
-      UserSignupErrors,
+    otherValidations: (data: UserSignupData, field: string|undefined, errors: UserSignupErrors) => UserSignupErrors,
   ): Promise<UserSignupErrors> {
     const errors = await otherValidations(data, undefined, {
       username: undefined,

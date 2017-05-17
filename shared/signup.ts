@@ -1,8 +1,9 @@
 import * as Validator from "validator";
 import {UserSignupData, UserSignupErrors} from "../src/types/User";
 
-export default function signupValidation(data: UserSignupData, field: string|undefined, errors: UserSignupErrors):
-  UserSignupErrors {
+export default function signupValidation(
+  data: UserSignupData, field: string|undefined, errors: UserSignupErrors,
+): UserSignupErrors {
 
   if ((field === "username" || typeof field === "undefined") && data.username.touched) {
     errors.username = undefined;

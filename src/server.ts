@@ -44,7 +44,6 @@ function initExpress(): void {
 function initErrorHandling(): void {
   process.on("uncaughtException", (err: Error) => {
     logError(err);
-    process.exit(1);
   });
 }
 
