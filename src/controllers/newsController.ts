@@ -47,7 +47,7 @@ export default class NewsController {
         amount = 5;
       }
       if (lang === undefined) {
-        helper.sendFailureMessage("There is no language parameter in the query", res);
+        helper.sendFailureMessage(new Error("There is no language parameter in the query"), res);
       }
       const result: Page<News> = await this.newsRepository.getNewsPage(lang, page, amount);
       helper.sendDataWithoutShell(res, result);

@@ -1,4 +1,3 @@
-import * as _ from "lodash";
 import * as fs from "fs";
 import * as bunyan from "bunyan";
 import * as Logger from "bunyan";
@@ -7,7 +6,6 @@ const databaseLogFolder = "server/logs/db.log";
 const errorLogFolder = "server/logs/error.log";
 
 function initLogger(): void {
-  process.stdout.write("\x1Bc");
   fs.writeFile(databaseLogFolder, "");
   fs.writeFile(errorLogFolder, "");
 }
@@ -16,7 +14,7 @@ const errorLogger: Logger = bunyan.createLogger({
   name: "error",
   streams: [
     {
-      stream: process.stderr,
+      stream: process.stdout,
       level: "error",
     },
     {
@@ -46,43 +44,16 @@ const infoLogger: Logger = bunyan.createLogger({
   level: "info",
 });
 
-function getErrorMessage(error: any) {
-  if (!error) {
-    return "";
-  }
-
-  if (error.isAppError) {
-    if (!error.message) {
-      let message = `error.${error.type}.${error.code}.${error.data}`;
-      if (!message) {
-        message = `Cannot find error message for type:${error.type} code:${error.code}`;
-      }
-      error.message = message;
-    }
-    if (error.uiShow) {
-      return error.message;
-    }
-  }
-
-  return error.message || error;
+function logError(error: Error) {
+  errorLogger.error(error.message);
 }
 
-function logError(err: Error | string): string {
-  const message = getErrorMessage(err);
-  if (_.isError(err)) {
-    errorLogger.error(message);
-  }
-  return message;
-}
-
-function logInfo(msg: string): string {
+function logInfo(msg: string): void {
   infoLogger.info(msg);
-  return msg;
 }
 
-function logDatabase(msg: string): string {
+function logDatabase(msg: string): void {
   databaseLogger.debug(msg);
-  return msg;
 }
 
 export {
