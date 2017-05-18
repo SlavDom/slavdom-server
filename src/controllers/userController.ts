@@ -31,19 +31,16 @@ export default class UserController {
 
   public async getUser(req: Request, res: Response): Promise<void> {
     let login: string = req.query.login;
+    const username: string = req.query.username;
     if (login === "me") {
-      login = "eakarpov"; // TODO: When added auth plug-in insert here user's own login
+      login = username;
     }
     this.userRepository.getUserByUserName(login)
         .then((user) => {
           if (user == null) {
-            res.json(200, {});
+            res.status(200).json({});
           } else {
-            res.json(200, {
-              username: user.username,
-              name: user.name,
-              surname: user.surname,
-            });
+            res.status(200).json(user);
           }
         })
         .catch((e) => {

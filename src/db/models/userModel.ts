@@ -43,7 +43,7 @@ export default class UserModel {
     return this.mongooseUserModel
       .findOne({
         username,
-      }, "username name surname email")
+      })
       .exec((err: MongoError, user: User) => {
       if (err) {
         throw err;
