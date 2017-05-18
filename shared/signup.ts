@@ -1,54 +1,59 @@
 import * as Validator from "validator";
-import {UserSignupData, UserSignupErrors} from "../src/types/User";
+import * as _ from "lodash";
+import {TouchedSignupData, UserSignupData, UserSignupErrors} from "../src/types/User";
 
 export default function signupValidation(
-  data: UserSignupData, field: string|undefined, errors: UserSignupErrors,
-): UserSignupErrors {
+  data: UserSignupData, touched?: TouchedSignupData): ValidationResult<UserSignupErrors> {
 
-  if ((field === "username" || typeof field === "undefined") && data.username.touched) {
-    errors.username = undefined;
-    if (Validator.isEmpty(data.username.value)) {
+  const errors: UserSignupErrors = {};
+
+  if (_.isUndefined(touched) || touched.usernameTouched) {
+    if (Validator.isEmpty(data.username)) {
       errors.username = "This field is required";
-    } else if (!Validator.isLength(data.username.value, {min: 4, max: 32})) {
+    } else if (!Validator.isLength(data.username, {min: 4, max: 32})) {
       errors.username = "Login should be in 4 and 32 symbols";
-    } else if (!Validator.isAlphanumeric(data.username.value)) {
+    } else if (!Validator.isAlphanumeric(data.username)) {
       errors.username = "Login can contain only latin letters and numbers";
     }
   }
-  if ((field === "email"  || typeof field === "undefined") && data.email.touched) {
-    errors.email = undefined;
-    if (Validator.isEmpty(data.email.value)) {
+
+  if (_.isUndefined(touched) || touched.emailTouched) {
+    if (Validator.isEmpty(data.email)) {
       errors.email = "This field is required";
-    } else if (!Validator.isEmail(data.email.value)) {
+    } else if (!Validator.isEmail(data.email)) {
       errors.email = "Email is invalid";
     }
   }
-  if ((field === "password"  || typeof field === "undefined") && data.password.touched) {
-    errors.password = undefined;
-    if (Validator.isEmpty(data.password.value)) {
+
+  if (_.isUndefined(touched) || touched.passwordTouched) {
+    if (Validator.isEmpty(data.password)) {
       errors.password = "This field is required";
-    } else if (!Validator.isAlphanumeric(data.password.value)) {
-      errors.username = "Password can contain only latin letters and numbers";
-    } else if (!data.password.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/)) {
+    } else if (!Validator.isAlphanumeric(data.password)) {
+      errors.password = "Password can contain only latin letters and numbers";
+    } else if (!data.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/)) {
       errors.password = "Password must contain at least one lowercase letter, one uppercase letter and one digit";
-    } else if (!Validator.isLength(data.password.value, {min: 6, max: undefined})) {
+    } else if (!Validator.isLength(data.password, {min: 6, max: undefined})) {
       errors.password = "Password should have more than 6 symbols";
     }
   }
-  if ((field === "passwordConfirmation" || typeof field === "undefined") && data.passwordConfirmation.touched) {
-    errors.passwordConfirmation = undefined;
-    if (Validator.isEmpty(data.passwordConfirmation.value)) {
+
+  if (_.isUndefined(touched) || touched.passwordConfirmationTouched) {
+    if (Validator.isEmpty(data.passwordConfirmation)) {
       errors.passwordConfirmation = "This field is required";
-    } else if (!Validator.equals(data.password.value, data.passwordConfirmation.value)) {
+    } else if (!Validator.equals(data.password, data.passwordConfirmation)) {
       errors.passwordConfirmation = "Passwords must match";
     }
   }
-  if ((field === "timezone"  || typeof field === "undefined") && data.timezone.touched) {
-    errors.timezone = undefined;
-    if (Validator.isEmpty(data.timezone.value)) {
+
+  if (_.isUndefined(touched) || touched.timezoneTouched) {
+    if (Validator.isEmpty(data.timezone)) {
       errors.timezone = "This field is required";
     }
   }
 
-  return errors;
+  return {
+    errors,
+    isValid: _.isEmpty(errors),
+  };
+
 }

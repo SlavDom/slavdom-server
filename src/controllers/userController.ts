@@ -15,34 +15,8 @@ export default class UserController {
   }
 
   public async saveUser(req: Request, res: Response): Promise<void> {
-    const formPasswordData: string = req.body.password;
-    const formUsernameData: string = req.body.username;
-    const formEmailData: string = req.body.email;
-    const formTimezoneData: string = req.body.timezone;
-    const userData: UserSignupData = {
-      username: {
-        value: formUsernameData,
-        touched: true,
-      },
-      email: {
-        value: formEmailData,
-        touched: true,
-      },
-      password: {
-        value: formPasswordData,
-        touched: true,
-      },
-      passwordConfirmation: {
-        value: formPasswordData,
-        touched: true,
-      },
-      timezone: {
-        value: formTimezoneData,
-        touched: true,
-      },
-    } as UserSignupData;
-    const errors = await this.validateInput(userData, signupValidation);
-    if (_.every(errors, (elem) => _.isUndefined(elem))) {
+    const {errors, isValid} = await this.validateSignupInput(req.body, signupValidation);
+    if (isValid) {
       const passwordDigest = bcrypt.hashSync(req.body.password, 10);
       const username = req.body.username.toLowerCase();
       const email = req.body.email.toLowerCase();
@@ -66,28 +40,22 @@ export default class UserController {
       .then((user: User) => res.json({user}));
   }
 
-  private async validateInput(
+  private validateSignupInput(
     data: UserSignupData,
-    otherValidations: (data: UserSignupData, field: string|undefined, errors: UserSignupErrors) => UserSignupErrors,
-  ): Promise<UserSignupErrors> {
-    const errors = await otherValidations(data, undefined, {
-      username: undefined,
-      email: undefined,
-      password: undefined,
-      passwordConfirmation: undefined,
-      timezone: undefined,
-    });
+    otherValidations: (data: UserSignupData) => ValidationResult<UserSignupErrors>,
+  ): Promise<ValidationResult<UserSignupErrors>> {
+    const validationResult = otherValidations(data);
     const userRepository = new UserRepository();
-    return userRepository.checkUniqueness(data.username.value, data.email.value).then((user: User) => {
+    return userRepository.checkUniqueness(data.username, data.email).then((user: User) => {
       if (user) {
-        if (user.username === data.username.value) {
-          errors.username = "Sorry, this username has been taken";
+        if (user.username === data.username) {
+          validationResult.errors.username = "Sorry, this username has been taken";
         }
-        if (user.email === data.email.value) {
-          errors.email = "Email is already registered";
+        if (user.email === data.email) {
+          validationResult.errors.email = "Email is already registered";
         }
       }
-      return errors;
+      return validationResult;
     });
   }
 }

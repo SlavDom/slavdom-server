@@ -22,11 +22,11 @@ export interface User extends mongoose.Document {
 }
 
 export interface UserSignupData {
-  username: Input;
-  email: Input;
-  password: Input;
-  passwordConfirmation: Input;
-  timezone: Input;
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+  timezone: string;
 }
 
 export interface UserSignupErrors extends Dictionary<string|undefined> {
@@ -45,4 +45,12 @@ export interface UserSigninData {
 export interface UserSigninErrors {
   identifier?: string;
   password?: string;
+}
+
+export interface TouchedSignupData {
+  usernameTouched: boolean;
+  emailTouched: boolean;
+  passwordTouched: boolean;
+  passwordConfirmationTouched: boolean;
+  timezoneTouched: boolean;
 }
