@@ -1,5 +1,4 @@
 import * as bcrypt from "bcrypt";
-import * as _ from "lodash";
 import {Request, Response} from "express";
 
 import UserRepository from "../repositories/userRepository";
