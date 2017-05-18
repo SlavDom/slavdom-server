@@ -71,9 +71,11 @@ export default class UserController {
       if (user) {
         if (user.username === data.username) {
           validationResult.errors.username = "Sorry, this username has been taken";
+          validationResult.isValid = false;
         }
         if (user.email === data.email) {
           validationResult.errors.email = "Email is already registered";
+          validationResult.isValid = false;
         }
       }
       return validationResult;
