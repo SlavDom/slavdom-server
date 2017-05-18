@@ -1,5 +1,4 @@
 import * as bcrypt from "bcrypt";
-import * as _ from "lodash";
 import {Request, Response} from "express";
 
 import UserRepository from "../repositories/userRepository";
@@ -28,6 +27,28 @@ export default class UserController {
     } else {
       res.status(400).json(errors);
     }
+  }
+
+  public async getUser(req: Request, res: Response): Promise<void> {
+    let login: string = req.query.login;
+    if (login === "me") {
+      login = "eakarpov"; // TODO: When added auth plug-in insert here user's own login
+    }
+    this.userRepository.getUserByUserName(login)
+        .then((user) => {
+          if (user == null) {
+            res.json(200, {});
+          } else {
+            res.json(200, {
+              username: user.username,
+              name: user.name,
+              surname: user.surname,
+            });
+          }
+        })
+        .catch((e) => {
+          res.json(400, e);
+        });
   }
 
   public ajaxUsernameCheck(req: Request, res: Response): Promise<Response> {

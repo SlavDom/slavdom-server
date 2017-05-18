@@ -13,8 +13,12 @@ export default class UserRepository {
     await this.userModel.create(user);
   }
 
-  public getUserByUsernameOrEmail(username: string, email: string) {
+  public getUserByUsernameOrEmail(username: string, email: string): Promise<User> {
     return this.userModel.getUserByUsernameOrEmail(username, email);
+  }
+
+  public async getUserByUserName(username: string): Promise<User> {
+    return await this.userModel.getUserByUsername(username);
   }
 
   public checkUniqueness(username: string, email: string) {

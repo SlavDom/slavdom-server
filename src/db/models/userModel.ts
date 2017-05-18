@@ -39,6 +39,19 @@ export default class UserModel {
       });
   }
 
+  public async getUserByUsername(username: string): Promise<User> {
+    return this.mongooseUserModel
+      .findOne({
+        username,
+      }, "username name surname email")
+      .exec((err: MongoError, user: User) => {
+      if (err) {
+        throw err;
+      }
+      return user;
+    });
+  }
+
   public async checkUniqueness(username: string, email: string): Promise<User> {
     return this.mongooseUserModel
       .findOne({
