@@ -23,7 +23,7 @@ async function seedData() {
     nsl: await languageModel.getId("nsl"),
     is: await languageModel.getId("is"),
   };
-  _.forEach(newsSeeder, (news: News) => {
+  _.forEach(newsSeeder, news: News) => {
     news.languageId = _.get<ObjectID>(languages, news.languageId);
     newsModel.create(news);
   });

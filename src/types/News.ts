@@ -3,7 +3,7 @@ import {Commentary} from "./Commentary";
 import {ObjectID} from "bson";
 
 export interface News extends mongoose.Document {
-  id: ObjectID;
+  id: ObjectID | null;
   title: {
     type: string,
     required: true,
@@ -12,7 +12,7 @@ export interface News extends mongoose.Document {
   fullText: string;
   theme: string;
   createdAt: string;
-  updateAt: string;
+  updateAt: string | null;
   commentaries: Commentary[];
   createdBy: string;
   languageId: ObjectID;

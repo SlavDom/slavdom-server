@@ -1,3 +1,5 @@
+import { Language } from '../../types/Language';
+
 export default [
   {
     code: "nsl",
@@ -314,4 +316,4 @@ export default [
       },
     ],
   },
-];
+] as Language[];

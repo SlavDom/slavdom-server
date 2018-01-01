@@ -1,0 +1,120 @@
+{
+  "name": "slavia-server",
+  "version": "0.2.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.16.1",
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.1",
+    "bootstrap": "^3.3.7",
+    "bootswatch": "^3.3.7",
+    "bunyan": "^1.8.10",
+    "classnames": "^2.2.5",
+    "es6-promise": "^4.1.0",
+    "express": "^4.15.2",
+    "jquery": "^3.2.1",
+    "jsonwebtoken": "^7.4.0",
+    "jwt-decode": "^2.2.0",
+    "lodash": "^4.13.1",
+    "mongoose": "^4.9.9",
+    "morgan": "^1.7.0",
+    "nodemailer": "^4.0.1",
+    "shortid": "^2.2.8",
+    "typescript": "^2.3.2",
+    "validator": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^1.0.0",
+    "@types/body-parser": "^1.16.3",
+    "@types/bunyan": "^0.0.36",
+    "@types/express": "^4.0.35",
+    "@types/jest": "^19.2.3",
+    "@types/jsonwebtoken": "^7.2.0",
+    "@types/lodash": "^4.14.64",
+    "@types/mongoose": "^4.7.12",
+    "@types/morgan": "^1.7.32",
+    "@types/node": "^7.0.18",
+    "@types/nodemailer": "^1.3.32",
+    "@types/sinon": "^2.2.2",
+    "@types/validator": "^6.2.0",
+    "autoprefixer": "^7.1.0",
+    "babel-cli": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-latest": "^6.24.1",
+    "css-loader": "^0.28.1",
+    "eslint": "^3.19.0",
+    "jest": "^20.0.1",
+    "sinon": "^2.2.0",
+    "ts-jest": "^20.0.3",
+    "tslib": "^1.7.1",
+    "tslint": "^5.2.0"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/build/",
+      "/server/__tests__/"
+    ],
+    "collectCoverageFrom": [
+      "**/server/**"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "modulePathIgnorePatterns": [
+      "/node_modules/",
+      "/build/"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "latest"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "airbnb",
+    "env": {
+      "browser": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2017,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {
+      "linebreak-style": "off",
+      "max-len": [
+        "error",
+        120
+      ],
+      "no-console": "off",
+      "no-shadow": "off",
+      "react/prefer-stateless-function": "off"
+    }
+  },
+  "browserslist": [
+    ">1%",
+    "last 4 versions",
+    "Firefox ESR",
+    "not ie < 9"
+  ],
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "scripts": {
+    "start": "tsc && node build/server/src/startServer.js | ./node_modules/.bin/bunyan",
+    "test": "jest --verbose",
+    "coverage": "jest --coverage",
+    "compile": "tsc"
+  }
+}

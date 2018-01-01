@@ -1,3 +1,5 @@
+import { News } from '../../types/News';
+
 export default [
   {
     theme: "hello-world",
@@ -93,4 +95,4 @@ export default [
     createdAt: "7",
     commentaries: [],
   },
-];
+] as News[];

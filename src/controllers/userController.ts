@@ -44,7 +44,7 @@ export default class UserController {
           }
         })
         .catch((e) => {
-          res.json(400, e);
+          res.status(400).json(e);
         });
   }
 

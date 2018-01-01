@@ -25,7 +25,7 @@ export default class NewsModel {
     });
   }
 
-  public async get(id: ObjectID): Promise<News> {
+  public async get(id: ObjectID): Promise<News | null> {
     return this.newsModel
         .findOne({
           id,
@@ -38,7 +38,7 @@ export default class NewsModel {
         });
   }
 
-  public async findByThemeAndLanguageId(theme: string, languageId: ObjectID): Promise<News> {
+  public async findByThemeAndLanguageId(theme: string, languageId: ObjectID): Promise<News | null> {
     return this.newsModel
         .findOne({
           theme,
